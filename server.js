@@ -18,7 +18,7 @@ db.on('open', () => {
 /* Middleware */
 app.use(express.json());
 if (process.env.NODE_ENV !== 'development'){
-  app.use(express.static('public'))
+	app.use(express.static('public'))
 }
 
 /* Controller Goes Here Remove the tes*/
