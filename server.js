@@ -5,5 +5,5 @@ const app = require('./app-server');
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-	console.log(`Fox, the hatch at port ${PORT} is open!`);
+	console.log(`Watch out, knightly news out here at ${PORT}!`);
 });

@@ -23,12 +23,9 @@ app.use(logger('dev'));
 app.use('/api/users', require('./routes/api/users'));
 // Protect the API routes below from anonymous users
 const ensureLoggedIn = require('./config/ensureLoggedIn');
-app.use('/api/items', ensureLoggedIn, require('./routes/api/items'));
-app.use('/api/orders', ensureLoggedIn, require('./routes/api/orders'));
-app.use('/api/reviews', ensureLoggedIn, require('./routes/api/reviews'));
-app.use('/api/shops', ensureLoggedIn, require('./routes/api/shops'));
-app.use('/api/users', ensureLoggedIn, require('./routes/api/users'));
-
+app.use('/api/contributors', ensureLoggedIn, require('./routes/api/contributors'));
+app.use('/api/articles', ensureLoggedIn, require('./routes/api/articles'));
+app.use('/api/administrators', ensureLoggedIn, require('./routes/api/administrators'));
 
 // catch all -> if url doesn't match with any routes; for react router
 app.get('*', (req, res) => {
