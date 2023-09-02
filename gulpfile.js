@@ -41,16 +41,16 @@ gulp.task('default', (cb) => {
 	});
 	// SERVE BACKEND
 	nodemon({
-	 script: 'server.js',
-	 env: { 'NODE_ENV': 'development'}
- });
+	script: 'server.js',
+	env: { 'NODE_ENV': 'development'}
+});
  // SERVE  FRONT END WITH PROXY TO BACKEND
 	browserSync.init({
-	 proxy: {
-		 target: 'http://localhost:8000',
-		 ws: true
-	 },
-	 serveStatic: ['./public']
+		proxy: {
+			target: 'http://localhost:8000',
+			ws: true
+		},
+		serveStatic: ['./public']
 	});
 	// SET UP WATCJERS TO LISTEN TO CHANGES IN FILES
 	gulp.watch('./src/scss/**/*',  gulp.task('styles'));
