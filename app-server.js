@@ -2,14 +2,16 @@ const express = require('express');
 const app = express();
 const path = require('path'); // enables us to serve unix/windows w/o having to write multiple paths
 const logger = require('morgan');
-import {v2 as cloudinary} from 'cloudinary';
+const cloudinary = require('cloudinary').v2
+
 
 
 app.use(express.json());
 cloudinary.config({ 
 	cloud_name: process.env.cloud_name, 
 	api_key: process.env.api_key, 
-	api_secret: process.env.api_secret 
+	api_secret: process.env.api_secret,
+    secure: true
 });
 app.use((req, res, next) => {
 	res.locals.data = {};
@@ -20,12 +22,11 @@ app.use(require('./config/checkToken'));
 app.use(logger('dev'));
 
 // Put API routes here, before the "catch all" route
-app.use('/api/users', require('./routes/api/users'));
 // Protect the API routes below from anonymous users
 const ensureLoggedIn = require('./config/ensureLoggedIn');
-app.use('/api/contributors', ensureLoggedIn, require('./routes/api/contributors'));
-app.use('/api/articles', ensureLoggedIn, require('./routes/api/articles'));
-app.use('/api/administrators', ensureLoggedIn, require('./routes/api/administrators'));
+app.use('/api/contributors', require('./routes/api/contributors'));
+app.use('/api/articles', require('./routes/api/articles'));
+app.use('/api/admin', ensureLoggedIn, require('./routes/api/admin'));
 
 // catch all -> if url doesn't match with any routes; for react router
 app.get('*', (req, res) => {

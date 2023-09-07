@@ -9,5 +9,4 @@ router.get('/:id', contributorsCtrl.show)
 // INDEX CONTRIBUTORS
 router.get('/', contributorsCtrl.indexContributors)
 
-// // INDEX CONTRIBUTOR ARTICLES
-// router.get('/contributor/:id')
+module.exports = router

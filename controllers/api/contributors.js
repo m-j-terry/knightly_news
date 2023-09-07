@@ -17,18 +17,7 @@ async function indexContributors(req, res){
     }
 }
 
-// async function indexContributorArticles(req, res){
-//     try {
-//         const contributor = await Contributor.findById({ _id: req.params.id })
-//         res.status(200).json(contributor.articles)
-//     } catch (error) {
-//         res.status(400).json({ message: error.message })
-//     }
-// }
-
-
 module.exports = {
     show,
     indexContributors,
-    indexContributorArticles
 }

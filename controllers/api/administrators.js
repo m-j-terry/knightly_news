@@ -4,18 +4,19 @@ const Contributor = require('../../models/contributor')
 const Article = require('../../models/article')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const cloudinary = require('../../src/utilities/cloudinary')
 
 const checkToken = (req, res) => {
     console.log('req.administrator', req.administrator)
     res.json(req.exp)
 }
 
-function createJWT (administrator) {
+function createJWT(admin) {
     return jwt.sign(
         //data payload
-        { administrator },
+        { admin },
         process.env.SECRET,
-        { expiresIn: '72h'}
+        { expiresIn: '24h' }
     )
 }
 
@@ -32,13 +33,16 @@ const articlesCtrl = {
     },
     async create(req, res){
         try {
-            const contributor = await Contributor.findOne({ name: req.body.name })
+            const cloudinaryImageData = await cloudinary.uploader.upload(req.body.imageUrl, { public_id: req.body.publicId }, function(error, result) { console.log('testing ' + error + result) })
+            const contributor = await Contributor.findOne({ _id: req.body.contributorId })
             const category = await Category.findOne({ category: req.body.category })
             const article = await Article.create({
                 title: req.body.title,
                 contributor: contributor,
                 category: category,
-                image: req.body.image,
+                publicId: req.body.publicId,
+                imageUrl: cloudinaryImageData.secure_url,
+                imageSource: req.body.imageSource,
                 text: req.body.text
             })
             res.status(200).json(article)
@@ -64,18 +68,18 @@ const articlesCtrl = {
 const adminCtrl = {
     async create(req, res, next) {
         try {
+            console.log('here')
             const administrator = await Administrator.create(req.body)
             //token will be a string
             const token = createJWT(administrator)
-            // send back the token as a string
-            // which we need to account for 
-            // in the client
+            console.log('token = ' + token)
             res.locals.data.administrator = administrator
             res.locals.data.token = token
+
             next()
         } catch (error) {
             console.log('you got a database problem')
-            res.status(400).json(error)
+            res.status(400).json({ message: error.message})
         }
     },
     async login(req, res, next ) {
@@ -84,7 +88,7 @@ const adminCtrl = {
             if (!administrator) throw new Error()
             const match = await bcrypt.compare(req.body.password, administrator.password)
             if (!match) throw new Error()
-            res.locals.data.administrator = administrator
+            res.locals.data.admin = administrator
             res.locals.data.token = createJWT(administrator)
             next()
         } catch (error) {

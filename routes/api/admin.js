@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { checkToken, createJWT, adminCtrl, articlesCtrl, contributorsCtrl, apiController, categoriesCtrl } = require('../../controllers/api/administrators')
+const { checkToken, adminCtrl, articlesCtrl, contributorsCtrl, apiController, categoriesCtrl } = require('../../controllers/api/administrators')
 const ensureLoggedIn = require('../../config/ensureLoggedIn')
 
-/*** ADMIN ROUTES  ***/
+/*** ADMIN ROUTES ***/
 // CREATE
 router.post('/', adminCtrl.create, apiController.auth)
 
@@ -41,3 +41,5 @@ router.delete('/contributor/:id', contributorsCtrl.destroy, apiController.auth)
 
 /*** CATEGORY ROUTES ***/
 router.post('/category', categoriesCtrl.create, apiController.auth)
+
+module.exports = router
