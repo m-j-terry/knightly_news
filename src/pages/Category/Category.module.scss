@@ -1,0 +1,11 @@
+.Article{
+    .title {
+    color: black;
+    text-decoration:darkred;
+    }
+}
+.Article:Hover{
+    .title{ 
+        color:navy;
+    }
+}

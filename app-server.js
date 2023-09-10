@@ -2,17 +2,17 @@ const express = require('express');
 const app = express();
 const path = require('path'); // enables us to serve unix/windows w/o having to write multiple paths
 const logger = require('morgan');
-const cloudinary = require('cloudinary').v2
+const fileUpload = require('express-fileupload')
 
 
 
 app.use(express.json());
-cloudinary.config({ 
-	cloud_name: process.env.cloud_name, 
-	api_key: process.env.api_key, 
-	api_secret: process.env.api_secret,
-    secure: true
-});
+express.urlencoded({ extended: true })
+
+app.use(fileUpload({ 
+	limits: { fileSize: 40 * 1025 * 1024 }
+}))
+
 app.use((req, res, next) => {
 	res.locals.data = {};
 	next();
@@ -26,6 +26,7 @@ app.use(logger('dev'));
 const ensureLoggedIn = require('./config/ensureLoggedIn');
 app.use('/api/contributors', require('./routes/api/contributors'));
 app.use('/api/articles', require('./routes/api/articles'));
+app.use('/api/categories', require('./routes/api/categories'))
 app.use('/api/admin', ensureLoggedIn, require('./routes/api/admin'));
 
 // catch all -> if url doesn't match with any routes; for react router

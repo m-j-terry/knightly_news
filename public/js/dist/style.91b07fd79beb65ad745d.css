@@ -1,0 +1,25 @@
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/components/NavBar/NavBar.module.scss ***!
+  \*****************************************************************************************************************************************************************************/
+nav {
+  font-size: 4.5vmin;
+  display: flex;
+  color: navy;
+  justify-content: space-between;
+  margin-left: 3.5vmin;
+  margin-right: 3.5vmin;
+}
+/*!****************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/pages/Category/Category.module.scss ***!
+  \****************************************************************************************************************************************************************************/
+.NMEOt1eko7Od9_3o8t4H .OZCZkadg0df1Enq4Alr1 {
+  color: black;
+  -webkit-text-decoration: darkred;
+  text-decoration: darkred;
+}
+
+.NMEOt1eko7Od9_3o8t4H:Hover .OZCZkadg0df1Enq4Alr1 {
+  color: navy;
+}
+
+/*# sourceMappingURL=App.e5336c52e872264f1ad71b5d6f9d36d9.js.map*/

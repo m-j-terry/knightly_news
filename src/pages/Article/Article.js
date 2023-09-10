@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-export default function Contact(props) {
+export default function Article(props) {
 	return(
-		<div className="ContactPage">
+		<div className="ArticlePage">
 			<center>
 			<h1>This is the {props.page} page</h1>
 			<div>

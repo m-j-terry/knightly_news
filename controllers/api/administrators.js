@@ -4,7 +4,7 @@ const Contributor = require('../../models/contributor')
 const Article = require('../../models/article')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const cloudinary = require('../../src/utilities/cloudinary')
+const cloudinary = require('../../config/cloudinary')
 
 const checkToken = (req, res) => {
     console.log('req.administrator', req.administrator)
@@ -34,12 +34,14 @@ const articlesCtrl = {
     async create(req, res){
         try {
             const cloudinaryImageData = await cloudinary.uploader.upload(req.body.imageUrl, { public_id: req.body.publicId }, function(error, result) { console.log('testing ' + error + result) })
-            const contributor = await Contributor.findOne({ _id: req.body.contributorId })
-            const category = await Category.findOne({ category: req.body.category })
+            const contributor = await Contributor.findOne({ _id: req.body.contributor })
+            console.log(contributor)
+            const category = await Category.findOne({ _id: req.body.category })
+            console.log(category)
             const article = await Article.create({
                 title: req.body.title,
-                contributor: contributor,
-                category: category,
+                contributor: contributor._id,
+                category: category._id,
                 publicId: req.body.publicId,
                 imageUrl: cloudinaryImageData.secure_url,
                 imageSource: req.body.imageSource,
@@ -82,7 +84,7 @@ const adminCtrl = {
             res.status(400).json({ message: error.message})
         }
     },
-    async login(req, res, next ) {
+    async login(req, res, next) {
         try {
             const administrator = await Administrator.findOne({ email: req.body.email })
             if (!administrator) throw new Error()

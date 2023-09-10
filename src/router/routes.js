@@ -1,12 +1,17 @@
-import About from '../pages/About';
-import Home from '../pages/Home';
-import Contact from '../pages/Contact';
+import Home from '../pages/Home/Home';
+import Administrator from '../pages/Administrator/Administrator';
+import Article from '../pages/Article/Article';
+import Category from '../pages/Category/Category';
+import Contributor from '../pages/Contributor/Contributor';
+
+
+
 
 const routes = [
 	{
-		Component: Contact,
-		key: 'Contact',
-		path: '/contact'
+		Component: Administrator,
+		key: 'Administrator',
+		path: '/Administrator'
 	},
 	{
 		Component: Home,
@@ -14,9 +19,19 @@ const routes = [
 		path: '/'
 	},
 	{
-		Component: About,
-		key: 'About',
-		path: '/about'
+		Component: Article,
+		key: 'Article',
+		path: '/Article'
+	},
+	{
+		Component: Category,
+		key: 'Category',
+		path: '/Category/:id'
+	},
+	{
+		Component: Contributor,
+		key: 'Contributor',
+		path: '/Contributor'
 	}
 ];
 
