@@ -9,3 +9,11 @@ export function login(credentials) {
 export function checkToken() {
     return sendRequest(`${BASE_URL}/check-token`, 'GET')
 }
+
+export function signUp(contributorData) {
+	return sendRequest(`${BASE_URL}/contributor`, 'POST', contributorData);
+}
+
+export function submit(articleData) {
+    return sendRequest(`${BASE_URL}/article`, 'POST', articleData)
+}

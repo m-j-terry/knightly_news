@@ -5,7 +5,7 @@ import routes from '../../router/routes'
 
 function NavBar() {
 	const [categories, setCategories] = useState([])
-	const Category = routes[4]
+	const Category = routes[3]
 	useEffect(() => {
 		async function fetchCategories(){
 			const response = await fetch('/api/categories')
@@ -17,7 +17,7 @@ function NavBar() {
 	}, []) 
 	console.log(categories)
 	return (
-		<nav>
+		<nav className="Nav">
 			<Link key='Home' to='/'> Home </Link>	
 			{categories.map(({ category,  _id }) => (
 				<Link key={Category.key} to={`/Category/${_id}`}>

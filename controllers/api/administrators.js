@@ -33,20 +33,19 @@ const articlesCtrl = {
     },
     async create(req, res){
         try {
-            const cloudinaryImageData = await cloudinary.uploader.upload(req.body.imageUrl, { public_id: req.body.publicId }, function(error, result) { console.log('testing ' + error + result) })
-            const contributor = await Contributor.findOne({ _id: req.body.contributor })
+            const contributor = await Contributor.findOne({ name: req.body.contributor })
             console.log(contributor)
-            const category = await Category.findOne({ _id: req.body.category })
+            const category = await Category.findOne({ category: req.body.category })
             console.log(category)
             const article = await Article.create({
                 title: req.body.title,
                 contributor: contributor._id,
                 category: category._id,
-                publicId: req.body.publicId,
-                imageUrl: cloudinaryImageData.secure_url,
-                imageSource: req.body.imageSource,
+                imageUrl: req.body.imageUrl,
                 text: req.body.text
             })
+            contributor.articles.addToSet(article)
+            await contributor.save()
             res.status(200).json(article)
         } catch (error) {
             res.status(400).json({ message: error.message })

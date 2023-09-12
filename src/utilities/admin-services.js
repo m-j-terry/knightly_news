@@ -39,3 +39,14 @@ export function getAdmin() {
 export function logOut() {
     localStorage.removeItem('token');
 }
+
+export async function createContributor(contributorData) {
+    const contributor = await adminAPI.signUp(contributorData);
+    return contributor
+}
+
+export async function submitArticle(articleData) {
+    console.log(articleData)
+    const article = await adminAPI.submit(articleData)
+    return article
+}

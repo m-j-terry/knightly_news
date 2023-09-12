@@ -11,7 +11,7 @@ const routes = [
 	{
 		Component: Administrator,
 		key: 'Administrator',
-		path: '/Administrator'
+		path: '/Admin'
 	},
 	{
 		Component: Home,
@@ -31,7 +31,7 @@ const routes = [
 	{
 		Component: Contributor,
 		key: 'Contributor',
-		path: '/Contributor'
+		path: '/Contributor/:id'
 	}
 ];
 

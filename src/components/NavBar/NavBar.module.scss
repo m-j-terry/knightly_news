@@ -1,8 +1,13 @@
 nav {
     font-size: 4.5vmin;
     display: flex;
-    color: navy;
+    color: white;
+    background-color: navy;
     justify-content:space-between;
-    margin-left: 3.5vmin;
-    margin-right: 3.5vmin;
+    padding-left:4.5vmin;
+    padding-right:4.5vmin;
+}
+
+.closed {
+    opacity: 0;
 }

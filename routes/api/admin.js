@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { checkToken, adminCtrl, articlesCtrl, contributorsCtrl, apiController, categoriesCtrl } = require('../../controllers/api/administrators')
+const { upload } = require('../../controllers/api/cloudinary')
 const ensureLoggedIn = require('../../config/ensureLoggedIn')
 
 /*** ADMIN ROUTES ***/
@@ -21,7 +22,7 @@ router.get('/check-token', ensureLoggedIn, checkToken)
 
 /*** ADMIN ARTICLE ROUTES ***/
 // CREATE
-router.post('/article', articlesCtrl.create, apiController.auth)
+router.post('/article', upload, articlesCtrl.create, apiController.auth)
 
 // UPDATE
 router.put('/article/:id', articlesCtrl.update, apiController.auth)
