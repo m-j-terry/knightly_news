@@ -3,9 +3,9 @@ const cloudinary = require('../../config/cloudinary')
 async function upload(req, res, next) {
     try {
         console.log(req.files)
-        if (!req.files) { return next() }
+        if (!req.file) { return next() }
         await cloudinary.uploader.upload(
-            req.files.file,
+            req.file,
             {},
             (err, result) => {
                 if (err) {

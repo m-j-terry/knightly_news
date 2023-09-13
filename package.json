@@ -60,6 +60,7 @@
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "serve-favicon": "^2.5.0"
   }
 }

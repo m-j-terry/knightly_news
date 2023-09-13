@@ -12,14 +12,12 @@ export default function Category() {
         async function fetchCategory() {
             const response = await fetch(`/api/categories/${id}`)
 			const cat = await response.json()
-			console.log(cat)
 			setCategory(cat.category)
         }
         fetchCategory()
         async function fetchArticles() {
             const response = await fetch(`/api/categories/articles/${id}`)
 			const arts = await response.json()
-			console.log(arts)
 			setArticles(arts)
         }
         fetchArticles()

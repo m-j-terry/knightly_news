@@ -6,8 +6,6 @@ const articleSchema = new Schema({
     contributor: { type: Schema.Types.ObjectId, ref: 'Contributor' },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     imageUrl: String,
-    publicId: String,
-    imageSource: String,
     text: { type: String, required: true }
 })
 

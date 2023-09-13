@@ -10,21 +10,21 @@ function NavBar() {
 		async function fetchCategories(){
 			const response = await fetch('/api/categories')
 			const cats = await response.json()
-			console.log(cats)
 			setCategories(cats)
 		}
 		fetchCategories()
 	}, []) 
-	console.log(categories)
 	return (
+		<>
 		<nav className="Nav">
-			<Link key='Home' to='/'> Home </Link>	
+			<Link className="Home" key='Home' to='/'> Knightly News </Link>	
 			{categories.map(({ category,  _id }) => (
-				<Link key={Category.key} to={`/Category/${_id}`}>
+				<Link className="categories" key={Category.key} to={`/Category/${_id}`}>
 					{category}
 				</Link>
 			))}
 		</nav>
+		</>
 	);
 };
 

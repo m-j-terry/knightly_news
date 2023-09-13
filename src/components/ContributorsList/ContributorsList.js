@@ -10,18 +10,16 @@ function ContributorList() {
         async function fetchContributors() {
             const response = await fetch('/api/contributors')
             const conts = await response.json()
-            console.log(conts)
             setContributors(conts)
         }
         fetchContributors()
     }, [])
     useEffect(() => {
-        console.log(contributors)
     }, [contributors])
     return(
         <div className="contributors">
             {contributors.map(({ name, _id }) => (
-            <Link key={Contributor.key} to={`/Contributor/${_id}`}>
+            <Link className="contributor" key={Contributor.key} to={`/Contributor/${_id}`}>
                 {name}
             </Link>
             ))}

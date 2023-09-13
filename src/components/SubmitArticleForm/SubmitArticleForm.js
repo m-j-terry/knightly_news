@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './SubmitArticle.module.scss'
 import FormInput from '../FormInput/FormInput'
+import { submit } from '../../utilities/admin-api'
 
 function SubmitArticleForm() {
     const [categories, setCategories] = useState([])
     const [values, setValues] = useState({})
+    const [selectedCategory, setSelectedCategory] = useState('');
+
 
     useEffect(() => {
 		async function fetchCategories(){
@@ -14,7 +17,10 @@ function SubmitArticleForm() {
 			setCategories(cats)
 		}
 		fetchCategories()
-	}, [])     
+	}, [])   
+    useEffect(() => {
+        console.log(selectedCategory)
+    }, [selectedCategory])  
 
     const inputs = [
         {
@@ -60,7 +66,12 @@ function SubmitArticleForm() {
     const handleInputChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value })
     }
-    
+
+    const handleCategoryChange = (event) => {
+        console.log(event.target.value)
+        setSelectedCategory(event.target.value)
+    }
+
     const handleImageChange = (e) => {
         e.preventDefault()
         console.log(e.target.files)
@@ -77,7 +88,8 @@ function SubmitArticleForm() {
         const formData = { ...values }
         console.log(formData)
         delete formData.confirm
-
+        const newArticle = await submit(formData)
+        alert(`${newArticle.title} has been submitted!`)
     }
     
     return (
@@ -86,9 +98,9 @@ function SubmitArticleForm() {
             <form onSubmit={handleSubmit} >
                 <FormInput {...imageInputProps} handleInputChange={handleImageChange} />
                 <label for="categories">Choose a category:</label>
-                <select id="categories" name="categories">
+                <select id="category-select" name="categories" value={selectedCategory} onChange={handleCategoryChange}>
                     {categories.map(({ category, _id }) => (
-                        <option value={ _id }>{ category }</option>
+                        <option key="category-select" value={ _id }>{ category }</option>
                     ))}
                 </select>
                 {inputs.map(input => <FormInput key={input.id} {...input} value={values[input.name]} handleInputChange={handleInputChange} />)}

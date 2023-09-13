@@ -146,16 +146,13 @@ function ContributorList() {
       _fetchContributors = _asyncToGenerator(function* () {
         const response = yield fetch('/api/contributors');
         const conts = yield response.json();
-        console.log(conts);
         setContributors(conts);
       });
       return _fetchContributors.apply(this, arguments);
     }
     fetchContributors();
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    console.log(contributors);
-  }, [contributors]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {}, [contributors]);
   return /*#__PURE__*/React.createElement("div", {
     className: "contributors"
   }, contributors.map(_ref => {
@@ -164,6 +161,7 @@ function ContributorList() {
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+      className: "contributor",
       key: Contributor.key,
       to: "/Contributor/".concat(_id)
     }, name);
@@ -270,29 +268,29 @@ function NavBar() {
       _fetchCategories = _asyncToGenerator(function* () {
         const response = yield fetch('/api/categories');
         const cats = yield response.json();
-        console.log(cats);
         setCategories(cats);
       });
       return _fetchCategories.apply(this, arguments);
     }
     fetchCategories();
   }, []);
-  console.log(categories);
-  return /*#__PURE__*/React.createElement("nav", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("nav", {
     className: "Nav"
   }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+    className: "Home",
     key: "Home",
     to: "/"
-  }, " Home "), categories.map(_ref => {
+  }, " Knightly News "), categories.map(_ref => {
     let {
       category,
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+      className: "categories",
       key: Category.key,
       to: "/Category/".concat(_id)
     }, category);
-  }));
+  })));
 }
 ;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavBar);
@@ -312,6 +310,7 @@ function NavBar() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SubmitArticle_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubmitArticle.module.scss */ "./src/components/SubmitArticleForm/SubmitArticle.module.scss");
 /* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FormInput/FormInput */ "./src/components/FormInput/FormInput.js");
+/* harmony import */ var _utilities_admin_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utilities/admin-api */ "./src/utilities/admin-api.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -324,9 +323,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 function SubmitArticleForm() {
   const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [selectedCategory, setSelectedCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchCategories() {
       return _fetchCategories.apply(this, arguments);
@@ -342,6 +343,9 @@ function SubmitArticleForm() {
     }
     fetchCategories();
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log(selectedCategory);
+  }, [selectedCategory]);
   const inputs = [{
     id: "submission-title",
     name: "title",
@@ -380,6 +384,10 @@ function SubmitArticleForm() {
       [e.target.name]: e.target.value
     }));
   };
+  const handleCategoryChange = event => {
+    console.log(event.target.value);
+    setSelectedCategory(event.target.value);
+  };
   const handleImageChange = e => {
     e.preventDefault();
     console.log(e.target.files);
@@ -398,6 +406,8 @@ function SubmitArticleForm() {
       const formData = _objectSpread({}, values);
       console.log(formData);
       delete formData.confirm;
+      const newArticle = yield (0,_utilities_admin_api__WEBPACK_IMPORTED_MODULE_3__.submit)(formData);
+      alert("".concat(newArticle.title, " has been submitted!"));
     });
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
@@ -414,14 +424,17 @@ function SubmitArticleForm() {
   })), /*#__PURE__*/React.createElement("label", {
     for: "categories"
   }, "Choose a category:"), /*#__PURE__*/React.createElement("select", {
-    id: "categories",
-    name: "categories"
+    id: "category-select",
+    name: "categories",
+    value: selectedCategory,
+    onChange: handleCategoryChange
   }, categories.map(_ref2 => {
     let {
       category,
       _id
     } = _ref2;
     return /*#__PURE__*/React.createElement("option", {
+      key: "category-select",
       value: _id
     }, category);
   })), inputs.map(input => /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
@@ -476,14 +489,27 @@ root.render( /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_0__
 
 
 function Administrator(props) {
+  const [token, setToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [storage, setStorage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     const element = document.querySelector("nav");
-    console.log(element);
     element.classList.add('closed');
   }, []);
+  function auth() {
+    const localToken = localStorage.getItem('token');
+    if (localToken === null || localToken === undefined) {
+      alert('invalid token');
+    } else {
+      setToken(localToken);
+    }
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "admin"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_SubmitArticleForm_SubmitArticleForm__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/React.createElement(_components_AddContributorForm_AddContributorForm__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+  }, token != null, " ?", /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
+    className: "title"
+  }, "Knightly News"), /*#__PURE__*/React.createElement(_components_SubmitArticleForm_SubmitArticleForm__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/React.createElement(_components_AddContributorForm_AddContributorForm__WEBPACK_IMPORTED_MODULE_2__["default"], null)), ":", /*#__PURE__*/React.createElement("button", {
+    onClick: auth
+  }, "test token"));
 }
 
 /***/ }),
@@ -547,7 +573,6 @@ function Category() {
       _fetchCategory = _asyncToGenerator(function* () {
         const response = yield fetch("/api/categories/".concat(id));
         const cat = yield response.json();
-        console.log(cat);
         setCategory(cat.category);
       });
       return _fetchCategory.apply(this, arguments);
@@ -560,7 +585,6 @@ function Category() {
       _fetchArticles = _asyncToGenerator(function* () {
         const response = yield fetch("/api/categories/articles/".concat(id));
         const arts = yield response.json();
-        console.log(arts);
         setArticles(arts);
       });
       return _fetchArticles.apply(this, arguments);
@@ -667,14 +691,13 @@ function Contributor() {
   }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, contributor.name), articles.map(_ref => {
     let {
       title,
-      contributor,
       imageUrl,
       text
     } = _ref;
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
       height: "200vmin"
-    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)));
+    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, trimText(text)));
   })));
 }
 
@@ -704,23 +727,9 @@ function Contributor() {
 
 
 function Home() {
-  const [token, setToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const [admin, setAdmin] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_utilities_admin_services__WEBPACK_IMPORTED_MODULE_2__.getAdmin)());
-  // useEffect(() => {
-  // 	async function sendToken(){ 
-  // 		checkedToken = await checkToken()
-  // 		if (checkedToken === true) {
-  // 			setToken(localStorage.token)
-  // 		} else {
-  // 			setToken(null)
-  // 		}
-  // 		console.log(token)
-  // 	}
-  // 	sendToken()
-  // }, [admin])
   return /*#__PURE__*/React.createElement("div", {
     className: "HomePage"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, "This is the Home page")), /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+  }, /*#__PURE__*/React.createElement("center", null), /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 }
 
 /***/ }),
@@ -848,10 +857,9 @@ function submit(articleData) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createContributor: () => (/* binding */ createContributor),
-/* harmony export */   getAdmin: () => (/* binding */ getAdmin),
 /* harmony export */   getToken: () => (/* binding */ getToken)
 /* harmony export */ });
-/* unused harmony exports login, checkToken, logOut, submitArticle */
+/* unused harmony exports login, checkToken, getAdmin, logOut, submitArticle */
 /* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! morgan */ "./node_modules/morgan/index.js");
 /* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(morgan__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _admin_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-api */ "./src/utilities/admin-api.js");
@@ -1535,4 +1543,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.d06fa97113e7b51c1d7f40d3c5173364.js.map
+//# sourceMappingURL=App.28f70db47306cad68d3b6cd89d9100b5.js.map

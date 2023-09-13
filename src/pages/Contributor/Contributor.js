@@ -21,11 +21,10 @@ export default function Contributor() {
 		<div className="ContributorPage">
 			<center>
 			<h1>{contributor.name}</h1>
-            {articles.map(({ title, contributor, imageUrl, text }) => (
+            {articles.map(({ title, imageUrl, text }) => (
                 <div>
                     <img src={imageUrl} height='200vmin'></img>
                     <h2>{title}</h2>
-                    <h3>by: {contributor}</h3>
                     <p>{trimText(text)}</p>
                 </div>
             ))}

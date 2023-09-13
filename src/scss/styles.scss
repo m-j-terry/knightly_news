@@ -24,27 +24,66 @@ html{
 }
 
 .Nav{
-  background-color:navy; 
+  background-color:navy;
+  color: white; 
+  padding-top: 5vmin;
+  padding-bottom: 3vmin;
+  font-size: 3vw;
+}
+.categories:hover{
+  text-decoration:none;
+  color:rgb(221, 22, 22);
+}
+.Home:hover{
+  text-decoration:none;
+  color:rgb(221, 22, 22);
 }
 
-.admin, .SubmissionForm, .ContributorForm, .header {
+.admin, .SubmissionForm, .ContributorForm, .header, .title {
   background-color: rgb(37, 37, 37);
 }
 
-.SubmissionForm, .ContributorForm{
-  padding: 10vmin;
+.title{
+  color: rgb(5, 226, 5);
+  font-size: 20vmin;
+  font-family: "UnifrakturMaguntia";
+  padding-top: 20vmin; 
+  margin-top:0vmin;
+  font-size: 5vw;
 }
 
-.SubmissionForm{
-  padding-top:20vmin;
+.Home{
+  font-family: 'UnifrakturMaguntia';
+  color:white;
+}
+
+.SubmissionForm, .ContributorForm{
+  padding: 5vmin;
 }
 .ContributorForm{
-  padding-bottom:20vmin;
+  padding-bottom:10vmin;
 }
 
 .closed {
   opacity: 0;
   display:none;
+}
+
+.contributors{
+  display: flex;
+  flex-direction:row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.contributor{
+  font-size: 2vw;
+  color:black;
+}
+.contributor:hover{
+  font-size: 2.25vw;
+  text-decoration:none;
+  font-family: 'UnifrakturMaguntia'
 }
 
 // .AdministratorPage{
