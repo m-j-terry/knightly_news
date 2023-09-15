@@ -1,5 +1,4 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/components/AddContributorForm/AddContributorForm.js":
@@ -8,6 +7,7 @@
   \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -102,6 +102,7 @@ function AddContributorForm() {
   \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -122,6 +123,7 @@ function CategoryListsComponent() {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -177,6 +179,7 @@ function ContributorList() {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -197,6 +200,7 @@ function FeaturedArticle() {
   \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ FormInput)
 /* harmony export */ });
@@ -242,6 +246,7 @@ function FormInput(props) {
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -303,6 +308,7 @@ function NavBar() {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -310,7 +316,8 @@ function NavBar() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SubmitArticle_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubmitArticle.module.scss */ "./src/components/SubmitArticleForm/SubmitArticle.module.scss");
 /* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FormInput/FormInput */ "./src/components/FormInput/FormInput.js");
-/* harmony import */ var _utilities_admin_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utilities/admin-api */ "./src/utilities/admin-api.js");
+/* harmony import */ var _utilities_imageUpload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utilities/imageUpload */ "./src/utilities/imageUpload.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -324,10 +331,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
+
+// import { submit } from '../../utilities/admin-api'
+
 function SubmitArticleForm() {
   const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [selectedCategory, setSelectedCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [photoUrl, setPhotoUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    title: '',
+    contributor: '',
+    category: '',
+    text: '',
+    file: ''
+  });
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchCategories() {
       return _fetchCategories.apply(this, arguments);
@@ -383,6 +403,7 @@ function SubmitArticleForm() {
     setValues(_objectSpread(_objectSpread({}, values), {}, {
       [e.target.name]: e.target.value
     }));
+    handleCategoryChange(e);
   };
   const handleCategoryChange = event => {
     console.log(event.target.value);
@@ -392,22 +413,27 @@ function SubmitArticleForm() {
     e.preventDefault();
     console.log(e.target.files);
     let reader = new FileReader();
-    let file = e.target.files[0];
+    let thisFile = e.target.files[0];
     reader.onloadend = () => {
-      setValues(_objectSpread(_objectSpread({}, values), {}, {
-        file: reader.result
-      }));
+      setFile(thisFile);
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(thisFile);
   };
   const handleSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(function* (e) {
       e.preventDefault();
-      const formData = _objectSpread({}, values);
-      console.log(formData);
-      delete formData.confirm;
-      const newArticle = yield (0,_utilities_admin_api__WEBPACK_IMPORTED_MODULE_3__.submit)(formData);
+      let formData = new FormData();
+      console.log('values = ' + values);
+      formData.append('file', file);
+      for (let key in values) {
+        formData.append(key, values[key]);
+      }
+      console.log('formData = ' + formData);
+      const data = yield (0,_utilities_imageUpload__WEBPACK_IMPORTED_MODULE_3__.submit)(formData);
+      console.log(data);
+      const newArticle = data.data;
       alert("".concat(newArticle.title, " has been submitted!"));
+      // navigate(`/Article/${newArticle._id}`)
     });
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
@@ -418,6 +444,7 @@ function SubmitArticleForm() {
   }, /*#__PURE__*/React.createElement("h1", {
     className: "header"
   }, "Article Submissions"), /*#__PURE__*/React.createElement("form", {
+    autoComplete: "off",
     onSubmit: handleSubmit
   }, /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, imageInputProps, {
     handleInputChange: handleImageChange
@@ -427,7 +454,7 @@ function SubmitArticleForm() {
     id: "category-select",
     name: "categories",
     value: selectedCategory,
-    onChange: handleCategoryChange
+    onChange: handleInputChange
   }, categories.map(_ref2 => {
     let {
       category,
@@ -456,6 +483,7 @@ function SubmitArticleForm() {
   \**********************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
@@ -475,6 +503,7 @@ root.render( /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_0__
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Administrator)
 /* harmony export */ });
@@ -483,7 +512,10 @@ root.render( /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_0__
 /* harmony import */ var _components_SubmitArticleForm_SubmitArticleForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/SubmitArticleForm/SubmitArticleForm */ "./src/components/SubmitArticleForm/SubmitArticleForm.js");
 /* harmony import */ var _components_AddContributorForm_AddContributorForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/AddContributorForm/AddContributorForm */ "./src/components/AddContributorForm/AddContributorForm.js");
 /* harmony import */ var _Administrator_module_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Administrator.module.scss */ "./src/pages/Administrator/Administrator.module.scss");
+/* harmony import */ var _router_routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../router/routes */ "./src/router/routes.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
 
 
 
@@ -503,6 +535,7 @@ function Administrator(props) {
       setToken(localToken);
     }
   }
+  function homePage() {}
   return /*#__PURE__*/React.createElement("div", {
     className: "admin"
   }, token != null, " ?", /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
@@ -520,6 +553,7 @@ function Administrator(props) {
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Article)
 /* harmony export */ });
@@ -545,6 +579,7 @@ function Article(props) {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Category)
 /* harmony export */ });
@@ -653,6 +688,7 @@ function Category() {
   \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Contributor)
 /* harmony export */ });
@@ -678,7 +714,6 @@ function Contributor() {
       _fetchContributor = _asyncToGenerator(function* () {
         const response = yield fetch("/api/contributors/".concat(id));
         const cont = yield response.json();
-        console.log(cont);
         setContributor(cont);
         setArticles(cont.articles);
       });
@@ -686,6 +721,13 @@ function Contributor() {
     }
     fetchContributor();
   }, [id]);
+  function trimText(text) {
+    let arr = text.split('');
+    let arr2 = arr.slice(0, 65);
+    arr2.push('...');
+    let arr3 = arr2.join('');
+    return arr3.toString();
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "ContributorPage"
   }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, contributor.name), articles.map(_ref => {
@@ -709,6 +751,7 @@ function Contributor() {
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Home)
 /* harmony export */ });
@@ -734,12 +777,23 @@ function Home() {
 
 /***/ }),
 
+/***/ "./src/pages/Press/Press.js":
+/*!**********************************!*\
+  !*** ./src/pages/Press/Press.js ***!
+  \**********************************/
+/***/ (() => {
+
+
+
+/***/ }),
+
 /***/ "./src/router/index.js":
 /*!*****************************!*\
   !*** ./src/router/index.js ***!
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -781,6 +835,7 @@ const AppRouter = () => {
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -789,6 +844,9 @@ const AppRouter = () => {
 /* harmony import */ var _pages_Article_Article__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/Article/Article */ "./src/pages/Article/Article.js");
 /* harmony import */ var _pages_Category_Category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/Category/Category */ "./src/pages/Category/Category.js");
 /* harmony import */ var _pages_Contributor_Contributor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/Contributor/Contributor */ "./src/pages/Contributor/Contributor.js");
+/* harmony import */ var _pages_Press_Press__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../pages/Press/Press */ "./src/pages/Press/Press.js");
+/* harmony import */ var _pages_Press_Press__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_pages_Press_Press__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -814,6 +872,10 @@ const routes = [{
   Component: _pages_Contributor_Contributor__WEBPACK_IMPORTED_MODULE_4__["default"],
   key: 'Contributor',
   path: '/Contributor/:id'
+}, {
+  Component: (_pages_Press_Press__WEBPACK_IMPORTED_MODULE_5___default()),
+  key: 'Press',
+  path: 'Press'
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -825,11 +887,11 @@ const routes = [{
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   checkToken: () => (/* binding */ checkToken),
 /* harmony export */   login: () => (/* binding */ login),
-/* harmony export */   signUp: () => (/* binding */ signUp),
-/* harmony export */   submit: () => (/* binding */ submit)
+/* harmony export */   signUp: () => (/* binding */ signUp)
 /* harmony export */ });
 /* harmony import */ var _send_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./send-request */ "./src/utilities/send-request.js");
 
@@ -843,9 +905,10 @@ function checkToken() {
 function signUp(contributorData) {
   return (0,_send_request__WEBPACK_IMPORTED_MODULE_0__["default"])("".concat(BASE_URL, "/contributor"), 'POST', contributorData);
 }
-function submit(articleData) {
-  return (0,_send_request__WEBPACK_IMPORTED_MODULE_0__["default"])("".concat(BASE_URL, "/article"), 'POST', articleData);
-}
+
+// export function submit(articleData) {
+//     return sendUrlFormData(`${BASE_URL}/article`, 'POST', articleData)
+// }
 
 /***/ }),
 
@@ -855,11 +918,12 @@ function submit(articleData) {
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createContributor: () => (/* binding */ createContributor),
 /* harmony export */   getToken: () => (/* binding */ getToken)
 /* harmony export */ });
-/* unused harmony exports login, checkToken, getAdmin, logOut, submitArticle */
+/* unused harmony exports login, checkToken, getAdmin, logOut */
 /* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! morgan */ "./node_modules/morgan/index.js");
 /* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(morgan__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _admin_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-api */ "./src/utilities/admin-api.js");
@@ -895,6 +959,7 @@ function _checkToken() {
 }
 function getToken() {
   const token = localStorage.getItem('token');
+  console.log(token);
   // getItem will return null if no key
   if (!token) return null;
   const payload = JSON.parse(atob(token.split('.')[1]));
@@ -908,7 +973,7 @@ function getToken() {
 }
 function getAdmin() {
   const token = getToken();
-  return token ? JSON.parse(atob(token.split('.')[1])).user : null;
+  return token ? JSON.parse(atob(token.split('.')[1])).contributor : null;
 }
 function logOut() {
   localStorage.removeItem('token');
@@ -916,6 +981,12 @@ function logOut() {
 function createContributor(_x2) {
   return _createContributor.apply(this, arguments);
 }
+
+// export async function submitArticle(articleData) {
+//     console.log(articleData)
+//     const token = await adminAPI.submit(articleData)
+//     return getAdmin()
+// }
 function _createContributor() {
   _createContributor = _asyncToGenerator(function* (contributorData) {
     const contributor = yield _admin_api__WEBPACK_IMPORTED_MODULE_1__.signUp(contributorData);
@@ -923,16 +994,38 @@ function _createContributor() {
   });
   return _createContributor.apply(this, arguments);
 }
-function submitArticle(_x3) {
-  return _submitArticle.apply(this, arguments);
+
+/***/ }),
+
+/***/ "./src/utilities/imageUpload.js":
+/*!**************************************!*\
+  !*** ./src/utilities/imageUpload.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   submit: () => (/* binding */ submit)
+/* harmony export */ });
+/* harmony import */ var _utilities_admin_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/admin-services */ "./src/utilities/admin-services.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+function submit(_x) {
+  return _submit.apply(this, arguments);
 }
-function _submitArticle() {
-  _submitArticle = _asyncToGenerator(function* (articleData) {
-    console.log(articleData);
-    const article = yield _admin_api__WEBPACK_IMPORTED_MODULE_1__.submit(articleData);
-    return article;
+function _submit() {
+  _submit = _asyncToGenerator(function* (imageData) {
+    return axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/api/admin/article", imageData, {
+      headers: new Headers({
+        'Content-Type': "multipart/form-data",
+        'Authorization': "Bearer ".concat((0,_utilities_admin_services__WEBPACK_IMPORTED_MODULE_0__.getToken)())
+      })
+    });
   });
-  return _submitArticle.apply(this, arguments);
+  return _submit.apply(this, arguments);
 }
 
 /***/ }),
@@ -943,9 +1036,11 @@ function _submitArticle() {
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ sendRequest)
 /* harmony export */ });
+/* unused harmony export sendUrlFormData */
 /* harmony import */ var _admin_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-services */ "./src/utilities/admin-services.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -977,6 +1072,8 @@ function _sendRequest() {
         // Prefacing with 'Bearer' is recommended in the HTTP specification
         options.headers.Authorization = "Bearer ".concat(token);
       }
+      console.log('options.headers = ' + options.headers);
+      console.log('options.body = ' + options.body);
       const res = yield fetch(url, options);
       // res.ok will be false if the status code set to 4xx in the controller action
       if (res.ok) return res.json();
@@ -984,6 +1081,43 @@ function _sendRequest() {
     }();
   });
   return _sendRequest.apply(this, arguments);
+}
+function sendUrlFormData(_x2) {
+  return _sendUrlFormData.apply(this, arguments);
+}
+function _sendUrlFormData() {
+  _sendUrlFormData = _asyncToGenerator(function (url) {
+    let method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'GET';
+    let payload = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    return function* () {
+      // Fetch takes an optional options object as the 2nd argument
+      // used to include a data payload, set headers, etc.
+      const options = {
+        method
+      };
+      if (payload) {
+        options.headers = {
+          'Content-Type': 'multipart/form-data'
+        };
+        options.body = payload;
+      }
+      const token = (0,_admin_services__WEBPACK_IMPORTED_MODULE_0__.getToken)();
+      if (token) {
+        // Ensure headers object exists
+        options.headers = options.headers || {};
+        // Add token to an Authorization header
+        // Prefacing with 'Bearer' is recommended in the HTTP specification
+        options.headers.Authorization = "Bearer ".concat(token);
+      }
+      console.log('options.headers = ' + options.headers);
+      console.log('options.body = ' + options.body);
+      const res = yield fetch(url, options);
+      // res.ok will be false if the status code set to 4xx in the controller action
+      if (res.ok) return res.json();
+      throw new Error('Bad Request');
+    }();
+  });
+  return _sendUrlFormData.apply(this, arguments);
 }
 
 /***/ }),
@@ -994,6 +1128,7 @@ function _sendRequest() {
   \*******************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1008,6 +1143,7 @@ function _sendRequest() {
   \*************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1022,6 +1158,7 @@ function _sendRequest() {
   \*******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1036,6 +1173,7 @@ function _sendRequest() {
   \*************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1050,6 +1188,7 @@ function _sendRequest() {
   \****************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1064,6 +1203,7 @@ function _sendRequest() {
   \******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1078,6 +1218,7 @@ function _sendRequest() {
   \**************************************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1128,6 +1269,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \********************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1178,6 +1320,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \**************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1228,6 +1371,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \********************************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1278,6 +1422,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \***********************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1328,6 +1473,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \*************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1538,9 +1684,9 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_morgan_index_js-node_modules_react-dom_client_js-node_modules_react-rout-eae31a"], () => (__webpack_require__("./src/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_morgan_index_js-node_modules_react-dom_client_js-node_modules_react-rout-6657f8"], () => (__webpack_require__("./src/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.28f70db47306cad68d3b6cd89d9100b5.js.map
+//# sourceMappingURL=App.43794c685d301392691bcc995ecd5e97.js.map

@@ -19,6 +19,7 @@ export async function checkToken() {
 
 export function getToken() {
     const token = localStorage.getItem('token');
+    console.log(token)
   // getItem will return null if no key
     if (!token) return null;
     const payload = JSON.parse(atob(token.split('.')[1]));
@@ -33,7 +34,7 @@ export function getToken() {
 
 export function getAdmin() {
     const token = getToken();
-    return token ? JSON.parse(atob(token.split('.')[1])).user : null;
+    return token ? JSON.parse(atob(token.split('.')[1])).contributor : null;
 }
 
 export function logOut() {
@@ -45,8 +46,8 @@ export async function createContributor(contributorData) {
     return contributor
 }
 
-export async function submitArticle(articleData) {
-    console.log(articleData)
-    const article = await adminAPI.submit(articleData)
-    return article
-}
+// export async function submitArticle(articleData) {
+//     console.log(articleData)
+//     const token = await adminAPI.submit(articleData)
+//     return getAdmin()
+// }

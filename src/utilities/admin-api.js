@@ -1,4 +1,4 @@
-import sendRequest from './send-request';
+import sendRequest, { sendUrlFormData } from './send-request';
 
 const BASE_URL = '/api/admin';
 
@@ -14,6 +14,6 @@ export function signUp(contributorData) {
 	return sendRequest(`${BASE_URL}/contributor`, 'POST', contributorData);
 }
 
-export function submit(articleData) {
-    return sendRequest(`${BASE_URL}/article`, 'POST', articleData)
-}
+// export function submit(articleData) {
+//     return sendUrlFormData(`${BASE_URL}/article`, 'POST', articleData)
+// }

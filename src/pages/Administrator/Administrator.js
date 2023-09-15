@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import SubmitArticleForm from '../../components/SubmitArticleForm/SubmitArticleForm'
 import AddContributorForm from '../../components/AddContributorForm/AddContributorForm'
 import styles from './Administrator.module.scss'
+import routes from '../../router/routes'
+import { Link } from 'react-router-dom';
+
 
 export default function Administrator(props) {
 	const [token, setToken] = useState('')
@@ -18,11 +21,14 @@ export default function Administrator(props) {
 			setToken(localToken)
 		}
 	}
+	function homePage(){
+		
+	}
 	return(
 		<div className='admin'>
 			{token != null} ?
 			<center>
-				<h1 className="title">Knightly News</h1>
+				<h1 className="title" >Knightly News</h1>
 				<SubmitArticleForm />
 				<AddContributorForm />
 			</center> 

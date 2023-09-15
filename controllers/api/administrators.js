@@ -2,6 +2,7 @@ const Administrator = require('../../models/administrator')
 const Category = require('../../models/category')
 const Contributor = require('../../models/contributor')
 const Article = require('../../models/article')
+const Edition = require('../../models/edition')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const cloudinary = require('../../config/cloudinary')
@@ -33,10 +34,14 @@ const articlesCtrl = {
     },
     async create(req, res){
         try {
+            if (res.locals.imageData) {
+                console.log(res.locals.imageData)
+                req.body.imageUrl = res.locals.imageData
+            }
             const contributor = await Contributor.findOne({ name: req.body.contributor })
-            console.log(contributor)
-            const category = await Category.findOne({ category: req.body.category })
-            console.log(category)
+            console.log(' contributor = ' + contributor)
+            const category = req.body.categories
+            console.log('category = ' + category)
             const article = await Article.create({
                 title: req.body.title,
                 contributor: contributor._id,
@@ -44,11 +49,12 @@ const articlesCtrl = {
                 imageUrl: req.body.imageUrl,
                 text: req.body.text
             })
+            console.log('article ' + article)
             contributor.articles.addToSet(article)
             await contributor.save()
             res.status(200).json(article)
         } catch (error) {
-            res.status(400).json({ message: error.message })
+            res.status(401).json({ message: error.message })
         }
     },
     async update(req, res){
@@ -62,6 +68,18 @@ const articlesCtrl = {
             res.status(200).json(article)
         } catch (error) {
             res.status(400).json({ message: error.message })
+        }
+    }
+}
+
+const editionCtrl = {
+    async create(req, res, next) {
+        try {
+            const edition = await Edition.create(req.body)
+            res.status(200).json(edition)
+            next()
+        } catch (error) {
+            res.status(400).json({ message: error.message})
         }
     }
 }
@@ -172,5 +190,6 @@ module.exports = {
     articlesCtrl,
     contributorsCtrl,
     categoriesCtrl,
-    apiController
+    apiController,
+    editionCtrl
 }

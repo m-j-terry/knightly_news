@@ -11,7 +11,7 @@ app.use(express.json());
 express.urlencoded({ extended: true })
 
 app.use(fileUpload({ 
-	limits: { fileSize: 40 * 102 * 1024 }
+	limits: { fileSize: 40 * 1024 * 1024 }
 }))
 
 app.use((req, res, next) => {
@@ -30,6 +30,7 @@ const ensureLoggedIn = require('./config/ensureLoggedIn');
 app.use('/api/contributors', require('./routes/api/contributors'));
 app.use('/api/articles', require('./routes/api/articles'));
 app.use('/api/categories', require('./routes/api/categories'))
+app.use('/api/edition', require('./routes/api/editions'))
 app.use('/api/admin', ensureLoggedIn, require('./routes/api/admin'));
 
 // catch all -> if url doesn't match with any routes; for react router

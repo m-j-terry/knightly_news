@@ -11,12 +11,20 @@ export default function Contributor() {
         async function fetchContributor() {
             const response = await fetch(`/api/contributors/${id}`)
 			const cont = await response.json()
-			console.log(cont)
 			setContributor(cont)
 			setArticles(cont.articles)
         }
         fetchContributor()
     }, [id])
+
+    function trimText(text) {
+        let arr = text.split('')
+        let arr2 = arr.slice(0, 65)
+        arr2.push('...')
+        let arr3 = arr2.join('')
+        return arr3.toString()
+    }
+
 	return(
 		<div className="ContributorPage">
 			<center>

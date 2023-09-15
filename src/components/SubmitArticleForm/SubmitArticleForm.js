@@ -1,12 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './SubmitArticle.module.scss'
 import FormInput from '../FormInput/FormInput'
-import { submit } from '../../utilities/admin-api'
+import { submit } from '../../utilities/imageUpload'
+import { useNavigate } from 'react-router-dom'
+
+// import { submit } from '../../utilities/admin-api'
 
 function SubmitArticleForm() {
     const [categories, setCategories] = useState([])
-    const [values, setValues] = useState({})
+    const [file, setFile] = useState(null)
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [photoUrl, setPhotoUrl] = useState('')
+    const [values, setValues] = useState({
+        title: '',
+        contributor: '',
+        category: '',
+        text: '',
+        file: ''
+    })
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -64,7 +76,8 @@ function SubmitArticleForm() {
     }
     
     const handleInputChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value })
+        setValues({ ...values, [e.target.name]: e.target.value }) 
+        handleCategoryChange(e)
     }
 
     const handleCategoryChange = (event) => {
@@ -76,29 +89,37 @@ function SubmitArticleForm() {
         e.preventDefault()
         console.log(e.target.files)
         let reader = new FileReader()
-        let file = e.target.files[0]
+        let thisFile = e.target.files[0]
         reader.onloadend = () => {
-            setValues({ ...values, file: reader.result })
+            setFile(thisFile)
         }
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(thisFile)
     }
     
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const formData = { ...values }
-        console.log(formData)
-        delete formData.confirm
-        const newArticle = await submit(formData)
+        
+        let formData = new FormData()
+        console.log('values = ' + values)
+        formData.append('file', file)
+        for (let key in values) {
+            formData.append(key, values[key])
+        }
+        console.log('formData = ' + formData)
+        const data = await submit(formData)
+        console.log(data)
+        const newArticle = data.data
         alert(`${newArticle.title} has been submitted!`)
+        // navigate(`/Article/${newArticle._id}`)
     }
     
     return (
         <div className="SubmissionForm">
             <h1 className="header">Article Submissions</h1>
-            <form onSubmit={handleSubmit} >
+            <form  autoComplete="off" onSubmit={handleSubmit}>
                 <FormInput {...imageInputProps} handleInputChange={handleImageChange} />
                 <label for="categories">Choose a category:</label>
-                <select id="category-select" name="categories" value={selectedCategory} onChange={handleCategoryChange}>
+                <select id="category-select" name="categories" value={selectedCategory} onChange={handleInputChange}>
                     {categories.map(({ category, _id }) => (
                         <option key="category-select" value={ _id }>{ category }</option>
                     ))}
