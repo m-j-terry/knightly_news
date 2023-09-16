@@ -22,36 +22,6 @@ export default function Category() {
         }
         fetchArticles()
     }, [id])
-    // useEffect(() => {
-    //     async function fetchContributor(_id) {
-    //         // const response = await fetch(`/api/contributors/name${_id}`)
-    //         // // const name = await response.json()
-    //         // // console.log(name)
-    //         // return response
-    //         const contributorPromises = arts.map(async (article) => {
-    //             const contributorId = article.contributor;
-    //             if (!contributors[contributorId]) {
-    //                 const contributorResponse = await fetch(`/api/contributors/name/${contributorId}`)
-    //                 const contributorName = await contributorResponse.json()
-    //                 setContributors(prevContributors => ({
-    //                     ...prevContributors,
-    //                     [contributorId]: contributorName
-    //                 }));
-    //             }
-    //         });
-    //         await Promise.all(contributorPromises);
-    //     }
-    //     fetchContributor()
-    // }, [contributors])
-
-    // async function fetchContributor(_id) {
-    //     if (_id != null || _id != undefined){
-    //         const response = await fetch(`/api/contributors/name/${_id}`)
-    //         const name = await response.json()
-    //         console.log(name)
-    //         return `${name}`
-    //     }
-    // }
 
     function trimText(String) {
         let arr = String.split('')
@@ -60,13 +30,14 @@ export default function Category() {
         let arr3 = arr2.join('')
         return arr3.toString()
     }
+
 	return(
 		<div className="CategoryPage">
 			<center>
 			<h1>This is the {category} page</h1>
             {articles.map(({ title, contributor, imageUrl, text }) => (
                 <div>
-                    <img src={imageUrl} height='200vmin'></img>
+                    <img src={imageUrl} max-width='200vmin'></img>
                     <h2>{title}</h2>
                     <h3>by: {contributor}</h3>
                     <p>{trimText(text)}</p>

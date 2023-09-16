@@ -111,7 +111,7 @@ function AddContributorForm() {
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 function CategoryListsComponent() {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "CategoryListsComponentComponent"));
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "CategoryListsComponent"), /*#__PURE__*/React.createElement("p", null, "This component will display lists of articles according to each category."));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoryListsComponent);
 
@@ -130,16 +130,22 @@ function CategoryListsComponent() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _router_routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../router/routes */ "./src/router/routes.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
-function ContributorList() {
+
+function ContributorList(_ref) {
+  let {
+    setContributor
+  } = _ref;
   const [contributors, setContributors] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const Contributor = _router_routes__WEBPACK_IMPORTED_MODULE_1__["default"][4];
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchContributors() {
       return _fetchContributors.apply(this, arguments);
@@ -157,17 +163,19 @@ function ContributorList() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {}, [contributors]);
   return /*#__PURE__*/React.createElement("div", {
     className: "contributors"
-  }, contributors.map(_ref => {
+  }, /*#__PURE__*/React.createElement("h1", null, "Knights of the Round Table"), /*#__PURE__*/React.createElement("div", {
+    className: "contributorslist"
+  }, contributors.map(_ref2 => {
     let {
       name,
       _id
-    } = _ref;
-    return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+    } = _ref2;
+    return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
       className: "contributor",
       key: Contributor.key,
       to: "/Contributor/".concat(_id)
     }, name);
-  }));
+  })));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContributorList);
 
@@ -188,7 +196,7 @@ function ContributorList() {
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 function FeaturedArticle() {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "FeaturedArticleComponent"));
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "FeaturedArticleComponent"), /*#__PURE__*/React.createElement("p", null, "This component will highlight a preview of the featured article for the most recent edition of the Knightly News. It will also act as a link to the full text."));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FeaturedArticle);
 
@@ -237,6 +245,28 @@ function FormInput(props) {
     onFocus: () => inputProps.name === 'confirm' && setIsBlur(true)
   })));
 }
+
+/***/ }),
+
+/***/ "./src/components/HotOffThePress/HotOffThePress.js":
+/*!*********************************************************!*\
+  !*** ./src/components/HotOffThePress/HotOffThePress.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+//store the pdfs in an array in the backend
+function HotOffThePress() {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "HotOffThePressComponent"), /*#__PURE__*/React.createElement("p", null, "This component will feature the most recent print edition of the Knightly News as well as a button, linking to the page with all the previous editions as pdfs to be viewed and downloaded."));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HotOffThePress);
 
 /***/ }),
 
@@ -425,6 +455,7 @@ function SubmitArticleForm() {
       let formData = new FormData();
       console.log('values = ' + values);
       formData.append('file', file);
+      formData.append('category', selectedCategory);
       for (let key in values) {
         formData.append(key, values[key]);
       }
@@ -626,37 +657,6 @@ function Category() {
     }
     fetchArticles();
   }, [id]);
-  // useEffect(() => {
-  //     async function fetchContributor(_id) {
-  //         // const response = await fetch(`/api/contributors/name${_id}`)
-  //         // // const name = await response.json()
-  //         // // console.log(name)
-  //         // return response
-  //         const contributorPromises = arts.map(async (article) => {
-  //             const contributorId = article.contributor;
-  //             if (!contributors[contributorId]) {
-  //                 const contributorResponse = await fetch(`/api/contributors/name/${contributorId}`)
-  //                 const contributorName = await contributorResponse.json()
-  //                 setContributors(prevContributors => ({
-  //                     ...prevContributors,
-  //                     [contributorId]: contributorName
-  //                 }));
-  //             }
-  //         });
-  //         await Promise.all(contributorPromises);
-  //     }
-  //     fetchContributor()
-  // }, [contributors])
-
-  // async function fetchContributor(_id) {
-  //     if (_id != null || _id != undefined){
-  //         const response = await fetch(`/api/contributors/name/${_id}`)
-  //         const name = await response.json()
-  //         console.log(name)
-  //         return `${name}`
-  //     }
-  // }
-
   function trimText(String) {
     let arr = String.split('');
     let arr2 = arr.slice(0, 65);
@@ -675,7 +675,7 @@ function Category() {
     } = _ref;
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
-      height: "200vmin"
+      "max-width": "200vmin"
     }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)));
   })));
 }
@@ -721,16 +721,19 @@ function Contributor() {
     }
     fetchContributor();
   }, [id]);
-  function trimText(text) {
-    let arr = text.split('');
-    let arr2 = arr.slice(0, 65);
-    arr2.push('...');
-    let arr3 = arr2.join('');
-    return arr3.toString();
+  console.log(contributor);
+  console.log(articles);
+  function trimArticleText(text) {
+    console.log(text);
+    let arr = text === null || text === void 0 ? void 0 : text.split('');
+    let arr2 = arr === null || arr === void 0 ? void 0 : arr.slice(0, 65);
+    arr2 === null || arr2 === void 0 ? void 0 : arr2.push('...');
+    let arr3 = arr2 === null || arr2 === void 0 ? void 0 : arr2.join('');
+    return arr3 === null || arr3 === void 0 ? void 0 : arr3.toString();
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "ContributorPage"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, contributor.name), articles.map(_ref => {
+  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, contributor.name), articles === null ? /*#__PURE__*/React.createElement("h2", null, "Articles Loading...") : articles.map(_ref => {
     let {
       title,
       imageUrl,
@@ -739,7 +742,7 @@ function Contributor() {
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
       height: "200vmin"
-    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, trimText(text)));
+    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, text));
   })));
 }
 
@@ -762,6 +765,7 @@ function Contributor() {
 /* harmony import */ var _components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/ContributorsList/ContributorsList */ "./src/components/ContributorsList/ContributorsList.js");
 /* harmony import */ var _components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/FeaturedArticle/FeaturedArticle */ "./src/components/FeaturedArticle/FeaturedArticle.js");
 /* harmony import */ var _components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/CategoryArticleLists/CategoryArticleLists */ "./src/components/CategoryArticleLists/CategoryArticleLists.js");
+/* harmony import */ var _components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/HotOffThePress/HotOffThePress */ "./src/components/HotOffThePress/HotOffThePress.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 
@@ -769,10 +773,12 @@ function Contributor() {
 
 
 
+
 function Home() {
+  const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   return /*#__PURE__*/React.createElement("div", {
     className: "HomePage"
-  }, /*#__PURE__*/React.createElement("center", null), /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
 }
 
 /***/ }),
@@ -1689,4 +1695,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.43794c685d301392691bcc995ecd5e97.js.map
+//# sourceMappingURL=App.e16229e4b33e7da2f4757dcc73cfd3b7.js.map

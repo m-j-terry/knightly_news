@@ -16,26 +16,30 @@ export default function Contributor() {
         }
         fetchContributor()
     }, [id])
-
-    function trimText(text) {
-        let arr = text.split('')
-        let arr2 = arr.slice(0, 65)
-        arr2.push('...')
-        let arr3 = arr2.join('')
-        return arr3.toString()
+console.log(contributor)
+console.log(articles)
+    function trimArticleText(text) {
+        console.log(text)
+        let arr = text?.split('')
+        let arr2 = arr?.slice(0, 65)
+        arr2?.push('...')
+        let arr3 = arr2?.join('')
+        return arr3?.toString()
     }
 
 	return(
 		<div className="ContributorPage">
 			<center>
 			<h1>{contributor.name}</h1>
-            {articles.map(({ title, imageUrl, text }) => (
+            {articles === null ? <h2>Articles Loading...</h2> 
+            : articles.map(({ title, imageUrl, text }) => (
                 <div>
                     <img src={imageUrl} height='200vmin'></img>
                     <h2>{title}</h2>
-                    <p>{trimText(text)}</p>
+                    <p>{text}</p>
                 </div>
-            ))}
+            ))} 
+            
 			</center>
 		</div>
 	) 

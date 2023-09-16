@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const articleSchema = new Schema({
     title: { type: String, required: true },
-    contributor: { type: Schema.Types.ObjectId, ref: 'Contributor' },
+    contributor: String,
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     imageUrl: String,
     text: { type: String, required: true }

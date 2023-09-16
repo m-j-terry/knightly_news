@@ -102,6 +102,7 @@ function SubmitArticleForm() {
         let formData = new FormData()
         console.log('values = ' + values)
         formData.append('file', file)
+        formData.append('category', selectedCategory)
         for (let key in values) {
             formData.append(key, values[key])
         }

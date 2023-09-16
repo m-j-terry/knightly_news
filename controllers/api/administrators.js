@@ -44,8 +44,8 @@ const articlesCtrl = {
             console.log('category = ' + category)
             const article = await Article.create({
                 title: req.body.title,
-                contributor: contributor._id,
-                category: category._id,
+                contributor: req.body.contributor,
+                category: category,
                 imageUrl: req.body.imageUrl,
                 text: req.body.text
             })
