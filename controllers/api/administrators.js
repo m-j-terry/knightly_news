@@ -2,20 +2,22 @@ const Administrator = require('../../models/administrator')
 const Category = require('../../models/category')
 const Contributor = require('../../models/contributor')
 const Article = require('../../models/article')
+const Edition = require('../../models/edition')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const cloudinary = require('../../config/cloudinary')
 
 const checkToken = (req, res) => {
     console.log('req.administrator', req.administrator)
     res.json(req.exp)
 }
 
-function createJWT (administrator) {
+function createJWT(admin) {
     return jwt.sign(
         //data payload
-        { administrator },
+        { admin },
         process.env.SECRET,
-        { expiresIn: '72h'}
+        { expiresIn: '24h' }
     )
 }
 
@@ -32,18 +34,27 @@ const articlesCtrl = {
     },
     async create(req, res){
         try {
-            const contributor = await Contributor.findOne({ name: req.body.name })
-            const category = await Category.findOne({ category: req.body.category })
+            if (res.locals.imageData) {
+                console.log(res.locals.imageData)
+                req.body.imageUrl = res.locals.imageData
+            }
+            const contributor = await Contributor.findOne({ name: req.body.contributor })
+            console.log(' contributor = ' + contributor)
+            const category = req.body.categories
+            console.log('category = ' + category)
             const article = await Article.create({
                 title: req.body.title,
-                contributor: contributor,
+                contributor: req.body.contributor,
                 category: category,
-                image: req.body.image,
+                imageUrl: req.body.imageUrl,
                 text: req.body.text
             })
+            console.log('article ' + article)
+            contributor.articles.addToSet(article)
+            await contributor.save()
             res.status(200).json(article)
         } catch (error) {
-            res.status(400).json({ message: error.message })
+            res.status(401).json({ message: error.message })
         }
     },
     async update(req, res){
@@ -61,30 +72,42 @@ const articlesCtrl = {
     }
 }
 
+const editionCtrl = {
+    async create(req, res, next) {
+        try {
+            const edition = await Edition.create(req.body)
+            res.status(200).json(edition)
+            next()
+        } catch (error) {
+            res.status(400).json({ message: error.message})
+        }
+    }
+}
+
 const adminCtrl = {
     async create(req, res, next) {
         try {
+            console.log('here')
             const administrator = await Administrator.create(req.body)
             //token will be a string
             const token = createJWT(administrator)
-            // send back the token as a string
-            // which we need to account for 
-            // in the client
+            console.log('token = ' + token)
             res.locals.data.administrator = administrator
             res.locals.data.token = token
+
             next()
         } catch (error) {
             console.log('you got a database problem')
-            res.status(400).json(error)
+            res.status(400).json({ message: error.message})
         }
     },
-    async login(req, res, next ) {
+    async login(req, res, next) {
         try {
             const administrator = await Administrator.findOne({ email: req.body.email })
             if (!administrator) throw new Error()
             const match = await bcrypt.compare(req.body.password, administrator.password)
             if (!match) throw new Error()
-            res.locals.data.administrator = administrator
+            res.locals.data.admin = administrator
             res.locals.data.token = createJWT(administrator)
             next()
         } catch (error) {
@@ -167,5 +190,6 @@ module.exports = {
     articlesCtrl,
     contributorsCtrl,
     categoriesCtrl,
-    apiController
+    apiController,
+    editionCtrl
 }

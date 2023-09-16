@@ -7,44 +7,106 @@ body {
   font-size: 16px;
 }
 
-.NavBar {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  background-color: #f0f0f0;
-  height: 2rem;
-  align-items: center;
-  font-size: 1.5rem;
-  color: orangered;
-  a {
-    color: orangered;
-    text-decoration: none;
-    &:link, &:visited {
-      color: orangered;
-      text-decoration: none;
-    }
-  }
-}
-
 .HomePage {
   h1 {
     font-size: 3rem;
   }
-
+  color:black;
+  background-color:white;
 }
 
-.AboutPage {
-  h1 {
-    font-size: 3rem;
-  }
+h1 {
+  background-color: white;
 }
 
-.ContactPage{
-  h1 {
-    font-size: 3rem;
-  }
+html{
+  height: 100%;
+}
+
+.Nav{
+  background-color:navy;
+  color: white; 
+  padding-top: 5vmin;
+  padding-bottom: 3vmin;
+  font-size: 3vw;
+}
+.categories:hover{
+  text-decoration:none;
+  color:rgb(221, 22, 22);
+}
+.Home:hover{
+  text-decoration:none;
+  color:rgb(221, 22, 22);
+}
+
+.admin, .SubmissionForm, .ContributorForm, .header, .title {
+  background-color: rgb(37, 37, 37);
+}
+
+.title{
+  color: rgb(5, 226, 5);
+  font-size: 20vmin;
+  font-family: "UnifrakturMaguntia";
+  padding-top: 20vmin; 
+  margin-top:0vmin;
+  font-size: 5vw;
+}
+.title:hover{
+  text-decoration:solid;
+  color: rgb(5, 226, 5);
+}
+
+.Home{
+  font-family: 'UnifrakturMaguntia';
+  color:white;
+}
+
+.SubmissionForm, .ContributorForm{
+  padding: 5vmin;
+  color:rgb(5, 226, 5);
+}
+.ContributorForm{
+  padding-bottom:10vmin;
+}
+
+.closed {
+  opacity: 0;
+  display:none;
+}
+
+.contributors{
+  display: flex;
+  flex-direction:row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.contributor{
+  font-size: 2vw;
+  color:black;
+  padding: 3vmin;
 
 }
+.contributor:hover{
+  font-size: 2.05vw;
+  text-decoration:none;
+  font-family: 'UnifrakturMaguntia'
+}
+
+.contributorslist{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+p{
+  text-align: center;
+}
+// .AdministratorPage{
+//   background-color: rgb(37, 37, 37);
+//   color: rgb(6, 200, 6);
+//   min-height:100%;
+// }
 
 .AppPage {
   h1 {
