@@ -24,7 +24,7 @@ html{
 }
 
 .Nav{
-  background-color:navy;
+background-image:linear-gradient(to right, rgb(0, 0, 50), rgb(0, 0, 128), rgb(0, 0, 200));
   color: white; 
   padding-top: 5vmin;
   padding-bottom: 3vmin;
@@ -113,4 +113,63 @@ p{
     font-size: 3rem;
   }
 
+}
+
+.continueReading{
+  border-color: transparent;
+  background-color: transparent;
+  color: navy;
+}
+.continueReading:hover{
+  .continueReadingLink{
+    color:rgb(221, 22, 22);
+    text-decoration:none;
+  }
+}
+.articleText{
+  font-size: 3vmin;
+}
+.columns{
+  display:flex;
+  flex-wrap: unset;
+  .articleDisplay{
+    margin: 5vmin;
+    text-align: left;
+    flex-grow:3;
+    .articleImage{
+      max-height: 40vmin;
+      max-width: 80%;
+    }
+    .articleTitle{
+      text-align: left;
+      font-family:"Bitter"
+    }
+    .articleContributor{
+      font-family: "Bitter";
+      font-size: 2rem;
+    }
+    .articleCategory{
+      font-family: "Bitter";
+      font-size: 2rem;
+    }
+    .articleText{
+      text-align: left;
+      font-family: "Times+New+Roman";
+      font-size:1.25rem;
+    }
+    .articlesBy{
+      margin-top: 5vmin;
+      padding-top:5vmin;
+      h1{
+        font-size: 4rem;
+        color:black;
+        text-align:left;
+      }
+    }
+  }
+  .aside{
+    flex-shrink:1;
+    margin:5vmin;
+    font-size:4rem;
+  }
 }

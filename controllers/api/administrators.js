@@ -38,9 +38,10 @@ const articlesCtrl = {
                 console.log(res.locals.imageData)
                 req.body.imageUrl = res.locals.imageData
             }
+            console.log('req.body = ' + req.body)
             const contributor = await Contributor.findOne({ name: req.body.contributor })
             console.log(' contributor = ' + contributor)
-            const category = req.body.categories
+            const category = req.body.category
             console.log('category = ' + category)
             const article = await Article.create({
                 title: req.body.title,
@@ -49,7 +50,7 @@ const articlesCtrl = {
                 imageUrl: req.body.imageUrl,
                 text: req.body.text
             })
-            console.log('article ' + article)
+            console.log('article = ' + article)
             contributor.articles.addToSet(article)
             await contributor.save()
             res.status(200).json(article)

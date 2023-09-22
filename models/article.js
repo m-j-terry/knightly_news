@@ -5,8 +5,11 @@ const articleSchema = new Schema({
     title: { type: String, required: true },
     contributor: String,
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
+    featured: { type: Boolean },
     imageUrl: String,
     text: { type: String, required: true }
+}, {
+    timestamps: true
 })
 
 module.exports = mongoose.model('Article', articleSchema)

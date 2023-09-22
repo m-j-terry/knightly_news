@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Category.module.scss'
 import { useParams } from 'react-router-dom'
 
@@ -18,10 +19,19 @@ export default function Category() {
         async function fetchArticles() {
             const response = await fetch(`/api/categories/articles/${id}`)
 			const arts = await response.json()
+            console.log('arts = ' + arts)
 			setArticles(arts)
         }
         fetchArticles()
     }, [id])
+
+    useEffect(() => {
+        console.log('category = ' + category)
+    }, [category])
+
+    useEffect(() => {
+        console.log('articles = ' + articles)
+    }, [articles])
 
     function trimText(String) {
         let arr = String.split('')
@@ -35,12 +45,13 @@ export default function Category() {
 		<div className="CategoryPage">
 			<center>
 			<h1>This is the {category} page</h1>
-            {articles.map(({ title, contributor, imageUrl, text }) => (
+            {articles.map(({ title, contributor, imageUrl, text, _id }) => (
                 <div>
                     <img src={imageUrl} max-width='200vmin'></img>
                     <h2>{title}</h2>
                     <h3>by: {contributor}</h3>
                     <p>{trimText(text)}</p>
+                    <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${_id}`}>Continue Reading...</Link></button>
                 </div>
             ))}
 			</center>

@@ -8,17 +8,19 @@ import { useNavigate } from 'react-router-dom'
 
 function SubmitArticleForm() {
     const [categories, setCategories] = useState([])
+    const [contributors, setContributors] = useState([])
     const [file, setFile] = useState(null)
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [photoUrl, setPhotoUrl] = useState('')
+    const [selectedContributor, setSelectedContributor] = useState('')
+    const [selectedFeature, setSelectedFeature] = useState('')
     const [values, setValues] = useState({
         title: '',
         contributor: '',
         category: '',
+        featured: '',
         text: '',
         file: ''
     })
-    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -29,11 +31,24 @@ function SubmitArticleForm() {
 			setCategories(cats)
 		}
 		fetchCategories()
+        async function fetchContributors() {
+            const response = await fetch('/api/contributors')
+            const conts = await response.json()
+            console.log(conts)
+            setContributors(conts)
+        }
+        fetchContributors()
 	}, [])   
     useEffect(() => {
         console.log(selectedCategory)
     }, [selectedCategory])  
 
+    useEffect(() => {
+        console.log(selectedContributor)
+    }, [selectedContributor])
+    useEffect(() => {
+        console.log(selectedFeature)
+    }, [selectedFeature])
     const inputs = [
         {
             id: "submission-title",
@@ -42,16 +57,6 @@ function SubmitArticleForm() {
             placeholder: "Add title here",
             errorMessage: "Ask Mr. Terry",
             label: "Title: ",
-            pattern: "^[A-Za-z0-9]+$",
-            required: true,
-        },
-        {
-            id: "submission-contributor",
-            name: "contributor",
-            type: "name",
-            placeholder: "john joe",
-            errorMessage: "Ask Mr. Terry!",
-            label: "by: ",
             required: true,
         },
         {
@@ -62,27 +67,42 @@ function SubmitArticleForm() {
             errorMessage: "Ask Mr. Terry",
             label: "Text: ",
         },
-    
     ]
     
     const imageInputProps = {
         id: "upload-image",
         name: "file",
         type: "file",
-        accept: ".png, .jpg, .jpeg",
+        accept: ".png, .jpg, .jpeg, .pdf",
         errorMessage:
-        "File type must be .png, .jpeg, or .jpg",
+        "File type must be .png, .jpeg, .jpg, or .pdf",
         label: "Article Image:"
     }
     
     const handleInputChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value }) 
-        handleCategoryChange(e)
     }
 
     const handleCategoryChange = (event) => {
         console.log(event.target.value)
+        setValues({ ...values, [event.target.name]: event.target.value }) 
         setSelectedCategory(event.target.value)
+    }
+
+    const handleContributorChange = (event) => {
+        console.log(event.target.value)
+        setValues({ ...values, [event.target.name]: event.target.value }) 
+        setSelectedContributor(event.target.value)
+    }
+
+    const handleFeatureChange = (event) => {
+        console.log(event.target.value)
+        // setValues({ ...values, [event.target.name]: event.target.value }) 
+        // // setSelectedFeature(event.target.value)
+        // setSelectedFeature(event.target.value === 'true')
+        const isFeatured = event.target.value === 'true'; // Convert to boolean
+        setValues({ ...values, featured: isFeatured }); // Update "featured" in values
+        setSelectedFeature(isFeatured)
     }
 
     const handleImageChange = (e) => {
@@ -102,13 +122,15 @@ function SubmitArticleForm() {
         let formData = new FormData()
         console.log('values = ' + values)
         formData.append('file', file)
-        formData.append('category', selectedCategory)
+        // formData.append('category', selectedCategory)
+        // formData.append('contributor', selectedContributor)
+        // formData.append('featured', selectedFeature)
         for (let key in values) {
             formData.append(key, values[key])
         }
         console.log('formData = ' + formData)
         const data = await submit(formData)
-        console.log(data)
+        console.log(data.data)
         const newArticle = data.data
         alert(`${newArticle.title} has been submitted!`)
         // navigate(`/Article/${newArticle._id}`)
@@ -119,12 +141,32 @@ function SubmitArticleForm() {
             <h1 className="header">Article Submissions</h1>
             <form  autoComplete="off" onSubmit={handleSubmit}>
                 <FormInput {...imageInputProps} handleInputChange={handleImageChange} />
-                <label for="categories">Choose a category:</label>
-                <select id="category-select" name="categories" value={selectedCategory} onChange={handleInputChange}>
-                    {categories.map(({ category, _id }) => (
-                        <option key="category-select" value={ _id }>{ category }</option>
-                    ))}
-                </select>
+                <div>
+                    <label for="categories">Category:</label>
+                    <select id="category-select" name="category" value={selectedCategory} onChange={handleCategoryChange}>
+                        <option value=''>Select a category</option>
+                        {categories.map(({ category, _id }) => (
+                            <option key="category-select" value={ _id }>{ category }</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label for="contributors">Contributor:</label>
+                    <select id="contributor-select" name="contributor" value={selectedContributor.name} onChange={handleContributorChange}>
+                        <option value=''>Select a contributor</option>
+                        {contributors.map(({ name, _id }) => (
+                            <option key="contributor-select" value={ name }>{ name }</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label for="featured">Featured:</label>
+                    <select id="featured-select" name="featured" value={selectedFeature} onChange={handleFeatureChange}>
+                        <option value=''>Select True or False</option>
+                        <option key="featured-select" value={ false }>false</option>
+                        <option key="featured-select" value={ true }>true</option>
+                    </select>
+                </div>
                 {inputs.map(input => <FormInput key={input.id} {...input} value={values[input.name]} handleInputChange={handleInputChange} />)}
                 <button formMethod='dialog'>Submit</button>
             </form>

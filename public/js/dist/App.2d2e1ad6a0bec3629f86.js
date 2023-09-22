@@ -82,6 +82,7 @@ function AddContributorForm() {
   }, /*#__PURE__*/React.createElement("h1", {
     className: "header"
   }, "Add Contributor"), /*#__PURE__*/React.createElement("form", {
+    autoComplete: "off",
     onSubmit: handleSubmit
   }, inputs.map(input => /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
     key: input.id
@@ -93,6 +94,114 @@ function AddContributorForm() {
   }, "Submit")));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddContributorForm);
+
+/***/ }),
+
+/***/ "./src/components/Archive/Archive.js":
+/*!*******************************************!*\
+  !*** ./src/components/Archive/Archive.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../FormInput/FormInput */ "./src/components/FormInput/FormInput.js");
+/* harmony import */ var _utilities_imageUpload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utilities/imageUpload */ "./src/utilities/imageUpload.js");
+/* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+
+
+// create a model for archive
+// create a controller function in admin for handling .create()
+// create a route at '/api/admin/pdf' for sending the submission along to the controller
+
+function Archive() {
+  const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    title: '',
+    file: ''
+  });
+  const inputs = [{
+    id: "edition-title",
+    name: "title",
+    type: "text",
+    placeholder: "Add name of edition here",
+    errorMessage: "Ask Mr. Terry",
+    label: "Title: ",
+    required: true
+  }];
+  const imageInputProps = {
+    id: "upload-pdf",
+    name: "file",
+    type: "file",
+    accept: ".pdf",
+    errorMessage: "File type must be .pdf",
+    label: "Edition pdf:"
+  };
+  const handleInputChange = e => {
+    setValues(_objectSpread(_objectSpread({}, values), {}, {
+      [e.target.name]: e.target.value
+    }));
+  };
+  const handleImageChange = e => {
+    e.preventDefault();
+    console.log(e.target.files);
+    let reader = new FileReader();
+    let thisFile = e.target.files[0];
+    reader.onloadend = () => {
+      setFile(thisFile);
+    };
+    reader.readAsDataURL(thisFile);
+  };
+  const handleSubmit = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator(function* (e) {
+      e.preventDefault();
+      let formData = new FormData();
+      console.log('values = ' + values);
+      formData.append('file', file);
+      // formData.append('category', selectedCategory)
+      // formData.append('contributor', selectedContributor)
+      // formData.append('featured', selectedFeature)
+      const data = yield (0,_utilities_imageUpload__WEBPACK_IMPORTED_MODULE_2__.submitPdf)(formData);
+      console.log(data.data);
+      const newEdition = data.data;
+      alert("".concat(newEdition, " has been submitted!"));
+    });
+    return function handleSubmit(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
+    className: "header"
+  }, "Article Submissions"), /*#__PURE__*/React.createElement("form", {
+    autoComplete: "off",
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, imageInputProps, {
+    handleInputChange: handleImageChange
+  })), inputs.map(input => /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
+    key: input.id
+  }, input, {
+    value: values[input.name],
+    handleInputChange: handleInputChange
+  }))), /*#__PURE__*/React.createElement("button", {
+    formMethod: "dialog"
+  }, "Submit")));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Archive);
 
 /***/ }),
 
@@ -109,9 +218,79 @@ function AddContributorForm() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+// 1. fetch articles by category use a map to complete the next steps. For each category:
+// 2. Create a splice of the the articles by category from index 0-4
+// 3. Each of the articles should display using similar styling to the Category display.
 function CategoryListsComponent() {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "CategoryListsComponent"), /*#__PURE__*/React.createElement("p", null, "This component will display lists of articles according to each category."));
+  const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [catArts, setCatArts] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchCategories() {
+      return _fetchCategories.apply(this, arguments);
+    }
+    function _fetchCategories() {
+      _fetchCategories = _asyncToGenerator(function* () {
+        const response = yield fetch('/api/categories');
+        const cats = yield response.json();
+        const cat = {};
+        setCategories(cats);
+      });
+      return _fetchCategories.apply(this, arguments);
+    }
+    fetchCategories();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (categories.length > 0) {
+      function fetchArticles(_x) {
+        return _fetchArticles.apply(this, arguments);
+      }
+      function _fetchArticles() {
+        _fetchArticles = _asyncToGenerator(function* (id) {
+          const response = yield fetch("/api/categories/articles/".concat(id));
+          const arts = yield response.json();
+          if (arts.length > 4) {
+            return arts.slice(0, 3);
+          } else {
+            return arts;
+          }
+        });
+        return _fetchArticles.apply(this, arguments);
+      }
+      let categoriesMap = new Map();
+      // let arts = []
+      for (let i = 0; i < categories.length; i++) {
+        let currentCat = categories[i];
+        let fetchedArticles = fetchArticles(currentCat._id);
+        console.log(fetchedArticles);
+        // arts.push(fetchedArticles)
+        categoriesMap.set(currentCat.category, fetchedArticles);
+      }
+      const cats = Object.fromEntries(categoriesMap);
+      Promise.all(Object.values(cats)).then(results => {
+        setArticles(results);
+      });
+      // setArticles(cats)
+      // Promise.all(arts).then(results => {console.log(results)})
+      // setArticles(arts)
+    }
+  }, [categories]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log(articles);
+  }, [articles]);
+  function trimText(String) {
+    let arr = String.split('');
+    let arr2 = arr.slice(0, 65);
+    arr2.push('...');
+    let arr3 = arr2.join('');
+    return arr3.toString();
+  }
+  return /*#__PURE__*/React.createElement("div", null, categories.map((category, index) => /*#__PURE__*/React.createElement("div", {
+    key: category
+  }, /*#__PURE__*/React.createElement("h1", null, category.category))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoryListsComponent);
 
@@ -194,9 +373,68 @@ function ContributorList(_ref) {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function FeaturedArticle() {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "FeaturedArticleComponent"), /*#__PURE__*/React.createElement("p", null, "This component will highlight a preview of the featured article for the most recent edition of the Knightly News. It will also act as a link to the full text."));
+  const [featuredArticle, setFeaturedArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [category, setCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchFeaturedArticle() {
+      return _fetchFeaturedArticle.apply(this, arguments);
+    }
+    function _fetchFeaturedArticle() {
+      _fetchFeaturedArticle = _asyncToGenerator(function* () {
+        const response = yield fetch("/api/articles/featured");
+        const art = yield response.json();
+        setFeaturedArticle(art);
+      });
+      return _fetchFeaturedArticle.apply(this, arguments);
+    }
+    fetchFeaturedArticle();
+    function fetchCategory() {
+      return _fetchCategory.apply(this, arguments);
+    }
+    function _fetchCategory() {
+      _fetchCategory = _asyncToGenerator(function* () {
+        const response = yield fetch("/api/categories/".concat(featuredArticle.category));
+        const cat = yield response.json();
+        setCategory(cat.category);
+      });
+      return _fetchCategory.apply(this, arguments);
+    }
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log('contributor = ' + contributor);
+    contributor.name === featuredArticle.contributor ? console.log('true') : console.log('false');
+  }, [contributor]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchContributor(_x) {
+      return _fetchContributor.apply(this, arguments);
+    }
+    function _fetchContributor() {
+      _fetchContributor = _asyncToGenerator(function* (name) {
+        const response = yield fetch("/api/contributor/".concat(name));
+        const cont = yield response.json();
+        setContributor(cont);
+      });
+      return _fetchContributor.apply(this, arguments);
+    }
+    fetchContributor();
+  }, [featuredArticle]);
+  function trimText(String) {
+    let arr = String.split('');
+    let arr2 = arr.slice(0, 65);
+    arr2.push('...');
+    let arr3 = arr2.join('');
+    return arr3.toString();
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    className: "FeaturedArticle"
+  }, /*#__PURE__*/React.createElement("center", null, featuredArticle === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
+    className: "FeaturedArticleDisplay"
+  }, console.log(featuredArticle), console.log(contributor))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FeaturedArticle);
 
@@ -347,7 +585,6 @@ function NavBar() {
 /* harmony import */ var _SubmitArticle_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubmitArticle.module.scss */ "./src/components/SubmitArticleForm/SubmitArticle.module.scss");
 /* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FormInput/FormInput */ "./src/components/FormInput/FormInput.js");
 /* harmony import */ var _utilities_imageUpload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utilities/imageUpload */ "./src/utilities/imageUpload.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -367,17 +604,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function SubmitArticleForm() {
   const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [contributors, setContributors] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [selectedCategory, setSelectedCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const [photoUrl, setPhotoUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [selectedContributor, setSelectedContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [selectedFeature, setSelectedFeature] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     title: '',
     contributor: '',
     category: '',
+    featured: '',
     text: '',
     file: ''
   });
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchCategories() {
       return _fetchCategories.apply(this, arguments);
@@ -392,10 +631,29 @@ function SubmitArticleForm() {
       return _fetchCategories.apply(this, arguments);
     }
     fetchCategories();
+    function fetchContributors() {
+      return _fetchContributors.apply(this, arguments);
+    }
+    function _fetchContributors() {
+      _fetchContributors = _asyncToGenerator(function* () {
+        const response = yield fetch('/api/contributors');
+        const conts = yield response.json();
+        console.log(conts);
+        setContributors(conts);
+      });
+      return _fetchContributors.apply(this, arguments);
+    }
+    fetchContributors();
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     console.log(selectedCategory);
   }, [selectedCategory]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log(selectedContributor);
+  }, [selectedContributor]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log(selectedFeature);
+  }, [selectedFeature]);
   const inputs = [{
     id: "submission-title",
     name: "title",
@@ -403,15 +661,6 @@ function SubmitArticleForm() {
     placeholder: "Add title here",
     errorMessage: "Ask Mr. Terry",
     label: "Title: ",
-    pattern: "^[A-Za-z0-9]+$",
-    required: true
-  }, {
-    id: "submission-contributor",
-    name: "contributor",
-    type: "name",
-    placeholder: "john joe",
-    errorMessage: "Ask Mr. Terry!",
-    label: "by: ",
     required: true
   }, {
     id: "submission-text",
@@ -425,19 +674,39 @@ function SubmitArticleForm() {
     id: "upload-image",
     name: "file",
     type: "file",
-    accept: ".png, .jpg, .jpeg",
-    errorMessage: "File type must be .png, .jpeg, or .jpg",
+    accept: ".png, .jpg, .jpeg, .pdf",
+    errorMessage: "File type must be .png, .jpeg, .jpg, or .pdf",
     label: "Article Image:"
   };
   const handleInputChange = e => {
     setValues(_objectSpread(_objectSpread({}, values), {}, {
       [e.target.name]: e.target.value
     }));
-    handleCategoryChange(e);
   };
   const handleCategoryChange = event => {
     console.log(event.target.value);
+    setValues(_objectSpread(_objectSpread({}, values), {}, {
+      [event.target.name]: event.target.value
+    }));
     setSelectedCategory(event.target.value);
+  };
+  const handleContributorChange = event => {
+    console.log(event.target.value);
+    setValues(_objectSpread(_objectSpread({}, values), {}, {
+      [event.target.name]: event.target.value
+    }));
+    setSelectedContributor(event.target.value);
+  };
+  const handleFeatureChange = event => {
+    console.log(event.target.value);
+    // setValues({ ...values, [event.target.name]: event.target.value }) 
+    // // setSelectedFeature(event.target.value)
+    // setSelectedFeature(event.target.value === 'true')
+    const isFeatured = event.target.value === 'true'; // Convert to boolean
+    setValues(_objectSpread(_objectSpread({}, values), {}, {
+      featured: isFeatured
+    })); // Update "featured" in values
+    setSelectedFeature(isFeatured);
   };
   const handleImageChange = e => {
     e.preventDefault();
@@ -455,13 +724,15 @@ function SubmitArticleForm() {
       let formData = new FormData();
       console.log('values = ' + values);
       formData.append('file', file);
-      formData.append('category', selectedCategory);
+      // formData.append('category', selectedCategory)
+      // formData.append('contributor', selectedContributor)
+      // formData.append('featured', selectedFeature)
       for (let key in values) {
         formData.append(key, values[key]);
       }
       console.log('formData = ' + formData);
       const data = yield (0,_utilities_imageUpload__WEBPACK_IMPORTED_MODULE_3__.submit)(formData);
-      console.log(data);
+      console.log(data.data);
       const newArticle = data.data;
       alert("".concat(newArticle.title, " has been submitted!"));
       // navigate(`/Article/${newArticle._id}`)
@@ -479,14 +750,16 @@ function SubmitArticleForm() {
     onSubmit: handleSubmit
   }, /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, imageInputProps, {
     handleInputChange: handleImageChange
-  })), /*#__PURE__*/React.createElement("label", {
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     for: "categories"
-  }, "Choose a category:"), /*#__PURE__*/React.createElement("select", {
+  }, "Category:"), /*#__PURE__*/React.createElement("select", {
     id: "category-select",
-    name: "categories",
+    name: "category",
     value: selectedCategory,
-    onChange: handleInputChange
-  }, categories.map(_ref2 => {
+    onChange: handleCategoryChange
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Select a category"), categories.map(_ref2 => {
     let {
       category,
       _id
@@ -495,7 +768,40 @@ function SubmitArticleForm() {
       key: "category-select",
       value: _id
     }, category);
-  })), inputs.map(input => /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    for: "contributors"
+  }, "Contributor:"), /*#__PURE__*/React.createElement("select", {
+    id: "contributor-select",
+    name: "contributor",
+    value: selectedContributor.name,
+    onChange: handleContributorChange
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Select a contributor"), contributors.map(_ref3 => {
+    let {
+      name,
+      _id
+    } = _ref3;
+    return /*#__PURE__*/React.createElement("option", {
+      key: "contributor-select",
+      value: name
+    }, name);
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    for: "featured"
+  }, "Featured:"), /*#__PURE__*/React.createElement("select", {
+    id: "featured-select",
+    name: "featured",
+    value: selectedFeature,
+    onChange: handleFeatureChange
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Select True or False"), /*#__PURE__*/React.createElement("option", {
+    key: "featured-select",
+    value: false
+  }, "false"), /*#__PURE__*/React.createElement("option", {
+    key: "featured-select",
+    value: true
+  }, "true"))), inputs.map(input => /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
     key: input.id
   }, input, {
     value: values[input.name],
@@ -542,9 +848,11 @@ root.render( /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_0__
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_SubmitArticleForm_SubmitArticleForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/SubmitArticleForm/SubmitArticleForm */ "./src/components/SubmitArticleForm/SubmitArticleForm.js");
 /* harmony import */ var _components_AddContributorForm_AddContributorForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/AddContributorForm/AddContributorForm */ "./src/components/AddContributorForm/AddContributorForm.js");
-/* harmony import */ var _Administrator_module_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Administrator.module.scss */ "./src/pages/Administrator/Administrator.module.scss");
-/* harmony import */ var _router_routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../router/routes */ "./src/router/routes.js");
+/* harmony import */ var _components_Archive_Archive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Archive/Archive */ "./src/components/Archive/Archive.js");
+/* harmony import */ var _Administrator_module_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Administrator.module.scss */ "./src/pages/Administrator/Administrator.module.scss");
+/* harmony import */ var _router_routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../router/routes */ "./src/router/routes.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
 
 
 
@@ -571,7 +879,7 @@ function Administrator(props) {
     className: "admin"
   }, token != null, " ?", /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
     className: "title"
-  }, "Knightly News"), /*#__PURE__*/React.createElement(_components_SubmitArticleForm_SubmitArticleForm__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/React.createElement(_components_AddContributorForm_AddContributorForm__WEBPACK_IMPORTED_MODULE_2__["default"], null)), ":", /*#__PURE__*/React.createElement("button", {
+  }, "Knightly News"), /*#__PURE__*/React.createElement(_components_SubmitArticleForm_SubmitArticleForm__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/React.createElement(_components_Archive_Archive__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/React.createElement(_components_AddContributorForm_AddContributorForm__WEBPACK_IMPORTED_MODULE_2__["default"], null)), ":", /*#__PURE__*/React.createElement("button", {
     onClick: auth
   }, "test token"));
 }
@@ -590,16 +898,116 @@ function Administrator(props) {
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function Article(props) {
+
+function Article() {
+  const [category, setCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [article, setArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  let {
+    id
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useParams)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchArticle() {
+      return _fetchArticle.apply(this, arguments);
+    }
+    function _fetchArticle() {
+      _fetchArticle = _asyncToGenerator(function* () {
+        const response = yield fetch("/api/articles/".concat(id));
+        const art = yield response.json();
+        setArticle(art);
+      });
+      return _fetchArticle.apply(this, arguments);
+    }
+    fetchArticle();
+  }, [id]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log('contributor = ' + contributor);
+    contributor.name === article.contributor ? console.log('true') : console.log('false');
+  }, [contributor]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log('articles length = ' + articles.length);
+  }, [articles]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchContributor(_x) {
+      return _fetchContributor.apply(this, arguments);
+    }
+    function _fetchContributor() {
+      _fetchContributor = _asyncToGenerator(function* (name) {
+        const response = yield fetch("/api/contributor/".concat(name));
+        const cont = yield response.json();
+        setContributor(cont);
+      });
+      return _fetchContributor.apply(this, arguments);
+    }
+    fetchContributor(article.contributor);
+    function fetchCategory(_x2) {
+      return _fetchCategory.apply(this, arguments);
+    }
+    function _fetchCategory() {
+      _fetchCategory = _asyncToGenerator(function* (id) {
+        const response = yield fetch("/api/categories/".concat(id));
+        const cat = yield response.json();
+        setCategory(cat.category);
+      });
+      return _fetchCategory.apply(this, arguments);
+    }
+    fetchCategory(article.category);
+  }, [article]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchArticlesByCategory(_x3) {
+      return _fetchArticlesByCategory.apply(this, arguments);
+    }
+    function _fetchArticlesByCategory() {
+      _fetchArticlesByCategory = _asyncToGenerator(function* (category) {
+        const response = yield fetch("/api/categories/articles/".concat(category));
+        const arts = yield response.json();
+        const articleIndex = arts.indexOf(article);
+        const artsAbbreviated = arts.splice(articleIndex, 0);
+        console.log(artsAbbreviated);
+        setArticles(artsAbbreviated);
+        /* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */
+      });
+      return _fetchArticlesByCategory.apply(this, arguments);
+    }
+    fetchArticlesByCategory(article.category);
+  }, [article]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    articles.length > 0 ? console.log('articles.length = ' + articles.length) : console.log('articles. length = 0');
+  }, [articles]);
   return /*#__PURE__*/React.createElement("div", {
     className: "ArticlePage"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, "This is the ", props.page, " page"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
-    src: "https://media.git.generalassemb.ly/user/15881/files/8b5cd280-1f37-11ea-9c27-c9bb294aa61f"
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
-    src: "https://lh4.googleusercontent.com/Wp6jVNMlvYa2Q8BZ6kIzCbbasfZmNSaWIBJjLKEIDzYB9O6skIt3zyrpqPUjTSXG9WQF23WihWl43h_9UHZtugB96EAulCDDqNtB-KtWYWXJbTTMgHGrG7WU881GACAsrZXe8pJlux6xqGlB46AQliYn=s2048"
-  }))));
+  }, /*#__PURE__*/React.createElement("center", null, article === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
+    className: "columns"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "articleDisplay"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "articleTitle"
+  }, article.title), /*#__PURE__*/React.createElement("h2", {
+    className: "articleContributor"
+  }, "by ", article.contributor), /*#__PURE__*/React.createElement("h2", {
+    className: "articleCategory"
+  }, "in ", category), /*#__PURE__*/React.createElement("img", {
+    className: "articleImage",
+    src: article.imageUrl
+  }), /*#__PURE__*/React.createElement("p", {
+    className: "articleText"
+  }, article.text), /*#__PURE__*/React.createElement("div", {
+    className: "articlesBy"
+  }, /*#__PURE__*/React.createElement("h1", null, "More by ", article.contributor, "..."))), /*#__PURE__*/React.createElement("div", {
+    className: "aside"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "banner"
+  }, "More from ", category), articles.map(article => {
+    /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+      src: article.imageUrl
+    }), /*#__PURE__*/React.createElement("h2", null, article.title), /*#__PURE__*/React.createElement("h3", null, "by ", article.contributor), /*#__PURE__*/React.createElement("h4", null, trimText(article.text)));
+  })))));
 }
 
 /***/ }),
@@ -616,11 +1024,13 @@ function Article(props) {
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _Category_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Category.module.scss */ "./src/pages/Category/Category.module.scss");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -651,12 +1061,19 @@ function Category() {
       _fetchArticles = _asyncToGenerator(function* () {
         const response = yield fetch("/api/categories/articles/".concat(id));
         const arts = yield response.json();
+        console.log('arts = ' + arts);
         setArticles(arts);
       });
       return _fetchArticles.apply(this, arguments);
     }
     fetchArticles();
   }, [id]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log('category = ' + category);
+  }, [category]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log('articles = ' + articles);
+  }, [articles]);
   function trimText(String) {
     let arr = String.split('');
     let arr2 = arr.slice(0, 65);
@@ -671,12 +1088,19 @@ function Category() {
       title,
       contributor,
       imageUrl,
-      text
+      text,
+      _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
       "max-width": "200vmin"
-    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)));
+    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)), /*#__PURE__*/React.createElement("button", {
+      className: "continueReading"
+    }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+      className: "continueReadingLink",
+      key: "Article",
+      to: "/Article/".concat(_id)
+    }, "Continue Reading...")));
   })));
 }
 
@@ -695,14 +1119,16 @@ function Category() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
+
 function Contributor() {
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   let {
     id
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useParams)();
@@ -715,7 +1141,17 @@ function Contributor() {
         const response = yield fetch("/api/contributors/".concat(id));
         const cont = yield response.json();
         setContributor(cont);
-        setArticles(cont.articles);
+        function expand(_x) {
+          return _expand.apply(this, arguments);
+        }
+        function _expand() {
+          _expand = _asyncToGenerator(function* (id) {
+            return yield fetch("api/articles/".concat(id));
+          });
+          return _expand.apply(this, arguments);
+        }
+        let expanded = cont.articles.map(article => expand(article) /*need to fetch for each article id and */);
+        setArticles(expanded);
       });
       return _fetchContributor.apply(this, arguments);
     }
@@ -737,12 +1173,19 @@ function Contributor() {
     let {
       title,
       imageUrl,
-      text
+      text,
+      _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
       height: "200vmin"
-    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, text));
+    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, text), /*#__PURE__*/React.createElement("button", {
+      className: "continueReading"
+    }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+      className: "continueReadingLink",
+      key: "Article",
+      to: "/Article/".concat(_id)
+    }, "Continue Reading...")));
   })));
 }
 
@@ -804,31 +1247,38 @@ function Home() {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/NavBar/NavBar */ "./src/components/NavBar/NavBar.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes */ "./src/router/routes.js");
+/* harmony import */ var _pages_Home_Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/Home/Home */ "./src/pages/Home/Home.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
 
 
 
 // import Logo1 from '../components/Logo/Logo1'
 // import Logo2 from '../components/Logo/Logo2'
 const AppRouter = () => {
-  return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.BrowserRouter, null, /*#__PURE__*/React.createElement(_components_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_0__["default"], {
+  return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.BrowserRouter, null, /*#__PURE__*/React.createElement(_components_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_0__["default"], {
     routes: _routes__WEBPACK_IMPORTED_MODULE_1__["default"]
-  }), /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Routes, null, _routes__WEBPACK_IMPORTED_MODULE_1__["default"].map(_ref => {
+  }), /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Routes, null, _routes__WEBPACK_IMPORTED_MODULE_1__["default"].map(_ref => {
     let {
       Component,
       key,
       path
     } = _ref;
-    return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route, {
       key: key,
       path: path,
       element: /*#__PURE__*/React.createElement(Component, {
         page: key
       })
     });
+  }), /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route, {
+    path: "/*",
+    key: "Home",
+    element: _pages_Home_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
   })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppRouter);
@@ -869,7 +1319,7 @@ const routes = [{
 }, {
   Component: _pages_Article_Article__WEBPACK_IMPORTED_MODULE_2__["default"],
   key: 'Article',
-  path: '/Article'
+  path: '/Article/:id'
 }, {
   Component: _pages_Category_Category__WEBPACK_IMPORTED_MODULE_3__["default"],
   key: 'Category',
@@ -1011,7 +1461,8 @@ function _createContributor() {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   submit: () => (/* binding */ submit)
+/* harmony export */   submit: () => (/* binding */ submit),
+/* harmony export */   submitPdf: () => (/* binding */ submitPdf)
 /* harmony export */ });
 /* harmony import */ var _utilities_admin_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/admin-services */ "./src/utilities/admin-services.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
@@ -1032,6 +1483,20 @@ function _submit() {
     });
   });
   return _submit.apply(this, arguments);
+}
+function submitPdf(_x2) {
+  return _submitPdf.apply(this, arguments);
+}
+function _submitPdf() {
+  _submitPdf = _asyncToGenerator(function* (imageData) {
+    return axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/api/admin/pdf", imageData, {
+      headers: new Headers({
+        'Content-Type': "multipart/form-data",
+        'Authorization': "Bearer ".concat((0,_utilities_admin_services__WEBPACK_IMPORTED_MODULE_0__.getToken)())
+      })
+    });
+  });
+  return _submitPdf.apply(this, arguments);
 }
 
 /***/ }),
@@ -1695,4 +2160,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.e16229e4b33e7da2f4757dcc73cfd3b7.js.map
+//# sourceMappingURL=App.38dff01314207dcd596357a3c6d2cd7e.js.map
