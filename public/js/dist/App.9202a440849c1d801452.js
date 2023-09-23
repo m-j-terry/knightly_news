@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/components/AddContributorForm/AddContributorForm.js":
@@ -7,7 +8,6 @@
   \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -103,7 +103,6 @@ function AddContributorForm() {
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -173,13 +172,13 @@ function Archive() {
       let formData = new FormData();
       console.log('values = ' + values);
       formData.append('file', file);
-      // formData.append('category', selectedCategory)
-      // formData.append('contributor', selectedContributor)
-      // formData.append('featured', selectedFeature)
+      for (let key in values) {
+        formData.append(key, values[key]);
+      }
       const data = yield (0,_utilities_imageUpload__WEBPACK_IMPORTED_MODULE_2__.submitPdf)(formData);
       console.log(data.data);
       const newEdition = data.data;
-      alert("".concat(newEdition, " has been submitted!"));
+      alert("".concat(newEdition.title, " has been submitted!"));
     });
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
@@ -187,7 +186,7 @@ function Archive() {
   }();
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
     className: "header"
-  }, "Article Submissions"), /*#__PURE__*/React.createElement("form", {
+  }, "Archive Submissions"), /*#__PURE__*/React.createElement("form", {
     autoComplete: "off",
     onSubmit: handleSubmit
   }, /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, imageInputProps, {
@@ -205,13 +204,12 @@ function Archive() {
 
 /***/ }),
 
-/***/ "./src/components/CategoryArticleLists/CategoryArticleLists.js":
-/*!*********************************************************************!*\
-  !*** ./src/components/CategoryArticleLists/CategoryArticleLists.js ***!
-  \*********************************************************************/
+/***/ "./src/components/ArticlesList/ArticlesList.js":
+/*!*****************************************************!*\
+  !*** ./src/components/ArticlesList/ArticlesList.js ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -220,6 +218,89 @@ function Archive() {
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+// 1. fetch articles by category use a map to complete the next steps. For each category:
+// 2. Create a splice of the the articles by category from index 0-4
+// 3. Each of the articles should display using similar styling to the Category display.
+function ArticlesList(_ref) {
+  let {
+    category
+  } = _ref;
+  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchArticles(_x) {
+      return _fetchArticles.apply(this, arguments);
+    }
+    function _fetchArticles() {
+      _fetchArticles = _asyncToGenerator(function* (id) {
+        const response = yield fetch("/api/categories/articles/".concat(id));
+        let arts = yield response.json();
+        if (arts.length > 4) {
+          arts = arts.slice(0, 3);
+        }
+      });
+      return _fetchArticles.apply(this, arguments);
+    }
+    let fetchedArticles = fetchArticles(category._id);
+    Promise.all(fetchedArticles).then(results => {
+      setArticles(results);
+    });
+    // fetchArticles(category._id)
+    //     .then(results => setArticles(results))
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (articles.length > 0) {
+      console.log(articles);
+    }
+  }, [articles]);
+  function trimText(String) {
+    let arr = String.split('');
+    let arr2 = arr.slice(0, 65);
+    arr2.push('...');
+    let arr3 = arr2.join('');
+    return arr3.toString();
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    key: category
+  }, /*#__PURE__*/React.createElement("h1", null, category.category), articles.map(_ref2 => {
+    let {
+      title,
+      imageUrl,
+      text,
+      _id
+    } = _ref2;
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+      src: imageUrl,
+      height: "200vmin"
+    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, text), /*#__PURE__*/React.createElement("button", {
+      className: "continueReading"
+    }, /*#__PURE__*/React.createElement(Link, {
+      className: "continueReadingLink",
+      key: "Article",
+      to: "/Article/".concat(_id)
+    }, "Continue Reading...")));
+  }));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ArticlesList);
+
+/***/ }),
+
+/***/ "./src/components/CategoryArticleLists/CategoryArticleLists.js":
+/*!*********************************************************************!*\
+  !*** ./src/components/CategoryArticleLists/CategoryArticleLists.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ArticlesList/ArticlesList */ "./src/components/ArticlesList/ArticlesList.js");
+/* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 // 1. fetch articles by category use a map to complete the next steps. For each category:
 // 2. Create a splice of the the articles by category from index 0-4
@@ -243,54 +324,11 @@ function CategoryListsComponent() {
     }
     fetchCategories();
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (categories.length > 0) {
-      function fetchArticles(_x) {
-        return _fetchArticles.apply(this, arguments);
-      }
-      function _fetchArticles() {
-        _fetchArticles = _asyncToGenerator(function* (id) {
-          const response = yield fetch("/api/categories/articles/".concat(id));
-          const arts = yield response.json();
-          if (arts.length > 4) {
-            return arts.slice(0, 3);
-          } else {
-            return arts;
-          }
-        });
-        return _fetchArticles.apply(this, arguments);
-      }
-      let categoriesMap = new Map();
-      // let arts = []
-      for (let i = 0; i < categories.length; i++) {
-        let currentCat = categories[i];
-        let fetchedArticles = fetchArticles(currentCat._id);
-        console.log(fetchedArticles);
-        // arts.push(fetchedArticles)
-        categoriesMap.set(currentCat.category, fetchedArticles);
-      }
-      const cats = Object.fromEntries(categoriesMap);
-      Promise.all(Object.values(cats)).then(results => {
-        setArticles(results);
-      });
-      // setArticles(cats)
-      // Promise.all(arts).then(results => {console.log(results)})
-      // setArticles(arts)
-    }
-  }, [categories]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    console.log(articles);
-  }, [articles]);
-  function trimText(String) {
-    let arr = String.split('');
-    let arr2 = arr.slice(0, 65);
-    arr2.push('...');
-    let arr3 = arr2.join('');
-    return arr3.toString();
-  }
-  return /*#__PURE__*/React.createElement("div", null, categories.map((category, index) => /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, categories.map(category => /*#__PURE__*/React.createElement("div", {
     key: category
-  }, /*#__PURE__*/React.createElement("h1", null, category.category))));
+  }, /*#__PURE__*/React.createElement(_ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    category: category
+  }))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoryListsComponent);
 
@@ -302,7 +340,6 @@ function CategoryListsComponent() {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -366,15 +403,16 @@ function ContributorList(_ref) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 function FeaturedArticle() {
   const [featuredArticle, setFeaturedArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
@@ -386,43 +424,52 @@ function FeaturedArticle() {
     }
     function _fetchFeaturedArticle() {
       _fetchFeaturedArticle = _asyncToGenerator(function* () {
-        const response = yield fetch("/api/articles/featured");
+        const response = yield fetch("/api/articles/show/featured");
         const art = yield response.json();
         setFeaturedArticle(art);
       });
       return _fetchFeaturedArticle.apply(this, arguments);
     }
     fetchFeaturedArticle();
-    function fetchCategory() {
-      return _fetchCategory.apply(this, arguments);
-    }
-    function _fetchCategory() {
-      _fetchCategory = _asyncToGenerator(function* () {
-        const response = yield fetch("/api/categories/".concat(featuredArticle.category));
-        const cat = yield response.json();
-        setCategory(cat.category);
-      });
-      return _fetchCategory.apply(this, arguments);
-    }
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    console.log('contributor = ' + contributor);
-    contributor.name === featuredArticle.contributor ? console.log('true') : console.log('false');
-  }, [contributor]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    function fetchContributor(_x) {
-      return _fetchContributor.apply(this, arguments);
+    if (Object.keys(featuredArticle).length > 0) {
+      function fetchContributor(_x) {
+        return _fetchContributor.apply(this, arguments);
+      }
+      function _fetchContributor() {
+        _fetchContributor = _asyncToGenerator(function* (name) {
+          const response = yield fetch("/api/contributor/".concat(encodeURIComponent(name)));
+          const cont = yield response.json();
+          setContributor(cont);
+        });
+        return _fetchContributor.apply(this, arguments);
+      }
+      fetchContributor(featuredArticle.contributor);
+      function fetchCategory() {
+        return _fetchCategory.apply(this, arguments);
+      }
+      function _fetchCategory() {
+        _fetchCategory = _asyncToGenerator(function* () {
+          const response = yield fetch("/api/categories/".concat(featuredArticle.category));
+          const cat = yield response.json();
+          setCategory(cat.category);
+        });
+        return _fetchCategory.apply(this, arguments);
+      }
+      fetchCategory();
     }
-    function _fetchContributor() {
-      _fetchContributor = _asyncToGenerator(function* (name) {
-        const response = yield fetch("/api/contributor/".concat(name));
-        const cont = yield response.json();
-        setContributor(cont);
-      });
-      return _fetchContributor.apply(this, arguments);
-    }
-    fetchContributor();
   }, [featuredArticle]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Object.keys(category).length > 0) {
+      console.log(category);
+    }
+  }, [category]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Object.keys(contributor).length > 0) {
+      console.log(contributor);
+    }
+  }, [contributor]);
   function trimText(String) {
     let arr = String.split('');
     let arr2 = arr.slice(0, 65);
@@ -432,9 +479,32 @@ function FeaturedArticle() {
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "FeaturedArticle"
-  }, /*#__PURE__*/React.createElement("center", null, featuredArticle === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
+    className: "heading"
+  }, "Featured Article"), featuredArticle === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
     className: "FeaturedArticleDisplay"
-  }, console.log(featuredArticle), console.log(contributor))));
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "left"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: featuredArticle.imageUrl,
+    width: "400rem"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "right"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "articleTitle"
+  }, featuredArticle.title), /*#__PURE__*/React.createElement("h3", {
+    className: "articleContributor"
+  }, "by ", featuredArticle.contributor), /*#__PURE__*/React.createElement("h3", {
+    className: "articleCategory"
+  }, "in ", category.category), /*#__PURE__*/React.createElement("p", {
+    className: "articleText"
+  }, featuredArticle.text), /*#__PURE__*/React.createElement("button", {
+    className: "continueReading"
+  }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
+    className: "continueReadingLink",
+    key: "Article",
+    to: "/Article/".concat(featuredArticle._id)
+  }, "Continue Reading..."))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FeaturedArticle);
 
@@ -446,7 +516,6 @@ function FeaturedArticle() {
   \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ FormInput)
 /* harmony export */ });
@@ -492,17 +561,51 @@ function FormInput(props) {
   \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//store the pdfs in an array in the backend
+
 function HotOffThePress() {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "HotOffThePressComponent"), /*#__PURE__*/React.createElement("p", null, "This component will feature the most recent print edition of the Knightly News as well as a button, linking to the page with all the previous editions as pdfs to be viewed and downloaded."));
+  const [archive, setArchive] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchMostRecentArchive() {
+      return _fetchMostRecentArchive.apply(this, arguments);
+    }
+    function _fetchMostRecentArchive() {
+      _fetchMostRecentArchive = _asyncToGenerator(function* () {
+        const response = yield fetch('/api/archives/index/hotOffThePress');
+        const arch = yield response.json();
+        setArchive(arch);
+      });
+      return _fetchMostRecentArchive.apply(this, arguments);
+    }
+    fetchMostRecentArchive();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Object.keys(archive).length > 0) {
+      console.log(archive);
+    }
+  }, [archive]);
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: ", archive.title), /*#__PURE__*/React.createElement("iframe", {
+    src: archive.pdfUrl,
+    width: "100%",
+    height: "100%"
+  }, "Unable to display PDF file. ", /*#__PURE__*/React.createElement("a", {
+    href: archive.pdfUrl
+  }, "Download"), " instead."), /*#__PURE__*/React.createElement("button", {
+    className: "continueReading"
+  }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
+    className: "continueReadingLink",
+    key: "Press",
+    to: "/Press"
+  }, "Browse All Previous Editions")));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HotOffThePress);
 
@@ -514,7 +617,6 @@ function HotOffThePress() {
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -576,7 +678,6 @@ function NavBar() {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -820,7 +921,6 @@ function SubmitArticleForm() {
   \**********************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
@@ -840,7 +940,6 @@ root.render( /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_0__
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Administrator)
 /* harmony export */ });
@@ -892,7 +991,6 @@ function Administrator(props) {
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Article)
 /* harmony export */ });
@@ -909,6 +1007,7 @@ function Article() {
   const [article, setArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [contributorArticles, setContributorArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   let {
     id
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useParams)();
@@ -925,61 +1024,84 @@ function Article() {
       return _fetchArticle.apply(this, arguments);
     }
     fetchArticle();
-  }, [id]);
+  }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    console.log('contributor = ' + contributor);
-    contributor.name === article.contributor ? console.log('true') : console.log('false');
+    if (Object.keys(article).length > 0) {
+      function fetchContributor(_x) {
+        return _fetchContributor.apply(this, arguments);
+      }
+      function _fetchContributor() {
+        _fetchContributor = _asyncToGenerator(function* (name) {
+          const response = yield fetch("/api/contributor/".concat(name));
+          const cont = yield response.json();
+          setContributor(cont);
+        });
+        return _fetchContributor.apply(this, arguments);
+      }
+      fetchContributor(article.contributor);
+      function fetchCategory(_x2) {
+        return _fetchCategory.apply(this, arguments);
+      }
+      function _fetchCategory() {
+        _fetchCategory = _asyncToGenerator(function* (id) {
+          const response = yield fetch("/api/categories/".concat(id));
+          const cat = yield response.json();
+          setCategory(cat.category);
+        });
+        return _fetchCategory.apply(this, arguments);
+      }
+      fetchCategory(article.category);
+    }
+  }, [article]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Object.keys(article).length > 0) {
+      function fetchArticlesByCategory(_x3) {
+        return _fetchArticlesByCategory.apply(this, arguments);
+      }
+      function _fetchArticlesByCategory() {
+        _fetchArticlesByCategory = _asyncToGenerator(function* (category) {
+          const response = yield fetch("/api/categories/articles/".concat(category));
+          const arts = yield response.json();
+          const articleIndex = arts.indexOf(article);
+          const artsAbbreviated = arts.splice(articleIndex, 0);
+          const artsAbbr = artsAbbreviated.slice(0, 3);
+          console.log(artsAbbr);
+          setArticles(artsAbbr);
+          /* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */
+        });
+        return _fetchArticlesByCategory.apply(this, arguments);
+      }
+      fetchArticlesByCategory(article.category);
+    }
+  }, [article]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Object.keys(contributor).length > 0) {
+      function fetchContributorArticle(_x4) {
+        return _fetchContributorArticle.apply(this, arguments);
+      }
+      function _fetchContributorArticle() {
+        _fetchContributorArticle = _asyncToGenerator(function* (id) {
+          const response = yield fetch("/api/articles/".concat(id));
+          const art = yield response.json();
+          console.log(art);
+          setContributorArticles([...contributorArticles, art]);
+        });
+        return _fetchContributorArticle.apply(this, arguments);
+      }
+      contributor.articles.forEach(article => fetchContributorArticle(article));
+    }
   }, [contributor]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    console.log('articles length = ' + articles.length);
-  }, [articles]);
+    if (contributorArticles.length > 0) {
+      console.log(contributorArticles);
+    }
+  }, [contributorArticles]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    function fetchContributor(_x) {
-      return _fetchContributor.apply(this, arguments);
+    if (Object.keys(contributor).length > 0) {
+      console.log('contributor = ' + contributor);
+      contributor.name === article.contributor ? console.log('true') : console.log('false');
     }
-    function _fetchContributor() {
-      _fetchContributor = _asyncToGenerator(function* (name) {
-        const response = yield fetch("/api/contributor/".concat(name));
-        const cont = yield response.json();
-        setContributor(cont);
-      });
-      return _fetchContributor.apply(this, arguments);
-    }
-    fetchContributor(article.contributor);
-    function fetchCategory(_x2) {
-      return _fetchCategory.apply(this, arguments);
-    }
-    function _fetchCategory() {
-      _fetchCategory = _asyncToGenerator(function* (id) {
-        const response = yield fetch("/api/categories/".concat(id));
-        const cat = yield response.json();
-        setCategory(cat.category);
-      });
-      return _fetchCategory.apply(this, arguments);
-    }
-    fetchCategory(article.category);
-  }, [article]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    function fetchArticlesByCategory(_x3) {
-      return _fetchArticlesByCategory.apply(this, arguments);
-    }
-    function _fetchArticlesByCategory() {
-      _fetchArticlesByCategory = _asyncToGenerator(function* (category) {
-        const response = yield fetch("/api/categories/articles/".concat(category));
-        const arts = yield response.json();
-        const articleIndex = arts.indexOf(article);
-        const artsAbbreviated = arts.splice(articleIndex, 0);
-        console.log(artsAbbreviated);
-        setArticles(artsAbbreviated);
-        /* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */
-      });
-      return _fetchArticlesByCategory.apply(this, arguments);
-    }
-    fetchArticlesByCategory(article.category);
-  }, [article]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    articles.length > 0 ? console.log('articles.length = ' + articles.length) : console.log('articles. length = 0');
-  }, [articles]);
+  }, [contributor]);
   return /*#__PURE__*/React.createElement("div", {
     className: "ArticlePage"
   }, /*#__PURE__*/React.createElement("center", null, article === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
@@ -999,7 +1121,28 @@ function Article() {
     className: "articleText"
   }, article.text), /*#__PURE__*/React.createElement("div", {
     className: "articlesBy"
-  }, /*#__PURE__*/React.createElement("h1", null, "More by ", article.contributor, "..."))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h1", null, "More by ", article.contributor, "..."), contributorArticles.map(_ref => {
+    let {
+      title,
+      imageUrl,
+      text,
+      _id
+    } = _ref;
+    /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+      className: "articleImage",
+      src: imageUrl
+    }), /*#__PURE__*/React.createElement("h1", {
+      className: "articleTitle"
+    }, title), /*#__PURE__*/React.createElement("p", {
+      className: "articleText"
+    }, text), /*#__PURE__*/React.createElement("button", {
+      className: "continueReading"
+    }, /*#__PURE__*/React.createElement(Link, {
+      className: "continueReadingLink",
+      key: "Article",
+      to: "/Article/".concat(_id)
+    }, "Continue Reading...")));
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "aside"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "banner"
@@ -1018,7 +1161,6 @@ function Article() {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Category)
 /* harmony export */ });
@@ -1083,7 +1225,9 @@ function Category() {
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "CategoryPage"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, "This is the ", category, " page"), articles.map(_ref => {
+  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, "This is the ", category, " page"), /*#__PURE__*/React.createElement("div", {
+    className: "list"
+  }, articles.map(_ref => {
     let {
       title,
       contributor,
@@ -1091,9 +1235,11 @@ function Category() {
       text,
       _id
     } = _ref;
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "listItem"
+    }, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
-      "max-width": "200vmin"
+      "max-width": "15%"
     }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)), /*#__PURE__*/React.createElement("button", {
       className: "continueReading"
     }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
@@ -1101,7 +1247,7 @@ function Category() {
       key: "Article",
       to: "/Article/".concat(_id)
     }, "Continue Reading...")));
-  })));
+  }))));
 }
 
 /***/ }),
@@ -1112,7 +1258,6 @@ function Category() {
   \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Contributor)
 /* harmony export */ });
@@ -1197,7 +1342,6 @@ function Contributor() {
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Home)
 /* harmony export */ });
@@ -1221,7 +1365,7 @@ function Home() {
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   return /*#__PURE__*/React.createElement("div", {
     className: "HomePage"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  }, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
 }
 
 /***/ }),
@@ -1230,9 +1374,19 @@ function Home() {
 /*!**********************************!*\
   !*** ./src/pages/Press/Press.js ***!
   \**********************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
+function Press() {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Press Page"));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Press);
 
 /***/ }),
 
@@ -1242,7 +1396,6 @@ function Home() {
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1291,7 +1444,6 @@ const AppRouter = () => {
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1301,7 +1453,6 @@ const AppRouter = () => {
 /* harmony import */ var _pages_Category_Category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/Category/Category */ "./src/pages/Category/Category.js");
 /* harmony import */ var _pages_Contributor_Contributor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/Contributor/Contributor */ "./src/pages/Contributor/Contributor.js");
 /* harmony import */ var _pages_Press_Press__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../pages/Press/Press */ "./src/pages/Press/Press.js");
-/* harmony import */ var _pages_Press_Press__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_pages_Press_Press__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
@@ -1329,9 +1480,9 @@ const routes = [{
   key: 'Contributor',
   path: '/Contributor/:id'
 }, {
-  Component: (_pages_Press_Press__WEBPACK_IMPORTED_MODULE_5___default()),
+  Component: _pages_Press_Press__WEBPACK_IMPORTED_MODULE_5__["default"],
   key: 'Press',
-  path: 'Press'
+  path: '/Press'
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -1343,7 +1494,6 @@ const routes = [{
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   checkToken: () => (/* binding */ checkToken),
 /* harmony export */   login: () => (/* binding */ login),
@@ -1374,7 +1524,6 @@ function signUp(contributorData) {
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createContributor: () => (/* binding */ createContributor),
 /* harmony export */   getToken: () => (/* binding */ getToken)
@@ -1459,7 +1608,6 @@ function _createContributor() {
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   submit: () => (/* binding */ submit),
 /* harmony export */   submitPdf: () => (/* binding */ submitPdf)
@@ -1507,7 +1655,6 @@ function _submitPdf() {
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ sendRequest)
 /* harmony export */ });
@@ -1599,7 +1746,6 @@ function _sendUrlFormData() {
   \*******************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1614,7 +1760,6 @@ function _sendUrlFormData() {
   \*************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1629,7 +1774,6 @@ function _sendUrlFormData() {
   \*******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1644,7 +1788,6 @@ function _sendUrlFormData() {
   \*************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1659,7 +1802,6 @@ function _sendUrlFormData() {
   \****************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1674,7 +1816,6 @@ function _sendUrlFormData() {
   \******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1689,7 +1830,6 @@ function _sendUrlFormData() {
   \**************************************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1740,7 +1880,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \********************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1791,7 +1930,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \**************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1842,7 +1980,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \********************************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1893,7 +2030,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \***********************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1944,7 +2080,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \*************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-"use strict";
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -2160,4 +2295,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.38dff01314207dcd596357a3c6d2cd7e.js.map
+//# sourceMappingURL=App.357c05c8ff275952d7cc271a009ba8bd.js.map

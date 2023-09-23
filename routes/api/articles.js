@@ -7,7 +7,7 @@ const categoriesCtrl = require('../../controllers/api/categories')
 router.get('/:id', articlesCtrl.show)
 
 // SHOW FEATURED
-router.get('/featured', articlesCtrl.getFeaturedArticle)
+router.get('/show/featured', articlesCtrl.getFeaturedArticle)
 
 // INDEX
 router.get('/', articlesCtrl.index)

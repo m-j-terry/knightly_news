@@ -45,15 +45,17 @@ export default function Category() {
 		<div className="CategoryPage">
 			<center>
 			<h1>This is the {category} page</h1>
-            {articles.map(({ title, contributor, imageUrl, text, _id }) => (
-                <div>
-                    <img src={imageUrl} max-width='200vmin'></img>
-                    <h2>{title}</h2>
-                    <h3>by: {contributor}</h3>
-                    <p>{trimText(text)}</p>
-                    <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${_id}`}>Continue Reading...</Link></button>
-                </div>
-            ))}
+            <div className='list'>
+                {articles.map(({ title, contributor, imageUrl, text, _id }) => (
+                    <div className='listItem'>
+                        <img src={imageUrl} max-width='15%'></img>
+                        <h2>{title}</h2>
+                        <h3>by: {contributor}</h3>
+                        <p>{trimText(text)}</p>
+                        <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${_id}`}>Continue Reading...</Link></button>
+                    </div>
+                ))}
+            </div>
 			</center>
 		</div>
 	) 

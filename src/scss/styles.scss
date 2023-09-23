@@ -24,7 +24,7 @@ html{
 }
 
 .Nav{
-background-image:linear-gradient(to right, rgb(0, 0, 50), rgb(0, 0, 128), rgb(0, 0, 200));
+  background-image:linear-gradient(to right, rgb(0, 0, 50), rgb(0, 0, 128), rgb(0, 0, 200));
   color: white; 
   padding-top: 5vmin;
   padding-bottom: 3vmin;
@@ -114,6 +114,22 @@ p{
   }
 
 }
+.CategoryPage{
+  .list{
+    margin:2rem;
+    display:flex;
+    flex-wrap:wrap;
+    .listItem{
+      justify-content:space-around;
+      padding:.5rem;
+      img{
+        max-width:10rem;
+        max-height:7rem;
+      }
+      width: 12rem;
+    }
+  }
+}
 
 .continueReading{
   border-color: transparent;
@@ -142,7 +158,8 @@ p{
     }
     .articleTitle{
       text-align: left;
-      font-family:"Bitter"
+      font-family:"Bitter";
+      background-color: transparent;
     }
     .articleContributor{
       font-family: "Bitter";
@@ -171,5 +188,36 @@ p{
     flex-shrink:1;
     margin:5vmin;
     font-size:4rem;
+  }
+}
+
+.FeaturedArticle{
+  margin: 3rem;
+  .heading{
+    padding:3rem;
+    background-color:transparent; 
+    text-align: left;
+  }
+  background-image:linear-gradient(to bottom, rgb(165, 196, 253), rgb(202, 220, 253), rgb(222, 233, 252));
+  border-radius: .5rem;
+  border-style:solid;
+  border-width:.3rem;
+  border-color: maroon;
+  .FeaturedArticleDisplay{
+    background-color:transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-bottom:5rem;
+    .left{
+margin-left:10%
+    }
+    .right{
+      align-items: center;
+      margin-right: 3rem;
+      .articleTitle{
+        background-color: transparent;
+      }
+    }
   }
 }

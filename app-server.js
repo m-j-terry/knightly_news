@@ -30,7 +30,7 @@ app.use(logger('dev'));
 app.use('/api/contributors', require('./routes/api/contributors'));
 app.use('/api/articles', require('./routes/api/articles'));
 app.use('/api/categories', require('./routes/api/categories'))
-app.use('/api/edition', require('./routes/api/editions'))
+app.use('/api/archives', require('./routes/api/archives'))
 app.use('/api/admin', require('./routes/api/admin'));
 
 // catch all -> if url doesn't match with any routes; for react router

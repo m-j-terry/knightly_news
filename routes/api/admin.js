@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { checkToken, adminCtrl, articlesCtrl, contributorsCtrl, apiController, categoriesCtrl, editionCtrl } = require('../../controllers/api/administrators')
+const { checkToken, adminCtrl, articlesCtrl, contributorsCtrl, apiController, categoriesCtrl, archiveCtrl } = require('../../controllers/api/administrators')
 const { upload } = require('../../controllers/api/cloudinary')
 const ensureLoggedIn = require('../../config/ensureLoggedIn')
 
@@ -43,7 +43,7 @@ router.delete('/contributor/:id', contributorsCtrl.destroy, apiController.auth)
 /*** CATEGORY ROUTES ***/
 router.post('/category', categoriesCtrl.create, apiController.auth)
 
-/*** EDITIONS ROUTES ***/
-router.post('/editions', upload, editionCtrl.create, apiController.auth)
+/*** ARCHIVE ROUTES ***/
+router.post('/pdf', upload, archiveCtrl.create, apiController.auth)
 
 module.exports = router

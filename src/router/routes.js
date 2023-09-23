@@ -37,7 +37,7 @@ const routes = [
 	{ 
 		Component: Press,
 		key: 'Press',
-		path: 'Press'
+		path: '/Press'
 	}
 ];
 

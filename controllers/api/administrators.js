@@ -2,7 +2,7 @@ const Administrator = require('../../models/administrator')
 const Category = require('../../models/category')
 const Contributor = require('../../models/contributor')
 const Article = require('../../models/article')
-const Edition = require('../../models/edition')
+const Archive = require('../../models/archive')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const cloudinary = require('../../config/cloudinary')
@@ -47,6 +47,7 @@ const articlesCtrl = {
                 title: req.body.title,
                 contributor: req.body.contributor,
                 category: category,
+                featured: req.body.featured,
                 imageUrl: req.body.imageUrl,
                 text: req.body.text
             })
@@ -73,11 +74,15 @@ const articlesCtrl = {
     }
 }
 
-const editionCtrl = {
+const archiveCtrl = {
     async create(req, res, next) {
         try {
-            const edition = await Edition.create(req.body)
-            res.status(200).json(edition)
+            if (res.locals.imageData) {
+                console.log(res.locals.imageData)
+                req.body.pdfUrl = res.locals.imageData
+            }
+            const archive = await Archive.create(req.body)
+            res.status(200).json(archive)
             next()
         } catch (error) {
             res.status(400).json({ message: error.message})
@@ -192,5 +197,5 @@ module.exports = {
     contributorsCtrl,
     categoriesCtrl,
     apiController,
-    editionCtrl
+    archiveCtrl
 }

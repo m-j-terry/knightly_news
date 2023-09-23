@@ -6,6 +6,7 @@ export default function Article() {
     const [article, setArticle] = useState({})
 	const [articles, setArticles] = useState([])
     const [contributor, setContributor] = useState('')
+	const [contributorArticles, setContributorArticles] = useState([])
     let { id } = useParams()
 
     useEffect(() => {
@@ -15,43 +16,65 @@ export default function Article() {
 			setArticle(art)
         }
 		fetchArticle()
-    }, [id])
+    }, [])
+
 	useEffect(() => {
-		console.log('contributor = ' + contributor)
-		contributor.name === article.contributor ? console.log('true') : console.log('false')
+		if (Object.keys(article).length > 0) {
+			async function fetchContributor(name){
+				const response = await fetch(`/api/contributor/${name}`)
+				const cont = await response.json()
+				setContributor(cont)
+			}
+			fetchContributor(article.contributor)
+			async function fetchCategory(id) {
+				const response = await fetch(`/api/categories/${id}`)
+				const cat = await response.json()
+				setCategory(cat.category)
+			}
+			fetchCategory(article.category)
+		}
+	}, [article])
+	useEffect(() => {
+		if (Object.keys(article).length > 0) {
+
+			async function fetchArticlesByCategory(category){
+				const response = await fetch(`/api/categories/articles/${category}`)
+				const arts = await response.json()
+				const articleIndex = arts.indexOf(article)
+				const artsAbbreviated = arts.splice(articleIndex, 0)
+				const artsAbbr = artsAbbreviated.slice(0, 3)
+				console.log(artsAbbr)
+				setArticles(artsAbbr)
+				/* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */ 
+			}
+			fetchArticlesByCategory(article.category)
+		}
+	}, [article])
+
+	useEffect(() => {
+		if (Object.keys(contributor).length > 0) {
+			async function fetchContributorArticle(id){
+				const response = await fetch(`/api/articles/${id}`)
+				const art = await response.json()
+				console.log(art)
+				setContributorArticles([...contributorArticles, art])
+			}
+			contributor.articles.forEach( article => fetchContributorArticle(article))
+		}
+	}, [contributor])
+
+	useEffect(() => {
+		if (contributorArticles.length > 0) {
+			console.log(contributorArticles)
+		}
+	}, [contributorArticles])
+	useEffect(() => {
+		if (Object.keys(contributor).length > 0) {
+			console.log('contributor = ' + contributor)
+			contributor.name === article.contributor ? console.log('true') : console.log('false')
+		}
 	}, [contributor])	
-	useEffect(() => {
-		console.log('articles length = ' + articles.length)
-	}, [articles])
-	useEffect(() => {
-		async function fetchContributor(name){
-			const response = await fetch(`/api/contributor/${name}`)
-			const cont = await response.json()
-			setContributor(cont)
-		}
-		fetchContributor(article.contributor)
-		async function fetchCategory(id) {
-			const response = await fetch(`/api/categories/${id}`)
-			const cat = await response.json()
-			setCategory(cat.category)
-		}
-		fetchCategory(article.category)
-	}, [article])
-	useEffect(() => {
-		async function fetchArticlesByCategory(category){
-			const response = await fetch(`/api/categories/articles/${category}`)
-			const arts = await response.json()
-			const articleIndex = arts.indexOf(article)
-			const artsAbbreviated = arts.splice(articleIndex, 0)
-			console.log(artsAbbreviated)
-			setArticles(artsAbbreviated)
-			/* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */ 
-		}
-		fetchArticlesByCategory(article.category)
-	}, [article])
-	useEffect(() => {
-		articles.length > 0 ? console.log('articles.length = ' + articles.length) : console.log('articles. length = 0')
-	}, [articles])
+
 
 	return(
 		<div className="ArticlePage">
@@ -66,11 +89,19 @@ export default function Article() {
 							<p className="articleText">{article.text}</p>
 							<div className="articlesBy"> 
 								<h1>More by {article.contributor}...</h1>
+								{contributorArticles.map(({title, imageUrl, text, _id }) => {
+									<div>
+										<img className="articleImage" src={imageUrl}></img>
+										<h1 className="articleTitle">{title}</h1>
+										<p className="articleText">{text}</p>
+										<button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${_id}`}>Continue Reading...</Link></button>
+									</div>
+								})}
 							</div>
 						</div>	
 						<div className="aside">
 							<h2 className="banner">More from {category}</h2>
-							{articles.map( article => {
+							{articles.map( (article) => {
 								<div>
 									<img src={article.imageUrl}></img>
 									<h2>{article.title}</h2>

@@ -10,7 +10,7 @@ router.get('/:id', contributorsCtrl.show)
 router.get('/name/:id', contributorsCtrl.showName)
 
 // GET CONTRIBUTOR BY NAME 
-router.get('/:name', contributorsCtrl.getContributorByName)
+router.get('/name/:name', contributorsCtrl.getContributorByName)
 
 // INDEX CONTRIBUTORS
 router.get('/', contributorsCtrl.indexContributors)

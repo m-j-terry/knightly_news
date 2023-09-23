@@ -59,17 +59,17 @@ function Archive() {
         let formData = new FormData()
         console.log('values = ' + values)
         formData.append('file', file)
-        // formData.append('category', selectedCategory)
-        // formData.append('contributor', selectedContributor)
-        // formData.append('featured', selectedFeature)
+        for (let key in values) {
+            formData.append(key, values[key])
+        }
         const data = await submitPdf(formData)
         console.log(data.data)
         const newEdition = data.data
-        alert(`${newEdition} has been submitted!`)
+        alert(`${newEdition.title} has been submitted!`)
     }
     return(
         <div>
-            <h1 className="header">Article Submissions</h1>
+            <h1 className="header">Archive Submissions</h1>
             <form  autoComplete="off" onSubmit={handleSubmit}>
                 <FormInput {...imageInputProps} handleInputChange={handleImageChange} />
                 {inputs.map(input => <FormInput key={input.id} {...input} value={values[input.name]} handleInputChange={handleInputChange} />)}

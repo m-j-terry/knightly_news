@@ -34,7 +34,7 @@ async function sortByCategory(req, res){
 
 async function getFeaturedArticle(req, res) {
     try {
-        const articles = await Article.find({ featured: true }).sort((a, b) => b.timestamp - a.timestamp)
+        const articles = await Article.find({ featured: true }).sort({ timestamp: -1 })
         const article = articles[0]
         res.status(200).json(article)
     } catch (error) {
