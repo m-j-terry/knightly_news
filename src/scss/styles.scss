@@ -15,9 +15,7 @@ body {
   background-color:white;
 }
 
-h1 {
-  background-color: white;
-}
+
 
 html{
   height: 100%;
@@ -26,9 +24,14 @@ html{
 .Nav{
   background-image:linear-gradient(to right, rgb(0, 0, 50), rgb(0, 0, 128), rgb(0, 0, 200));
   color: white; 
+  width:100%;
   padding-top: 5vmin;
   padding-bottom: 3vmin;
   font-size: 3vw;
+  overflow:hidden;
+  top: 0;
+  position:fixed;
+  z-index: 1000;
 }
 .categories:hover{
   text-decoration:none;
@@ -69,6 +72,50 @@ html{
   padding-bottom:10vmin;
 }
 
+.CategoryPage, .ContributorPage, .FeaturedArticle, .ArticlePage, .PressPage {
+  margin: 10rem;
+}
+
+.ContributorPage{
+  padding-bottom:5rem;
+  .articles{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    .articleThumbnail{
+      justify-content: center;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:navy;
+      padding:1rem; 
+      margin:1rem;
+      .articleImage{
+        max-width:10rem;
+        max-height:7rem;
+      }
+      .articleTitle{
+        color: black; 
+        font-family: "Bitter";
+        font-weight:bold;     
+        padding-bottom: 1rem;
+      }
+      .articleText{
+        font-size:1rem;
+        font-family: "Times+New+Roman";
+        max-width:14rem;
+      }
+      .articleCategory{
+        color: black; 
+        font-family: "Bitter";
+        font-weight:bold;     
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}
+
 .closed {
   opacity: 0;
   display:none;
@@ -97,6 +144,7 @@ html{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding-bottom: 10rem;
 }
 
 p{
@@ -107,6 +155,99 @@ p{
 //   color: rgb(6, 200, 6);
 //   min-height:100%;
 // }
+
+.ArticlePage{
+  .columns{
+    .articleDisplay{
+      .articlesBy{
+        .articleThumbnail{
+          justify-content: center;
+          background-color: rgb(215, 213, 213);
+          border-radius:.5%;
+          border-style:solid;
+          border-width:.3rem;
+          border-color:maroon;
+          padding:1rem; 
+          margin:1rem;
+        }
+      }
+    }
+    .aside{
+      width:40%;
+      .banner{
+        padding-bottom:1rem;
+        margin-bottom:1rem;
+      }
+      .articleThumbnail{
+        justify-content: center;
+        background-color: rgb(215, 213, 213);
+        border-radius:.5%;
+        border-style:solid;
+        border-width:.3rem;
+        border-color:navy;
+        padding:1rem; 
+        margin:1rem;
+        img{
+          max-width:10rem;
+          max-height:7rem;
+        }
+        .articleTitle{
+          font-family: "Bitter";
+          font-size:2rem
+        }
+        .articleText{
+          font-size:1rem;
+          font-family: "Times+New+Roman";
+        }
+        .articleContributor{
+          font-family: "Bitter";
+          font-size:1.5rem
+        }
+      }
+    }
+  }
+}
+
+.category{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:none;
+  .categoryHeader{
+    transform: rotate(-90deg);
+    margin-bottom:7rem;
+    margin-right:2rem;
+    padding-right:2rem;
+    margin-top: 7rem;
+    z-index: 999;
+  }
+  .articleThumbnail{
+    justify-content:center;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:navy;
+      padding:1rem; 
+      margin:1rem;
+    .articleImage{
+      max-width:10rem;
+      max-height:7rem;
+    }
+    .articleTitle{
+      font-weight:bold;  
+      font-family: "Bitter";
+      font-size:2rem;   
+    }
+    .articleContributor{
+      font-size:1.5rem;
+      font-family: "Bitter";
+    }
+    .articleText{
+      font-size:1rem;
+      font-family: "Times+New+Roman";
+    }
+  }
+}
 
 .AppPage {
   h1 {
@@ -121,14 +262,98 @@ p{
     flex-wrap:wrap;
     .listItem{
       justify-content:space-around;
-      padding:.5rem;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:maroon;
+      padding:1rem; 
+      margin:1rem;
       img{
         max-width:10rem;
         max-height:7rem;
       }
+      .articleTitle{
+        font-weight:bold;   
+        font-family: "Bitter";  
+      }
+      .articleContributor{
+        font-family: "Bitter";
+      }
       width: 12rem;
     }
   }
+}
+
+.sectionHeader{
+  font-size:4rem;
+  color: black;
+  padding-bottom: 5rem;
+}
+
+.hotOffThePress{
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  padding-top: 5rem;
+  padding-bottom:5rem;
+  background-color:rgb(222, 189, 189);
+  justify-content:center;
+  border-top-color:black;
+  border-top-width:1rem;
+  border-bottom-width:1rem;
+  border-bottom-color:black;
+
+  p{
+    font-size:2rem;
+  }
+  // .press{
+  //   justify-content: center;
+  //   background-color:transparent;
+  //   margin:1rem;
+  //   min-height:100%;
+  //   padding-top: 5rem;
+  //   padding-bottom: 5rem;
+  //   border-color:black;
+  //   border-width:1rem;
+  // }
+  .pdf{
+    margin: auto;
+  }
+  button{
+    font-size: 4rem;
+    color: navy;
+  }
+}
+
+.archives{
+  display: flex;
+  flex-direction: column;
+  padding-bottom:1rem;
+  padding-top:1rem;
+  
+  .archive{
+    background-color: rgb(168, 167, 167);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius:.5%;
+    justify-content: center;
+    button{
+      font-size: 3rem;
+        padding-bottom:1rem;
+      a{
+        font-style:italic;
+        color:navy;
+      }
+      a:hover{
+        color:maroon;
+      }
+    }
+  }
+
+}
+
+object{ 
+  margin: auto;
 }
 
 .continueReading{
@@ -144,6 +369,7 @@ p{
 }
 .articleText{
   font-size: 3vmin;
+  font-family: "Times+New+Roman";
 }
 .columns{
   display:flex;
@@ -159,7 +385,8 @@ p{
     .articleTitle{
       text-align: left;
       font-family:"Bitter";
-      background-color: transparent;
+      font-weight:bold;     
+      color: black;
     }
     .articleContributor{
       font-family: "Bitter";
@@ -172,7 +399,7 @@ p{
     .articleText{
       text-align: left;
       font-family: "Times+New+Roman";
-      font-size:1.25rem;
+      font-size:1rem;
     }
     .articlesBy{
       margin-top: 5vmin;
@@ -191,12 +418,14 @@ p{
   }
 }
 
+
 .FeaturedArticle{
-  margin: 3rem;
+  margin:10rem;
   .heading{
     padding:3rem;
     background-color:transparent; 
     text-align: left;
+    color: black;
   }
   background-image:linear-gradient(to bottom, rgb(165, 196, 253), rgb(202, 220, 253), rgb(222, 233, 252));
   border-radius: .5rem;
@@ -210,13 +439,31 @@ p{
     justify-content: space-around;
     padding-bottom:5rem;
     .left{
-margin-left:10%
+      margin-left:10%
     }
     .right{
       align-items: center;
       margin-right: 3rem;
       .articleTitle{
-        background-color: transparent;
+        color: black; 
+        font-family: "Bitter";
+        font-weight:bold;     
+        padding-bottom: 1rem; 
+      }
+      .articleContributor{
+        font-size: 2rem;
+        font-family: "Bitter";
+
+      }
+      .articleCategory{
+        font-size:2rem;
+        font-family: "Bitter";
+        padding-bottom:1rem;
+      }
+      .articleText{
+        font-size: 1rem;
+        font-family: "Times+New+Roman";
+        padding-bottom:.5rem;
       }
     }
   }

@@ -43,9 +43,21 @@ async function getFeaturedArticle(req, res) {
     }
 }
 
+async function indexContributorArticles(req, res){
+    try {
+        const decodedName = decodeURIComponent(req.params.name)
+        console.log(decodedName)
+        const articles = await Article.find({ contributor: decodedName })
+        res.status(200).json(articles)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
 module.exports = {
     show, 
     index,
     sortByCategory,
-    getFeaturedArticle
+    getFeaturedArticle,
+    indexContributorArticles
 }

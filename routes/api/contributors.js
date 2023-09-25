@@ -7,7 +7,7 @@ const contributorsCtrl = require('../../controllers/api/contributors')
 router.get('/:id', contributorsCtrl.show)
 
 // SHOW NAME
-router.get('/name/:id', contributorsCtrl.showName)
+// router.get('/name/:id', contributorsCtrl.showName)
 
 // GET CONTRIBUTOR BY NAME 
 router.get('/name/:name', contributorsCtrl.getContributorByName)

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
+// possibly, instead of sending a link to the Url, save it in a folder and send the pathname to the backend.
+
 function HotOffThePress() {
     const [archive, setArchive] = useState({})
     useEffect(() => {
@@ -17,13 +19,13 @@ function HotOffThePress() {
         }
     }, [archive])
     return(
-        <div>
-            <h1>Hot Off the Press</h1>
+        <div className='hotOffThePress'>
+            <h1 className="sectionHeader">Hot Off the Press</h1>
             <p>Extra! Extra! Read all about it!</p>
-            <p>Checkout our most recent print edition: {archive.title}</p>
-            {/* <object data={archive.pdfUrl} width="100%" height="500px">
-            </object> */}
-            <iframe src={archive.pdfUrl} width="100%" height="100%">Unable to display PDF file. <a href={archive.pdfUrl}>Download</a> instead.</iframe>
+            <p>Checkout our most recent print edition: </p>
+            <h1>{archive.title}</h1>
+            <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="100%" height="1000px"></object>
+            {/* <iframe className='press' src={archive.pdfUrl} width="95%" >Unable to display PDF file. <a href={archive.pdfUrl}>Download</a> instead.</iframe> */}
             <button className='continueReading'><Link className="continueReadingLink" key='Press' to={`/Press`}>Browse All Previous Editions</Link></button>
         </div>
     )

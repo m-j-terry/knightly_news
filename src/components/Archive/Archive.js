@@ -13,7 +13,7 @@ function Archive() {
 
     const [values, setValues] = useState({
         title: '',
-        file: ''
+        pdfUrl: ''
         
     })
 
@@ -26,31 +26,20 @@ function Archive() {
             errorMessage: "Ask Mr. Terry",
             label: "Title: ",
             required: true,
+        },
+        {
+            id: "pdf-url",
+            name: "pdfUrl",
+            type: "text",
+            placeholder: "Paste published url here",
+            errorMessage: "Ask Mr. Terry",
+            label: "url: ",
+            required: true,
         }
     ]
-    const imageInputProps = {
-        id: "upload-pdf",
-        name: "file",
-        type: "file",
-        accept: ".pdf",
-        errorMessage:
-        "File type must be .pdf",
-        label: "Edition pdf:"
-    }
 
     const handleInputChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value }) 
-    }
-
-    const handleImageChange = (e) => {
-        e.preventDefault()
-        console.log(e.target.files)
-        let reader = new FileReader()
-        let thisFile = e.target.files[0]
-        reader.onloadend = () => {
-            setFile(thisFile)
-        }
-        reader.readAsDataURL(thisFile)
     }
     
     const handleSubmit = async (e) => {
@@ -71,7 +60,6 @@ function Archive() {
         <div>
             <h1 className="header">Archive Submissions</h1>
             <form  autoComplete="off" onSubmit={handleSubmit}>
-                <FormInput {...imageInputProps} handleInputChange={handleImageChange} />
                 {inputs.map(input => <FormInput key={input.id} {...input} value={values[input.name]} handleInputChange={handleInputChange} />)}
                 <button formMethod='dialog'>Submit</button>
             </form>

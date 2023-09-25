@@ -77,10 +77,6 @@ const articlesCtrl = {
 const archiveCtrl = {
     async create(req, res, next) {
         try {
-            if (res.locals.imageData) {
-                console.log(res.locals.imageData)
-                req.body.pdfUrl = res.locals.imageData
-            }
             const archive = await Archive.create(req.body)
             res.status(200).json(archive)
             next()

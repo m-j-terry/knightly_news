@@ -132,7 +132,7 @@ function Archive() {
   const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     title: '',
-    file: ''
+    pdfUrl: ''
   });
   const inputs = [{
     id: "edition-title",
@@ -142,29 +142,19 @@ function Archive() {
     errorMessage: "Ask Mr. Terry",
     label: "Title: ",
     required: true
+  }, {
+    id: "pdf-url",
+    name: "pdfUrl",
+    type: "text",
+    placeholder: "Paste published url here",
+    errorMessage: "Ask Mr. Terry",
+    label: "url: ",
+    required: true
   }];
-  const imageInputProps = {
-    id: "upload-pdf",
-    name: "file",
-    type: "file",
-    accept: ".pdf",
-    errorMessage: "File type must be .pdf",
-    label: "Edition pdf:"
-  };
   const handleInputChange = e => {
     setValues(_objectSpread(_objectSpread({}, values), {}, {
       [e.target.name]: e.target.value
     }));
-  };
-  const handleImageChange = e => {
-    e.preventDefault();
-    console.log(e.target.files);
-    let reader = new FileReader();
-    let thisFile = e.target.files[0];
-    reader.onloadend = () => {
-      setFile(thisFile);
-    };
-    reader.readAsDataURL(thisFile);
   };
   const handleSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(function* (e) {
@@ -189,9 +179,7 @@ function Archive() {
   }, "Archive Submissions"), /*#__PURE__*/React.createElement("form", {
     autoComplete: "off",
     onSubmit: handleSubmit
-  }, /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, imageInputProps, {
-    handleInputChange: handleImageChange
-  })), inputs.map(input => /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
+  }, inputs.map(input => /*#__PURE__*/React.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
     key: input.id
   }, input, {
     value: values[input.name],
@@ -215,9 +203,11 @@ function Archive() {
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 // 1. fetch articles by category use a map to complete the next steps. For each category:
 // 2. Create a splice of the the articles by category from index 0-4
@@ -226,33 +216,49 @@ function ArticlesList(_ref) {
   let {
     category
   } = _ref;
-  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [categoryArticles, setCategoryArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    function fetchArticles(_x) {
-      return _fetchArticles.apply(this, arguments);
+    function fetchArticlesByCategory(_x) {
+      return _fetchArticlesByCategory.apply(this, arguments);
     }
-    function _fetchArticles() {
-      _fetchArticles = _asyncToGenerator(function* (id) {
+    function _fetchArticlesByCategory() {
+      _fetchArticlesByCategory = _asyncToGenerator(function* (id) {
         const response = yield fetch("/api/categories/articles/".concat(id));
         let arts = yield response.json();
-        if (arts.length > 4) {
-          arts = arts.slice(0, 3);
+        if (arts.length > 5) {
+          arts = arts.slice(0, 4);
         }
+        // const articleIndex = arts.indexOf(article)
+        // const artsAbbreviated = arts.splice(articleIndex, 0)
+        // const artsAbbr = artsAbbreviated.slice(0, 3)
+        // console.log(artsAbbr)
+        // setCategoryArticles(artsAbbr)
+        setCategoryArticles(arts);
+        /* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */
       });
-      return _fetchArticles.apply(this, arguments);
+      return _fetchArticlesByCategory.apply(this, arguments);
     }
-    let fetchedArticles = fetchArticles(category._id);
-    Promise.all(fetchedArticles).then(results => {
-      setArticles(results);
-    });
-    // fetchArticles(category._id)
-    //     .then(results => setArticles(results))
-  }, []);
+    fetchArticlesByCategory(category._id);
+  }, [category]);
+  // useEffect(() => {
+  //     async function fetchArticles(id){
+  //         const response = await fetch(`/api/categories/articles/${id}`)
+  //         let arts = await response.json()
+  //         if (arts.length > 4){
+  //             arts = arts.slice(0, 3) 
+  //         }
+  //     }
+  //         let fetchedArticles = fetchArticles(category._id)
+  //         Promise.all(fetchedArticles).then(results => { setArticles(results) })
+  //         // fetchArticles(category._id)
+  //         //     .then(results => setArticles(results))
+  // }, [])
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (articles.length > 0) {
-      console.log(articles);
+    if (categoryArticles.length > 0) {
+      console.log(categoryArticles);
     }
-  }, [articles]);
+  }, [categoryArticles]);
   function trimText(String) {
     let arr = String.split('');
     let arr2 = arr.slice(0, 65);
@@ -261,20 +267,32 @@ function ArticlesList(_ref) {
     return arr3.toString();
   }
   return /*#__PURE__*/React.createElement("div", {
+    className: "category",
     key: category
-  }, /*#__PURE__*/React.createElement("h1", null, category.category), articles.map(_ref2 => {
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "categoryHeader"
+  }, category.category), categoryArticles.map(_ref2 => {
     let {
       title,
       imageUrl,
+      contributor,
       text,
       _id
     } = _ref2;
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
-      src: imageUrl,
-      height: "200vmin"
-    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, text), /*#__PURE__*/React.createElement("button", {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "articleThumbnail"
+    }, /*#__PURE__*/React.createElement("img", {
+      className: "articleImage",
+      src: imageUrl
+    }), /*#__PURE__*/React.createElement("h2", {
+      className: "articleTitle "
+    }, title), /*#__PURE__*/React.createElement("h2", {
+      className: "articleContributor"
+    }, "by ", contributor), /*#__PURE__*/React.createElement("p", {
+      className: "articleText"
+    }, trimText(text)), /*#__PURE__*/React.createElement("button", {
       className: "continueReading"
-    }, /*#__PURE__*/React.createElement(Link, {
+    }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
       className: "continueReadingLink",
       key: "Article",
       to: "/Article/".concat(_id)
@@ -307,8 +325,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // 3. Each of the articles should display using similar styling to the Category display.
 function CategoryListsComponent() {
   const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
-  const [catArts, setCatArts] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchCategories() {
       return _fetchCategories.apply(this, arguments);
@@ -317,16 +333,13 @@ function CategoryListsComponent() {
       _fetchCategories = _asyncToGenerator(function* () {
         const response = yield fetch('/api/categories');
         const cats = yield response.json();
-        const cat = {};
         setCategories(cats);
       });
       return _fetchCategories.apply(this, arguments);
     }
     fetchCategories();
   }, []);
-  return /*#__PURE__*/React.createElement("div", null, categories.map(category => /*#__PURE__*/React.createElement("div", {
-    key: category
-  }, /*#__PURE__*/React.createElement(_ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return /*#__PURE__*/React.createElement("div", null, categories.map(category => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__["default"], {
     category: category
   }))));
 }
@@ -379,7 +392,9 @@ function ContributorList(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {}, [contributors]);
   return /*#__PURE__*/React.createElement("div", {
     className: "contributors"
-  }, /*#__PURE__*/React.createElement("h1", null, "Knights of the Round Table"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "sectionHeader"
+  }, "Knights of the Round Table"), /*#__PURE__*/React.createElement("div", {
     className: "contributorslist"
   }, contributors.map(_ref2 => {
     let {
@@ -446,23 +461,23 @@ function FeaturedArticle() {
         return _fetchContributor.apply(this, arguments);
       }
       fetchContributor(featuredArticle.contributor);
-      function fetchCategory() {
+      function fetchCategory(_x2) {
         return _fetchCategory.apply(this, arguments);
       }
       function _fetchCategory() {
-        _fetchCategory = _asyncToGenerator(function* () {
-          const response = yield fetch("/api/categories/".concat(featuredArticle.category));
+        _fetchCategory = _asyncToGenerator(function* (id) {
+          const response = yield fetch("/api/categories/".concat(id));
           const cat = yield response.json();
           setCategory(cat.category);
         });
         return _fetchCategory.apply(this, arguments);
       }
-      fetchCategory();
+      fetchCategory(featuredArticle.category);
     }
   }, [featuredArticle]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(category).length > 0) {
-      console.log(category);
+      console.log('category = ' + category.category);
     }
   }, [category]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -470,8 +485,8 @@ function FeaturedArticle() {
       console.log(contributor);
     }
   }, [contributor]);
-  function trimText(String) {
-    let arr = String.split('');
+  function trimText(string) {
+    let arr = string.split('');
     let arr2 = arr.slice(0, 65);
     arr2.push('...');
     let arr3 = arr2.join('');
@@ -496,7 +511,7 @@ function FeaturedArticle() {
     className: "articleContributor"
   }, "by ", featuredArticle.contributor), /*#__PURE__*/React.createElement("h3", {
     className: "articleCategory"
-  }, "in ", category.category), /*#__PURE__*/React.createElement("p", {
+  }, "in ", category), /*#__PURE__*/React.createElement("p", {
     className: "articleText"
   }, featuredArticle.text), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
@@ -572,6 +587,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
+
+// possibly, instead of sending a link to the Url, save it in a folder and send the pathname to the backend.
+
 function HotOffThePress() {
   const [archive, setArchive] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -593,13 +611,17 @@ function HotOffThePress() {
       console.log(archive);
     }
   }, [archive]);
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: ", archive.title), /*#__PURE__*/React.createElement("iframe", {
-    src: archive.pdfUrl,
+  return /*#__PURE__*/React.createElement("div", {
+    className: "hotOffThePress"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "sectionHeader"
+  }, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: "), /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("object", {
+    className: "pdf",
+    data: archive.pdfUrl,
+    type: "application/pdf",
     width: "100%",
-    height: "100%"
-  }, "Unable to display PDF file. ", /*#__PURE__*/React.createElement("a", {
-    href: archive.pdfUrl
-  }, "Download"), " instead."), /*#__PURE__*/React.createElement("button", {
+    height: "1000px"
+  }), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     className: "continueReadingLink",
@@ -997,6 +1019,7 @@ function Administrator(props) {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -1005,8 +1028,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 function Article() {
   const [category, setCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [article, setArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
-  const [articles, setArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [articles, setCategoryArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [contributorArticles, setContributorArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   let {
     id
@@ -1024,7 +1047,7 @@ function Article() {
       return _fetchArticle.apply(this, arguments);
     }
     fetchArticle();
-  }, []);
+  }, [id]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(article).length > 0) {
       function fetchContributor(_x) {
@@ -1032,7 +1055,8 @@ function Article() {
       }
       function _fetchContributor() {
         _fetchContributor = _asyncToGenerator(function* (name) {
-          const response = yield fetch("/api/contributor/".concat(name));
+          console.log('article.name = ' + encodeURIComponent(name));
+          const response = yield fetch("/api/contributors/name/".concat(encodeURIComponent(name)));
           const cont = yield response.json();
           setContributor(cont);
         });
@@ -1059,36 +1083,37 @@ function Article() {
         return _fetchArticlesByCategory.apply(this, arguments);
       }
       function _fetchArticlesByCategory() {
-        _fetchArticlesByCategory = _asyncToGenerator(function* (category) {
-          const response = yield fetch("/api/categories/articles/".concat(category));
+        _fetchArticlesByCategory = _asyncToGenerator(function* (id) {
+          const response = yield fetch("/api/categories/articles/".concat(id));
           const arts = yield response.json();
-          const articleIndex = arts.indexOf(article);
-          const artsAbbreviated = arts.splice(articleIndex, 0);
-          const artsAbbr = artsAbbreviated.slice(0, 3);
-          console.log(artsAbbr);
-          setArticles(artsAbbr);
+          // const articleIndex = arts.indexOf(article)
+          // const artsAbbreviated = arts.splice(articleIndex, 0)
+          // const artsAbbr = artsAbbreviated.slice(0, 3)
+          // console.log(artsAbbr)
+          // setCategoryArticles(artsAbbr)
+          setCategoryArticles(arts);
           /* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */
         });
         return _fetchArticlesByCategory.apply(this, arguments);
       }
       fetchArticlesByCategory(article.category);
     }
-  }, [article]);
+  }, [category]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(contributor).length > 0) {
-      function fetchContributorArticle(_x4) {
-        return _fetchContributorArticle.apply(this, arguments);
+      console.log(contributor);
+      function fetchArticlesByContributor(_x4) {
+        return _fetchArticlesByContributor.apply(this, arguments);
       }
-      function _fetchContributorArticle() {
-        _fetchContributorArticle = _asyncToGenerator(function* (id) {
-          const response = yield fetch("/api/articles/".concat(id));
-          const art = yield response.json();
-          console.log(art);
-          setContributorArticles([...contributorArticles, art]);
+      function _fetchArticlesByContributor() {
+        _fetchArticlesByContributor = _asyncToGenerator(function* (name) {
+          const response = yield fetch("/api/articles/contributor/".concat(encodeURIComponent(name)));
+          const arts = yield response.json();
+          setContributorArticles(arts);
         });
-        return _fetchContributorArticle.apply(this, arguments);
+        return _fetchArticlesByContributor.apply(this, arguments);
       }
-      contributor.articles.forEach(article => fetchContributorArticle(article));
+      fetchArticlesByContributor(article.contributor);
     }
   }, [contributor]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -1096,15 +1121,16 @@ function Article() {
       console.log(contributorArticles);
     }
   }, [contributorArticles]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (Object.keys(contributor).length > 0) {
-      console.log('contributor = ' + contributor);
-      contributor.name === article.contributor ? console.log('true') : console.log('false');
-    }
-  }, [contributor]);
+  function trimText(String) {
+    let arr = String.split('');
+    let arr2 = arr.slice(0, 65);
+    arr2.push('...');
+    let arr3 = arr2.join('');
+    return arr3.toString();
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "ArticlePage"
-  }, /*#__PURE__*/React.createElement("center", null, article === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("div", {
     className: "columns"
   }, /*#__PURE__*/React.createElement("div", {
     className: "articleDisplay"
@@ -1128,16 +1154,18 @@ function Article() {
       text,
       _id
     } = _ref;
-    /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "articleThumbnail"
+    }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl
     }), /*#__PURE__*/React.createElement("h1", {
       className: "articleTitle"
     }, title), /*#__PURE__*/React.createElement("p", {
       className: "articleText"
-    }, text), /*#__PURE__*/React.createElement("button", {
+    }, trimText(text)), /*#__PURE__*/React.createElement("button", {
       className: "continueReading"
-    }, /*#__PURE__*/React.createElement(Link, {
+    }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
       className: "continueReadingLink",
       key: "Article",
       to: "/Article/".concat(_id)
@@ -1146,11 +1174,19 @@ function Article() {
     className: "aside"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "banner"
-  }, "More from ", category), articles.map(article => {
-    /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
-      src: article.imageUrl
-    }), /*#__PURE__*/React.createElement("h2", null, article.title), /*#__PURE__*/React.createElement("h3", null, "by ", article.contributor), /*#__PURE__*/React.createElement("h4", null, trimText(article.text)));
-  })))));
+  }, "More from ", category), articles.map(article => /*#__PURE__*/React.createElement("div", {
+    className: "articleThumbnail"
+  }, /*#__PURE__*/React.createElement("img", {
+    className: "articleImage",
+    src: article.imageUrl,
+    "max-width": "15%"
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "articleTitle"
+  }, article.title), /*#__PURE__*/React.createElement("h3", {
+    className: "articleContributor"
+  }, "by ", article.contributor), /*#__PURE__*/React.createElement("h4", {
+    className: "articleText"
+  }, trimText(article.text))))))));
 }
 
 /***/ }),
@@ -1225,7 +1261,9 @@ function Category() {
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "CategoryPage"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, "This is the ", category, " page"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
+    className: "sectionHeader"
+  }, "This is the ", category, " page"), /*#__PURE__*/React.createElement("div", {
     className: "list"
   }, articles.map(_ref => {
     let {
@@ -1240,7 +1278,9 @@ function Category() {
     }, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
       "max-width": "15%"
-    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)), /*#__PURE__*/React.createElement("button", {
+    }), /*#__PURE__*/React.createElement("h2", {
+      className: "articleTitle"
+    }, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)), /*#__PURE__*/React.createElement("button", {
       className: "continueReading"
     }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
       className: "continueReadingLink",
@@ -1286,24 +1326,31 @@ function Contributor() {
         const response = yield fetch("/api/contributors/".concat(id));
         const cont = yield response.json();
         setContributor(cont);
-        function expand(_x) {
-          return _expand.apply(this, arguments);
-        }
-        function _expand() {
-          _expand = _asyncToGenerator(function* (id) {
-            return yield fetch("api/articles/".concat(id));
-          });
-          return _expand.apply(this, arguments);
-        }
-        let expanded = cont.articles.map(article => expand(article) /*need to fetch for each article id and */);
-        setArticles(expanded);
       });
       return _fetchContributor.apply(this, arguments);
     }
     fetchContributor();
   }, [id]);
-  console.log(contributor);
-  console.log(articles);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Object.keys(contributor).length > 0) {
+      console.log(contributor);
+      function fetchArticlesByContributor(_x) {
+        return _fetchArticlesByContributor.apply(this, arguments);
+      }
+      function _fetchArticlesByContributor() {
+        _fetchArticlesByContributor = _asyncToGenerator(function* (name) {
+          const response = yield fetch("/api/articles/contributor/".concat(encodeURIComponent(name)));
+          const arts = yield response.json();
+          setArticles(arts);
+        });
+        return _fetchArticlesByContributor.apply(this, arguments);
+      }
+      fetchArticlesByContributor(contributor.name);
+    }
+  }, [contributor]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log(articles);
+  }, [articles]);
   function trimArticleText(text) {
     console.log(text);
     let arr = text === null || text === void 0 ? void 0 : text.split('');
@@ -1314,24 +1361,35 @@ function Contributor() {
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "ContributorPage"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", null, contributor.name), articles === null ? /*#__PURE__*/React.createElement("h2", null, "Articles Loading...") : articles.map(_ref => {
+  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
+    className: "sectionHeader"
+  }, contributor.name), /*#__PURE__*/React.createElement("div", {
+    className: "articles"
+  }, articles === null ? /*#__PURE__*/React.createElement("h2", null, "Articles Loading...") : articles.map(_ref => {
     let {
       title,
       imageUrl,
       text,
       _id
     } = _ref;
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "articleThumbnail"
+    }, /*#__PURE__*/React.createElement("img", {
+      className: "articleImage",
       src: imageUrl,
       height: "200vmin"
-    }), /*#__PURE__*/React.createElement("h2", null, title), /*#__PURE__*/React.createElement("p", null, text), /*#__PURE__*/React.createElement("button", {
+    }), /*#__PURE__*/React.createElement("h2", {
+      className: "articleTitle"
+    }, title), /*#__PURE__*/React.createElement("p", {
+      className: "articleText"
+    }, trimArticleText(text)), /*#__PURE__*/React.createElement("button", {
       className: "continueReading"
     }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
       className: "continueReadingLink",
       key: "Article",
       to: "/Article/".concat(_id)
     }, "Continue Reading...")));
-  })));
+  }))));
 }
 
 /***/ }),
@@ -1382,9 +1440,49 @@ function Home() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function Press() {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Press Page"));
+  // possibly, instead of sending a link to the Url, save it in a folder and send the pathname to the backend.
+
+  const [archives, setArchives] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function fetchArchives() {
+      return _fetchArchives.apply(this, arguments);
+    }
+    function _fetchArchives() {
+      _fetchArchives = _asyncToGenerator(function* () {
+        const response = yield fetch('/api/archives');
+        const archs = yield response.json();
+        setArchives(archs);
+      });
+      return _fetchArchives.apply(this, arguments);
+    }
+    fetchArchives();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (archives.length > 0) {
+      console.log(archives);
+    }
+  }, [archives]);
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
+    className: "sectionHeader"
+  }, "Hot Off the Press"), /*#__PURE__*/React.createElement("div", {
+    className: "archives"
+  }, archives.map(archive => /*#__PURE__*/React.createElement("div", {
+    className: "archive"
+  }, /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("object", {
+    className: "pdf",
+    data: archive.pdfUrl,
+    type: "application/pdf",
+    width: "100%",
+    height: "1000px"
+  }), /*#__PURE__*/React.createElement("button", {
+    className: "continueReading"
+  }, "Download PDF of ", /*#__PURE__*/React.createElement("a", {
+    href: archive.pdfUrl
+  }, archive.title))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Press);
 
@@ -2295,4 +2393,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.357c05c8ff275952d7cc271a009ba8bd.js.map
+//# sourceMappingURL=App.a8f469a467b43ac75743fd307f2f8d85.js.map

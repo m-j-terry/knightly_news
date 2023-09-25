@@ -44,6 +44,6 @@ router.delete('/contributor/:id', contributorsCtrl.destroy, apiController.auth)
 router.post('/category', categoriesCtrl.create, apiController.auth)
 
 /*** ARCHIVE ROUTES ***/
-router.post('/pdf', upload, archiveCtrl.create, apiController.auth)
+router.post('/pdf', archiveCtrl.create, apiController.auth)
 
 module.exports = router

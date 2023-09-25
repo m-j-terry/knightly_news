@@ -21,7 +21,7 @@ function ContributorList({ setContributor }) {
     }, [contributors])
     return(
         <div className="contributors">
-            <h1>Knights of the Round Table</h1>
+            <h1 className="sectionHeader">Knights of the Round Table</h1>
             <div className="contributorslist">
                 {contributors.map(({ name, _id }) => (
                     <Link className="contributor" key={Contributor.key} to={`/Contributor/${_id}`}>

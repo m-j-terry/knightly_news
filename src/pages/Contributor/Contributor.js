@@ -14,16 +14,23 @@ export default function Contributor() {
             const response = await fetch(`/api/contributors/${id}`)
 			const cont = await response.json()
 			setContributor(cont)
-            async function expand(id){
-                return await fetch(`api/articles/${id}`)
-            }
-            let expanded = cont.articles.map(article => expand(article) /*need to fetch for each article id and */ )
-			setArticles(expanded)
         }
         fetchContributor()
     }, [id])
-console.log(contributor)
-console.log(articles)
+    useEffect(() => {
+        if (Object.keys(contributor).length > 0) {
+            console.log(contributor)
+            async function fetchArticlesByContributor(name) {
+                const response = await fetch(`/api/articles/contributor/${encodeURIComponent(name)}`)
+                const arts = await response.json()
+                setArticles(arts)
+            }
+            fetchArticlesByContributor(contributor.name)
+        }
+    }, [contributor])
+    useEffect(() => {
+        console.log(articles)
+    }, [articles])
     function trimArticleText(text) {
         console.log(text)
         let arr = text?.split('')
@@ -36,17 +43,18 @@ console.log(articles)
 	return(
 		<div className="ContributorPage">
 			<center>
-			<h1>{contributor.name}</h1>
-            {articles === null ? <h2>Articles Loading...</h2> 
-            : articles.map(({ title, imageUrl, text, _id }) => (
-                <div>
-                    <img src={imageUrl} height='200vmin'></img>
-                    <h2>{title}</h2>
-                    <p>{text}</p>
-                    <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${_id}`}>Continue Reading...</Link></button>
+			<h1  className="sectionHeader">{contributor.name}</h1>
+            <div className='articles'>
+                {articles === null ? <h2>Articles Loading...</h2> 
+                : articles.map(({ title, imageUrl, text, _id }) => (
+                    <div className='articleThumbnail'>
+                        <img className='articleImage' src={imageUrl} height='200vmin'></img>
+                        <h2 className='articleTitle'>{title}</h2>
+                        <p className='articleText'>{trimArticleText(text)}</p>
+                        <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${_id}`}>Continue Reading...</Link></button>
+                    </div>
+                ))} 
                 </div>
-            ))} 
-            
 			</center>
 		</div>
 	) 

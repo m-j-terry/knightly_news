@@ -22,18 +22,18 @@ function FeaturedArticle() {
                 setContributor(cont)
             }
             fetchContributor(featuredArticle.contributor)
-            async function fetchCategory(){
-                const response = await fetch(`/api/categories/${featuredArticle.category}`)
+            async function fetchCategory(id){
+                const response = await fetch(`/api/categories/${id}`)
                 const cat = await response.json()
                 setCategory(cat.category)
             }
-            fetchCategory()
+            fetchCategory(featuredArticle.category)
         }
     }, [featuredArticle])
 
     useEffect(() => {
         if (Object.keys(category).length > 0) {
-            console.log(category)
+            console.log('category = ' + category.category)
         }
     }, [category])
 
@@ -43,8 +43,8 @@ function FeaturedArticle() {
         }
     }, [contributor])
 
-    function trimText(String) {
-        let arr = String.split('')
+    function trimText(string) {
+        let arr = string.split('')
         let arr2 = arr.slice(0, 65)
         arr2.push('...')
         let arr3 = arr2.join('')
@@ -63,7 +63,7 @@ function FeaturedArticle() {
 						<div className='right'>
                             <h1 className='articleTitle'>{featuredArticle.title}</h1>
                             <h3 className='articleContributor'>by {featuredArticle.contributor}</h3>
-                            <h3 className='articleCategory'>in {category.category}</h3>
+                            <h3 className='articleCategory'>in {category}</h3>
                             <p className='articleText'>{featuredArticle.text}</p>
                             <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${featuredArticle._id}`}>Continue Reading...</Link></button>
                         </div>

@@ -12,6 +12,9 @@ router.get('/show/featured', articlesCtrl.getFeaturedArticle)
 // INDEX
 router.get('/', articlesCtrl.index)
 
+// INDEX / CONTRIBUTOR
+router.get('/contributor/:name', articlesCtrl.indexContributorArticles)
+
 // INDEX / CATEGORY
 router.get('/category:id', categoriesCtrl.indexCategoryArticles)
 

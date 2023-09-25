@@ -5,13 +5,11 @@ import ArticlesList from '../ArticlesList/ArticlesList'
 // 3. Each of the articles should display using similar styling to the Category display.
 function CategoryListsComponent() {
     const [categories, setCategories] = useState([])
-    const [articles, setArticles] = useState({})
-    const [catArts, setCatArts] = useState([])
+
     useEffect(() => {
         async function fetchCategories(){
             const response = await fetch('/api/categories')
             const cats = await response.json()
-            const cat = {}
             setCategories(cats)
         }
         fetchCategories()
@@ -20,7 +18,7 @@ function CategoryListsComponent() {
     return (
         <div>
             {categories.map((category) => (
-                <div key={category}>
+                <div>
                     <ArticlesList category={category}/>
                     
                 </div>

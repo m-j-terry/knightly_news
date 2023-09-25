@@ -7,6 +7,7 @@ router.get('/:id', archiveCtrl.showArchive)
 
 // INDEX 
 router.get('/', archiveCtrl.indexArchives)
+
 // MOSTRECENT
 router.get('/index/hotOffThePress', archiveCtrl.getMostRecentArchive)
 
