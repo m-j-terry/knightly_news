@@ -228,11 +228,6 @@ function ArticlesList(_ref) {
         if (arts.length > 5) {
           arts = arts.slice(0, 4);
         }
-        // const articleIndex = arts.indexOf(article)
-        // const artsAbbreviated = arts.splice(articleIndex, 0)
-        // const artsAbbr = artsAbbreviated.slice(0, 3)
-        // console.log(artsAbbr)
-        // setCategoryArticles(artsAbbr)
         setCategoryArticles(arts);
         /* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */
       });
@@ -240,20 +235,6 @@ function ArticlesList(_ref) {
     }
     fetchArticlesByCategory(category._id);
   }, [category]);
-  // useEffect(() => {
-  //     async function fetchArticles(id){
-  //         const response = await fetch(`/api/categories/articles/${id}`)
-  //         let arts = await response.json()
-  //         if (arts.length > 4){
-  //             arts = arts.slice(0, 3) 
-  //         }
-  //     }
-  //         let fetchedArticles = fetchArticles(category._id)
-  //         Promise.all(fetchedArticles).then(results => { setArticles(results) })
-  //         // fetchArticles(category._id)
-  //         //     .then(results => setArticles(results))
-  // }, [])
-
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (categoryArticles.length > 0) {
       console.log(categoryArticles);
@@ -276,6 +257,7 @@ function ArticlesList(_ref) {
       title,
       imageUrl,
       contributor,
+      contributor2,
       text,
       _id
     } = _ref2;
@@ -288,7 +270,7 @@ function ArticlesList(_ref) {
       className: "articleTitle "
     }, title), /*#__PURE__*/React.createElement("h2", {
       className: "articleContributor"
-    }, "by ", contributor), /*#__PURE__*/React.createElement("p", {
+    }, "by ", contributor2 ? "".concat(contributor, " and ").concat(contributor2) : "".concat(contributor)), /*#__PURE__*/React.createElement("p", {
       className: "articleText"
     }, trimText(text)), /*#__PURE__*/React.createElement("button", {
       className: "continueReading"
@@ -454,7 +436,7 @@ function FeaturedArticle() {
       }
       function _fetchContributor() {
         _fetchContributor = _asyncToGenerator(function* (name) {
-          const response = yield fetch("/api/contributor/".concat(encodeURIComponent(name)));
+          const response = yield fetch("/api/contributors/name/".concat(encodeURIComponent(name)));
           const cont = yield response.json();
           setContributor(cont);
         });
@@ -731,10 +713,12 @@ function SubmitArticleForm() {
   const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [selectedCategory, setSelectedCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [selectedContributor, setSelectedContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [selectedContributor2, setSelectedContributor2] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [selectedFeature, setSelectedFeature] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     title: '',
     contributor: '',
+    contributor2: '',
     category: '',
     featured: '',
     text: '',
@@ -820,6 +804,13 @@ function SubmitArticleForm() {
     }));
     setSelectedContributor(event.target.value);
   };
+  const handleContributor2Change = event => {
+    console.log(event.target.value);
+    setValues(_objectSpread(_objectSpread({}, values), {}, {
+      [event.target.name]: event.target.value
+    }));
+    setSelectedContributor2(event.target.value);
+  };
   const handleFeatureChange = event => {
     console.log(event.target.value);
     // setValues({ ...values, [event.target.name]: event.target.value }) 
@@ -847,9 +838,6 @@ function SubmitArticleForm() {
       let formData = new FormData();
       console.log('values = ' + values);
       formData.append('file', file);
-      // formData.append('category', selectedCategory)
-      // formData.append('contributor', selectedContributor)
-      // formData.append('featured', selectedFeature)
       for (let key in values) {
         formData.append(key, values[key]);
       }
@@ -907,6 +895,24 @@ function SubmitArticleForm() {
     } = _ref3;
     return /*#__PURE__*/React.createElement("option", {
       key: "contributor-select",
+      value: name
+    }, name);
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    for: "contributor2"
+  }, "Contributor:"), /*#__PURE__*/React.createElement("select", {
+    id: "contributor2-select",
+    name: "contributor2",
+    value: selectedContributor2.name,
+    onChange: handleContributor2Change
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Select a contributor"), contributors.map(_ref4 => {
+    let {
+      name,
+      _id
+    } = _ref4;
+    return /*#__PURE__*/React.createElement("option", {
+      key: "contributor2-select",
       value: name
     }, name);
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -1030,7 +1036,9 @@ function Article() {
   const [article, setArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [articles, setCategoryArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [contributor2, setContributor2] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [contributorArticles, setContributorArticles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [contributor2Articles, setContributor2Articles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   let {
     id
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useParams)();
@@ -1063,7 +1071,22 @@ function Article() {
         return _fetchContributor.apply(this, arguments);
       }
       fetchContributor(article.contributor);
-      function fetchCategory(_x2) {
+      if (article.contributor2) {
+        function fetchContributor2(_x2) {
+          return _fetchContributor2.apply(this, arguments);
+        }
+        function _fetchContributor2() {
+          _fetchContributor2 = _asyncToGenerator(function* (name) {
+            console.log('article.name = ' + encodeURIComponent(name));
+            const response = yield fetch("/api/contributors/name/".concat(encodeURIComponent(name)));
+            const cont = yield response.json();
+            setContributor2(cont);
+          });
+          return _fetchContributor2.apply(this, arguments);
+        }
+        fetchContributor2(article.contributor2);
+      }
+      function fetchCategory(_x3) {
         return _fetchCategory.apply(this, arguments);
       }
       function _fetchCategory() {
@@ -1079,19 +1102,24 @@ function Article() {
   }, [article]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(article).length > 0) {
-      function fetchArticlesByCategory(_x3) {
+      function fetchArticlesByCategory(_x4) {
         return _fetchArticlesByCategory.apply(this, arguments);
       }
       function _fetchArticlesByCategory() {
         _fetchArticlesByCategory = _asyncToGenerator(function* (id) {
           const response = yield fetch("/api/categories/articles/".concat(id));
           const arts = yield response.json();
-          // const articleIndex = arts.indexOf(article)
-          // const artsAbbreviated = arts.splice(articleIndex, 0)
-          // const artsAbbr = artsAbbreviated.slice(0, 3)
-          // console.log(artsAbbr)
-          // setCategoryArticles(artsAbbr)
-          setCategoryArticles(arts);
+          if (arts[0].title === article.title) {
+            arts.splice(0, 1);
+          } else if (arts[1].title === article.title) {
+            arts.splice(1, 1);
+          } else if (arts[2].title === article.title) {
+            arts.splice(2, 1);
+          }
+          const artsAbbr = arts.slice(0, 2);
+          console.log(artsAbbr);
+          setCategoryArticles(artsAbbr);
+          // setCategoryArticles(arts)
           /* 1. create a route and controller function for finding articless by category. 2. inside of the div for article, add another div (so that it is in the same column, and have it extract the contributor's articles. 3. fetch the articles by category, display them in the aside. 4. set parent div display to flex and row */
         });
         return _fetchArticlesByCategory.apply(this, arguments);
@@ -1102,20 +1130,61 @@ function Article() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(contributor).length > 0) {
       console.log(contributor);
-      function fetchArticlesByContributor(_x4) {
+      function fetchArticlesByContributor(_x5) {
         return _fetchArticlesByContributor.apply(this, arguments);
       }
       function _fetchArticlesByContributor() {
         _fetchArticlesByContributor = _asyncToGenerator(function* (name) {
           const response = yield fetch("/api/articles/contributor/".concat(encodeURIComponent(name)));
           const arts = yield response.json();
-          setContributorArticles(arts);
+          if (arts[0].title === article.title) {
+            arts.splice(0, 1);
+          } else if (arts[1].title === article.title) {
+            arts.splice(1, 1);
+          } else if (arts[2].title === article.title) {
+            arts.splice(2, 1);
+          } else if (arts[3].title === article.title) {
+            arts.splice(3, 1);
+          } else if (arts[4].title === article.title) {
+            arts.splice(4, 1);
+          }
+          const artsAbbr = arts.slice(0, 4);
+          setContributorArticles(artsAbbr);
         });
         return _fetchArticlesByContributor.apply(this, arguments);
       }
       fetchArticlesByContributor(article.contributor);
     }
   }, [contributor]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Object.keys(contributor2).length > 0) {
+      console.log(contributor2);
+      function fetchArticlesByContributor2(_x6) {
+        return _fetchArticlesByContributor2.apply(this, arguments);
+      }
+      function _fetchArticlesByContributor2() {
+        _fetchArticlesByContributor2 = _asyncToGenerator(function* (name) {
+          const response = yield fetch("/api/articles/contributor/".concat(encodeURIComponent(name)));
+          const arts = yield response.json();
+          if (arts[0].title === article.title) {
+            arts.splice(0, 1);
+          } else if (arts[1].title === article.title) {
+            arts.splice(1, 1);
+          } else if (arts[2].title === article.title) {
+            arts.splice(2, 1);
+          } else if (arts[3].title === article.title) {
+            arts.splice(3, 1);
+          } else if (arts[4].title === article.title) {
+            arts.splice(4, 1);
+          }
+          const artsAbbr = arts.slice(0, 4);
+          setContributor2Articles(artsAbbr);
+        });
+        return _fetchArticlesByContributor2.apply(this, arguments);
+      }
+      fetchArticlesByContributor2(article.contributor2);
+    }
+  }, [contributor2]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (contributorArticles.length > 0) {
       console.log(contributorArticles);
@@ -1131,21 +1200,37 @@ function Article() {
   return /*#__PURE__*/React.createElement("div", {
     className: "ArticlePage"
   }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("div", {
-    className: "columns"
+    className: "rows"
   }, /*#__PURE__*/React.createElement("div", {
     className: "articleDisplay"
-  }, /*#__PURE__*/React.createElement("h1", {
+  }, /*#__PURE__*/React.createElement("img", {
+    className: "articleImage",
+    src: article.imageUrl
+  }), /*#__PURE__*/React.createElement("h1", {
     className: "articleTitle"
   }, article.title), /*#__PURE__*/React.createElement("h2", {
     className: "articleContributor"
   }, "by ", article.contributor), /*#__PURE__*/React.createElement("h2", {
     className: "articleCategory"
-  }, "in ", category), /*#__PURE__*/React.createElement("img", {
-    className: "articleImage",
-    src: article.imageUrl
-  }), /*#__PURE__*/React.createElement("p", {
+  }, "in ", category), /*#__PURE__*/React.createElement("p", {
     className: "articleText"
-  }, article.text), /*#__PURE__*/React.createElement("div", {
+  }, article.text)), /*#__PURE__*/React.createElement("div", {
+    className: "aside"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "banner"
+  }, "More from ", category), articles.map(article => /*#__PURE__*/React.createElement("div", {
+    className: "articleThumbnail"
+  }, /*#__PURE__*/React.createElement("img", {
+    className: "articleImage",
+    src: article.imageUrl,
+    "max-width": "15%"
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "articleTitle"
+  }, article.title), /*#__PURE__*/React.createElement("h3", {
+    className: "articleContributor"
+  }, "by ", article.contributor2 ? "".concat(article.contributor, " and ").concat(article.contributor2) : "".concat(article.contributor)), /*#__PURE__*/React.createElement("h4", {
+    className: "articleText"
+  }, trimText(article.text)))))), /*#__PURE__*/React.createElement("div", {
     className: "articlesBy"
   }, /*#__PURE__*/React.createElement("h1", null, "More by ", article.contributor, "..."), contributorArticles.map(_ref => {
     let {
@@ -1170,23 +1255,32 @@ function Article() {
       key: "Article",
       to: "/Article/".concat(_id)
     }, "Continue Reading...")));
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "aside"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "banner"
-  }, "More from ", category), articles.map(article => /*#__PURE__*/React.createElement("div", {
-    className: "articleThumbnail"
-  }, /*#__PURE__*/React.createElement("img", {
-    className: "articleImage",
-    src: article.imageUrl,
-    "max-width": "15%"
-  }), /*#__PURE__*/React.createElement("h2", {
-    className: "articleTitle"
-  }, article.title), /*#__PURE__*/React.createElement("h3", {
-    className: "articleContributor"
-  }, "by ", article.contributor), /*#__PURE__*/React.createElement("h4", {
-    className: "articleText"
-  }, trimText(article.text))))))));
+  })), articles.contributor2 ? /*#__PURE__*/React.createElement("div", {
+    className: "articlesBy2"
+  }, /*#__PURE__*/React.createElement("h1", null, "More by ", article.contributor2, "..."), contributor2Articles.map(_ref2 => {
+    let {
+      title,
+      imageUrl,
+      text,
+      _id
+    } = _ref2;
+    return /*#__PURE__*/React.createElement("div", {
+      className: "articleThumbnail"
+    }, /*#__PURE__*/React.createElement("img", {
+      className: "articleImage",
+      src: imageUrl
+    }), /*#__PURE__*/React.createElement("h1", {
+      className: "articleTitle"
+    }, title), /*#__PURE__*/React.createElement("p", {
+      className: "articleText"
+    }, trimText(text)), /*#__PURE__*/React.createElement("button", {
+      className: "continueReading"
+    }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+      className: "continueReadingLink",
+      key: "Article",
+      to: "/Article/".concat(_id)
+    }, "Continue Reading...")));
+  })) : /*#__PURE__*/React.createElement(React.Fragment, null)));
 }
 
 /***/ }),
@@ -1263,12 +1357,13 @@ function Category() {
     className: "CategoryPage"
   }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
     className: "sectionHeader"
-  }, "This is the ", category, " page"), /*#__PURE__*/React.createElement("div", {
+  }, category), /*#__PURE__*/React.createElement("div", {
     className: "list"
   }, articles.map(_ref => {
     let {
       title,
       contributor,
+      contributor2,
       imageUrl,
       text,
       _id
@@ -1280,7 +1375,7 @@ function Category() {
       "max-width": "15%"
     }), /*#__PURE__*/React.createElement("h2", {
       className: "articleTitle"
-    }, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor), /*#__PURE__*/React.createElement("p", null, trimText(text)), /*#__PURE__*/React.createElement("button", {
+    }, title), /*#__PURE__*/React.createElement("h3", null, "by: ", contributor2 ? "".concat(contributor, " and ").concat(contributor2) : "".concat(contributor)), /*#__PURE__*/React.createElement("p", null, trimText(text)), /*#__PURE__*/React.createElement("button", {
       className: "continueReading"
     }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
       className: "continueReadingLink",
@@ -1498,38 +1593,112 @@ function Press() {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/NavBar/NavBar */ "./src/components/NavBar/NavBar.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes */ "./src/router/routes.js");
-/* harmony import */ var _pages_Home_Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/Home/Home */ "./src/pages/Home/Home.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes */ "./src/router/routes.js");
+/* harmony import */ var _pages_Home_Home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/Home/Home */ "./src/pages/Home/Home.js");
+/* harmony import */ var _components_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/FormInput/FormInput */ "./src/components/FormInput/FormInput.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
 
 
-// import Logo1 from '../components/Logo/Logo1'
-// import Logo2 from '../components/Logo/Logo2'
+
 const AppRouter = () => {
-  return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.BrowserRouter, null, /*#__PURE__*/React.createElement(_components_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_0__["default"], {
-    routes: _routes__WEBPACK_IMPORTED_MODULE_1__["default"]
-  }), /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Routes, null, _routes__WEBPACK_IMPORTED_MODULE_1__["default"].map(_ref => {
+  const [password, setPassword] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+  const [access, setAccess] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [values, setValues] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+    password: ''
+  });
+  const input = {
+    id: "site-password",
+    name: "password",
+    type: "text",
+    placeholder: "Enter site password",
+    errorMessage: "Ask Mr. Terry",
+    label: "Password: ",
+    required: true
+  };
+  const handleInputChange = e => {
+    setValues(_objectSpread(_objectSpread({}, values), {}, {
+      [e.target.name]: e.target.value
+    }));
+    setPassword(e.target.value);
+  };
+  const handleSubmit = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator(function* (e) {
+      e.preventDefault();
+      // let formData = new FormData()
+      // for (let key in values) {
+      //     formData.append(key, values[key])
+      // }
+      // console.log('formData = ' + formData)
+      // // const data = await submit(formData)
+      const response = yield fetch("/api/admin/password/".concat(password));
+      const test = yield response.json();
+      console.log(test);
+    });
+    return function handleSubmit(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  // return ( 
+  // 	<div>
+  // 	{access === true ? 
+  // 	<Router>
+  // 		<NavBar routes={routes} />	
+  // 		<Routes>
+  // 			{routes.map(({ Component, key, path }) => (
+  // 				<Route
+  // 					key={key}
+  // 					path={path}
+  // 					element={<Component page={key} />}
+  // 				></Route>
+  // 			))}
+  // 			<Route path="/*" key="Home" element={Home} />
+  // 		</Routes>
+  // 	</Router>
+  // 	:
+  // 	<>
+  // 		<form  autoComplete="off" onSubmit={handleSubmit}>
+  // 			<FormInput key={input.id} {...input} value={values[input.name]} handleInputChange={handleInputChange} />
+  // 			<button formMethod='dialog'>Submit</button>			
+  // 		</form>
+  // 		{/* <button onClick={alert('Hint: The theme of this year!')}>Hint</button> */}
+  // 	</>
+  // 	}
+  // </div>
+  // );
+  return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.BrowserRouter, null, /*#__PURE__*/React.createElement(_components_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    routes: _routes__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }), /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Routes, null, _routes__WEBPACK_IMPORTED_MODULE_2__["default"].map(_ref2 => {
     let {
       Component,
       key,
       path
-    } = _ref;
-    return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route, {
+    } = _ref2;
+    return /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
       key: key,
       path: path,
       element: /*#__PURE__*/React.createElement(Component, {
         page: key
       })
     });
-  }), /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route, {
+  }), /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
     path: "/*",
     key: "Home",
-    element: _pages_Home_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
+    element: _pages_Home_Home__WEBPACK_IMPORTED_MODULE_3__["default"]
   })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppRouter);
@@ -2393,4 +2562,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.a8f469a467b43ac75743fd307f2f8d85.js.map
+//# sourceMappingURL=App.b6a5fd33d11794553ca6bec785d8804d.js.map

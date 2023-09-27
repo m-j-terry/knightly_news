@@ -157,24 +157,51 @@ p{
 // }
 
 .ArticlePage{
-  .columns{
+  .rows{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    padding-bottom:10rem;
     .articleDisplay{
-      .articlesBy{
-        .articleThumbnail{
-          justify-content: center;
-          background-color: rgb(215, 213, 213);
-          border-radius:.5%;
-          border-style:solid;
-          border-width:.3rem;
-          border-color:maroon;
-          padding:1rem; 
-          margin:1rem;
-        }
+      flex-grow:3;
+      margin-left: -7rem;
+      margin-right:10rem;
+      text-align: left;
+      .articleImage{
+        max-width:50rem;
+        max-height:35rem;
+        padding-bottom:1rem;
+      }
+      .articleTitle{
+        font-family: "Bitter";
+        color: black;
+        text-align:left;
+        font-size:2rem;
+        padding-bottom:1rem;
+      }
+      .articleText{
+        font-size:1rem;
+        font-family: "Times+New+Roman";
+        padding-bottom:1rem;
+      }
+      .articleContributor{
+        font-family: "Bitter";
+        font-size:1.5rem;
+        padding-bottom:1rem;
+      }
+      .articleCategory{
+        font-family: "Bitter";
+        font-size:1.5rem;
+        padding-bottom:1rem;
       }
     }
     .aside{
-      width:40%;
+      flex-shrink:1; 
+      display: flex;
+      flex-direction:column;
       .banner{
+        font-size:4rem;
+        font-family: "Times+New+Roman";
         padding-bottom:1rem;
         margin-bottom:1rem;
       }
@@ -206,6 +233,41 @@ p{
       }
     }
   }
+  .articlesBy, .articlesBy2{
+    display:flex;
+    flex-direction:row;
+    margin-left: -7rem;
+    h1{
+      color:black;
+    }
+    .articleThumbnail{
+      justify-content: center;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:maroon;
+      padding:1rem; 
+      margin:1rem;
+      .articleImage{
+        max-width:10rem;
+        max-height:7rem;
+      }
+      .articleTitle{
+        font-weight:bold;  
+        font-family: "Bitter";
+        font-size:2rem;   
+      }
+      .articleContributor{
+        font-size:1.5rem;
+        font-family: "Bitter";
+      }
+      .articleText{
+        font-size:1rem;
+        font-family: "Times+New+Roman";
+      }
+    }
+  }
 }
 
 .category{
@@ -229,6 +291,7 @@ p{
       border-color:navy;
       padding:1rem; 
       margin:1rem;
+      max-width:15rem;
     .articleImage{
       max-width:10rem;
       max-height:7rem;
@@ -371,52 +434,52 @@ object{
   font-size: 3vmin;
   font-family: "Times+New+Roman";
 }
-.columns{
-  display:flex;
-  flex-wrap: unset;
-  .articleDisplay{
-    margin: 5vmin;
-    text-align: left;
-    flex-grow:3;
-    .articleImage{
-      max-height: 40vmin;
-      max-width: 80%;
-    }
-    .articleTitle{
-      text-align: left;
-      font-family:"Bitter";
-      font-weight:bold;     
-      color: black;
-    }
-    .articleContributor{
-      font-family: "Bitter";
-      font-size: 2rem;
-    }
-    .articleCategory{
-      font-family: "Bitter";
-      font-size: 2rem;
-    }
-    .articleText{
-      text-align: left;
-      font-family: "Times+New+Roman";
-      font-size:1rem;
-    }
-    .articlesBy{
-      margin-top: 5vmin;
-      padding-top:5vmin;
-      h1{
-        font-size: 4rem;
-        color:black;
-        text-align:left;
-      }
-    }
-  }
-  .aside{
-    flex-shrink:1;
-    margin:5vmin;
-    font-size:4rem;
-  }
-}
+// .columns{
+//   display:flex;
+//   flex-wrap: unset;
+//   .articleDisplay{
+//     margin: 5vmin;
+//     text-align: left;
+//     flex-grow:3;
+//     .articleImage{
+//       max-height: 40vmin;
+//       max-width: 80%;
+//     }
+//     .articleTitle{
+//       text-align: left;
+//       font-family:"Bitter";
+//       font-weight:bold;     
+//       color: black;
+//     }
+//     .articleContributor{
+//       font-family: "Bitter";
+//       font-size: 2rem;
+//     }
+//     .articleCategory{
+//       font-family: "Bitter";
+//       font-size: 2rem;
+//     }
+//     .articleText{
+//       text-align: left;
+//       font-family: "Times+New+Roman";
+//       font-size:1rem;
+//     }
+//     .articlesBy{
+//       margin-top: 5vmin;
+//       padding-top:5vmin;
+//       h1{
+//         font-size: 4rem;
+//         color:black;
+//         text-align:left;
+//       }
+//     }
+//   }
+//   .aside{
+//     flex-shrink:1;
+//     margin:5vmin;
+//     font-size:4rem;
+//   }
+// }
 
 
 .FeaturedArticle{

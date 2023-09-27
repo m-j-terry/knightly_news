@@ -17,7 +17,7 @@ function FeaturedArticle() {
 	useEffect(() => {
         if (Object.keys(featuredArticle).length > 0) {
             async function fetchContributor(name){
-                const response = await fetch(`/api/contributor/${encodeURIComponent(name)}`)
+                const response = await fetch(`/api/contributors/name/${encodeURIComponent(name)}`)
                 const cont = await response.json()
                 setContributor(cont)
             }

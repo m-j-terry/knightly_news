@@ -20,7 +20,7 @@ async function indexArchives(req, res){
 
 async function getMostRecentArchive(req, res) {
     try {
-        const archives = await Archive.find({}).sort({ timestamp: 1 })
+        const archives = await Archive.find({}).sort({ createdAt: -1 })
         const archive = archives[0]
         res.status(200).json(archive)
     } catch (error) {

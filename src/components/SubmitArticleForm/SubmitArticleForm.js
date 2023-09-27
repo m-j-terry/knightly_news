@@ -12,10 +12,12 @@ function SubmitArticleForm() {
     const [file, setFile] = useState(null)
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedContributor, setSelectedContributor] = useState('')
+    const [selectedContributor2, setSelectedContributor2] = useState('')
     const [selectedFeature, setSelectedFeature] = useState('')
     const [values, setValues] = useState({
         title: '',
         contributor: '',
+        contributor2: '',
         category: '',
         featured: '',
         text: '',
@@ -95,6 +97,12 @@ function SubmitArticleForm() {
         setSelectedContributor(event.target.value)
     }
 
+    const handleContributor2Change = (event) => {
+        console.log(event.target.value)
+        setValues({ ...values, [event.target.name]: event.target.value }) 
+        setSelectedContributor2(event.target.value)
+    }
+
     const handleFeatureChange = (event) => {
         console.log(event.target.value)
         // setValues({ ...values, [event.target.name]: event.target.value }) 
@@ -122,9 +130,6 @@ function SubmitArticleForm() {
         let formData = new FormData()
         console.log('values = ' + values)
         formData.append('file', file)
-        // formData.append('category', selectedCategory)
-        // formData.append('contributor', selectedContributor)
-        // formData.append('featured', selectedFeature)
         for (let key in values) {
             formData.append(key, values[key])
         }
@@ -156,6 +161,15 @@ function SubmitArticleForm() {
                         <option value=''>Select a contributor</option>
                         {contributors.map(({ name, _id }) => (
                             <option key="contributor-select" value={ name }>{ name }</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label for="contributor2">Contributor:</label>
+                    <select id="contributor2-select" name="contributor2" value={selectedContributor2.name} onChange={handleContributor2Change}>
+                        <option value=''>Select a contributor</option>
+                        {contributors.map(({ name, _id }) => (
+                            <option key="contributor2-select" value={ name }>{ name }</option>
                         ))}
                     </select>
                 </div>
