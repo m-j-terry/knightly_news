@@ -157,6 +157,7 @@ p{
 // }
 
 .ArticlePage{
+  padding-bottom: 5rem;
   .rows{
     display:flex;
     flex-direction:row;
@@ -183,6 +184,7 @@ p{
         font-size:1rem;
         font-family: "Times+New+Roman";
         padding-bottom:1rem;
+        text-align: justify;
       }
       .articleContributor{
         font-family: "Bitter";
@@ -199,6 +201,10 @@ p{
       flex-shrink:1; 
       display: flex;
       flex-direction:column;
+      background-color:rgb(222, 189, 189);
+      border-width:.3rem;
+      border-color: maroon;
+      border-style: solid;
       .banner{
         font-size:4rem;
         font-family: "Times+New+Roman";
@@ -237,6 +243,10 @@ p{
     display:flex;
     flex-direction:row;
     margin-left: -7rem;
+    background-color:rgb(200, 200, 253);
+    border-width:.3rem;
+    border-color: navy;
+    border-style: solid;
     h1{
       color:black;
     }
