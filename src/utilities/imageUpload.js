@@ -10,3 +10,12 @@ export async function submit(imageData) {
         })
     })
 }
+
+export async function submitPdf(imageData) {
+    return axios.post(`/api/admin/pdf`, imageData, {
+        headers: new Headers({
+            'Content-Type': "multipart/form-data", 
+            'Authorization': `Bearer ${getToken()}`
+        })
+    })
+}

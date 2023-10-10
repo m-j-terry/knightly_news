@@ -49,7 +49,7 @@ function AddContributorForm() {
         return (
             <div className="ContributorForm">
                 <h1 className="header">Add Contributor</h1>
-                <form onSubmit={handleSubmit} >
+                <form autoComplete="off" onSubmit={handleSubmit} >
                     {inputs.map(input => <FormInput key={input.id} {...input} value={values[input.contributor]} handleInputChange={handleInputChange} />)}
                     <button formMethod='dialog'>Submit</button>
                 </form>

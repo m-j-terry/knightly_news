@@ -21,7 +21,7 @@ async function indexCategories(req, res){
 async function indexCategoryArticles(req, res) {
     try {
         const category = await Category.findById(req.params.id)
-        const articles = await Article.find({ category: category })
+        const articles = await Article.find({ category: category }).sort({ createdAt: -1 }).exec()
         res.status(200).json(articles)
     } catch (error) {
         res.status(400).json({ message: error.message })

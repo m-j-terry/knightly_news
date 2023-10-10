@@ -15,20 +15,23 @@ body {
   background-color:white;
 }
 
-h1 {
-  background-color: white;
-}
+
 
 html{
   height: 100%;
 }
 
 .Nav{
-  background-color:navy;
+  background-image:linear-gradient(to right, rgb(0, 0, 50), rgb(0, 0, 128), rgb(0, 0, 200));
   color: white; 
+  width:100%;
   padding-top: 5vmin;
   padding-bottom: 3vmin;
   font-size: 3vw;
+  overflow:hidden;
+  top: 0;
+  position:fixed;
+  z-index: 1000;
 }
 .categories:hover{
   text-decoration:none;
@@ -69,6 +72,50 @@ html{
   padding-bottom:10vmin;
 }
 
+.CategoryPage, .ContributorPage, .FeaturedArticle, .ArticlePage, .PressPage {
+  margin: 10rem;
+}
+
+.ContributorPage{
+  padding-bottom:5rem;
+  .articles{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    .articleThumbnail{
+      justify-content: center;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:navy;
+      padding:1rem; 
+      margin:1rem;
+      .articleImage{
+        max-width:10rem;
+        max-height:7rem;
+      }
+      .articleTitle{
+        color: black; 
+        font-family: "Bitter";
+        font-weight:bold;     
+        padding-bottom: 1rem;
+      }
+      .articleText{
+        font-size:1rem;
+        font-family: "Times+New+Roman";
+        max-width:14rem;
+      }
+      .articleCategory{
+        color: black; 
+        font-family: "Bitter";
+        font-weight:bold;     
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}
+
 .closed {
   opacity: 0;
   display:none;
@@ -97,6 +144,7 @@ html{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding-bottom: 10rem;
 }
 
 p{
@@ -108,9 +156,388 @@ p{
 //   min-height:100%;
 // }
 
+.ArticlePage{
+  padding-bottom: 5rem;
+  .rows{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    padding-bottom:10rem;
+    .articleDisplay{
+      flex-grow:3;
+      margin-left: -7rem;
+      margin-right:10rem;
+      text-align: left;
+      .articleImage{
+        max-width:50rem;
+        max-height:35rem;
+        padding-bottom:1rem;
+      }
+      .articleTitle{
+        font-family: "Bitter";
+        color: black;
+        text-align:left;
+        font-size:2rem;
+        padding-bottom:1rem;
+      }
+      .articleText{
+        font-size:1rem;
+        font-family: "Times+New+Roman";
+        padding-bottom:1rem;
+        text-align: justify;
+      }
+      .articleContributor{
+        font-family: "Bitter";
+        font-size:1.5rem;
+        padding-bottom:1rem;
+      }
+      .articleCategory{
+        font-family: "Bitter";
+        font-size:1.5rem;
+        padding-bottom:1rem;
+      }
+    }
+    .aside{
+      flex-shrink:1; 
+      display: flex;
+      flex-direction:column;
+      background-color:rgb(222, 189, 189);
+      border-width:.3rem;
+      border-color: maroon;
+      border-style: solid;
+      .banner{
+        font-size:4rem;
+        font-family: "Times+New+Roman";
+        padding-bottom:1rem;
+        margin-bottom:1rem;
+      }
+      .articleThumbnail{
+        justify-content: center;
+        background-color: rgb(215, 213, 213);
+        border-radius:.5%;
+        border-style:solid;
+        border-width:.3rem;
+        border-color:navy;
+        padding:1rem; 
+        margin:1rem;
+        img{
+          max-width:10rem;
+          max-height:7rem;
+        }
+        .articleTitle{
+          font-family: "Bitter";
+          font-size:2rem
+        }
+        .articleText{
+          font-size:1rem;
+          font-family: "Times+New+Roman";
+        }
+        .articleContributor{
+          font-family: "Bitter";
+          font-size:1.5rem
+        }
+      }
+    }
+  }
+  .articlesBy, .articlesBy2{
+    display:flex;
+    flex-direction:row;
+    margin-left: -7rem;
+    background-color:rgb(200, 200, 253);
+    border-width:.3rem;
+    border-color: navy;
+    border-style: solid;
+    h1{
+      color:black;
+    }
+    .articleThumbnail{
+      justify-content: center;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:maroon;
+      padding:1rem; 
+      margin:1rem;
+      .articleImage{
+        max-width:10rem;
+        max-height:7rem;
+      }
+      .articleTitle{
+        font-weight:bold;  
+        font-family: "Bitter";
+        font-size:2rem;   
+      }
+      .articleContributor{
+        font-size:1.5rem;
+        font-family: "Bitter";
+      }
+      .articleText{
+        font-size:1rem;
+        font-family: "Times+New+Roman";
+      }
+    }
+  }
+}
+
+.category{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:none;
+  .categoryHeader{
+    transform: rotate(-90deg);
+    margin-bottom:7rem;
+    margin-right:2rem;
+    padding-right:2rem;
+    margin-top: 7rem;
+    z-index: 999;
+  }
+  .articleThumbnail{
+    justify-content:center;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:navy;
+      padding:1rem; 
+      margin:1rem;
+      max-width:15rem;
+    .articleImage{
+      max-width:10rem;
+      max-height:7rem;
+    }
+    .articleTitle{
+      font-weight:bold;  
+      font-family: "Bitter";
+      font-size:2rem;   
+    }
+    .articleContributor{
+      font-size:1.5rem;
+      font-family: "Bitter";
+    }
+    .articleText{
+      font-size:1rem;
+      font-family: "Times+New+Roman";
+    }
+  }
+}
+
 .AppPage {
   h1 {
     font-size: 3rem;
   }
 
+}
+.CategoryPage{
+  .list{
+    margin:2rem;
+    display:flex;
+    flex-wrap:wrap;
+    .listItem{
+      justify-content:space-around;
+      background-color: rgb(215, 213, 213);
+      border-radius:.5%;
+      border-style:solid;
+      border-width:.3rem;
+      border-color:maroon;
+      padding:1rem; 
+      margin:1rem;
+      img{
+        max-width:10rem;
+        max-height:7rem;
+      }
+      .articleTitle{
+        font-weight:bold;   
+        font-family: "Bitter";  
+      }
+      .articleContributor{
+        font-family: "Bitter";
+      }
+      width: 12rem;
+    }
+  }
+}
+
+.sectionHeader{
+  font-size:4rem;
+  color: black;
+  padding-bottom: 5rem;
+}
+
+.hotOffThePress{
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  padding-top: 5rem;
+  padding-bottom:5rem;
+  background-color:rgb(222, 189, 189);
+  justify-content:center;
+  border-top-color:black;
+  border-top-width:1rem;
+  border-bottom-width:1rem;
+  border-bottom-color:black;
+
+  p{
+    font-size:2rem;
+  }
+  // .press{
+  //   justify-content: center;
+  //   background-color:transparent;
+  //   margin:1rem;
+  //   min-height:100%;
+  //   padding-top: 5rem;
+  //   padding-bottom: 5rem;
+  //   border-color:black;
+  //   border-width:1rem;
+  // }
+  .pdf{
+    margin: auto;
+  }
+  button{
+    font-size: 4rem;
+    color: navy;
+  }
+}
+
+.archives{
+  display: flex;
+  flex-direction: column;
+  padding-bottom:1rem;
+  padding-top:1rem;
+  
+  .archive{
+    background-color: rgb(168, 167, 167);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius:.5%;
+    justify-content: center;
+    button{
+      font-size: 3rem;
+        padding-bottom:1rem;
+      a{
+        font-style:italic;
+        color:navy;
+      }
+      a:hover{
+        color:maroon;
+      }
+    }
+  }
+
+}
+
+object{ 
+  margin: auto;
+}
+
+.continueReading{
+  border-color: transparent;
+  background-color: transparent;
+  color: navy;
+}
+.continueReading:hover{
+  .continueReadingLink{
+    color:rgb(221, 22, 22);
+    text-decoration:none;
+  }
+}
+.articleText{
+  font-size: 3vmin;
+  font-family: "Times+New+Roman";
+}
+// .columns{
+//   display:flex;
+//   flex-wrap: unset;
+//   .articleDisplay{
+//     margin: 5vmin;
+//     text-align: left;
+//     flex-grow:3;
+//     .articleImage{
+//       max-height: 40vmin;
+//       max-width: 80%;
+//     }
+//     .articleTitle{
+//       text-align: left;
+//       font-family:"Bitter";
+//       font-weight:bold;     
+//       color: black;
+//     }
+//     .articleContributor{
+//       font-family: "Bitter";
+//       font-size: 2rem;
+//     }
+//     .articleCategory{
+//       font-family: "Bitter";
+//       font-size: 2rem;
+//     }
+//     .articleText{
+//       text-align: left;
+//       font-family: "Times+New+Roman";
+//       font-size:1rem;
+//     }
+//     .articlesBy{
+//       margin-top: 5vmin;
+//       padding-top:5vmin;
+//       h1{
+//         font-size: 4rem;
+//         color:black;
+//         text-align:left;
+//       }
+//     }
+//   }
+//   .aside{
+//     flex-shrink:1;
+//     margin:5vmin;
+//     font-size:4rem;
+//   }
+// }
+
+
+.FeaturedArticle{
+  margin:10rem;
+  .heading{
+    padding:3rem;
+    background-color:transparent; 
+    text-align: left;
+    color: black;
+  }
+  background-image:linear-gradient(to bottom, rgb(165, 196, 253), rgb(202, 220, 253), rgb(222, 233, 252));
+  border-radius: .5rem;
+  border-style:solid;
+  border-width:.3rem;
+  border-color: maroon;
+  .FeaturedArticleDisplay{
+    background-color:transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-bottom:5rem;
+    .left{
+      margin-left:10%
+    }
+    .right{
+      align-items: center;
+      margin-right: 3rem;
+      .articleTitle{
+        color: black; 
+        font-family: "Bitter";
+        font-weight:bold;     
+        padding-bottom: 1rem; 
+      }
+      .articleContributor{
+        font-size: 2rem;
+        font-family: "Bitter";
+
+      }
+      .articleCategory{
+        font-size:2rem;
+        font-family: "Bitter";
+        padding-bottom:1rem;
+      }
+      .articleText{
+        font-size: 1rem;
+        font-family: "Times+New+Roman";
+        padding-bottom:.5rem;
+      }
+    }
+  }
 }

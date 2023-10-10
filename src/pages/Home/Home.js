@@ -10,9 +10,8 @@ export default function Home() {
 	const [contributor, setContributor] = useState('')	
 	return(
 			<div className="HomePage">
-				<center>
-				
 				<FeaturedArticle />
+				<center>
 				<CategoryListsComponent />
 				<HotOffThePress />
 				<ContributorsList />

@@ -22,7 +22,7 @@ const routes = [
 	{
 		Component: Article,
 		key: 'Article',
-		path: '/Article'
+		path: '/Article/:id'
 	},
 	{
 		Component: Category,
@@ -37,7 +37,7 @@ const routes = [
 	{ 
 		Component: Press,
 		key: 'Press',
-		path: 'Press'
+		path: '/Press'
 	}
 ];
 

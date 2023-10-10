@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SubmitArticleForm from '../../components/SubmitArticleForm/SubmitArticleForm'
 import AddContributorForm from '../../components/AddContributorForm/AddContributorForm'
+import Archive from '../../components/Archive/Archive'
 import styles from './Administrator.module.scss'
 import routes from '../../router/routes'
 import { Link } from 'react-router-dom';
@@ -30,6 +31,7 @@ export default function Administrator(props) {
 			<center>
 				<h1 className="title" >Knightly News</h1>
 				<SubmitArticleForm />
+				<Archive />
 				<AddContributorForm />
 			</center> 
 			:

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Category.module.scss'
 import { useParams } from 'react-router-dom'
 
@@ -18,10 +19,19 @@ export default function Category() {
         async function fetchArticles() {
             const response = await fetch(`/api/categories/articles/${id}`)
 			const arts = await response.json()
+            console.log('arts = ' + arts)
 			setArticles(arts)
         }
         fetchArticles()
     }, [id])
+
+    useEffect(() => {
+        console.log('category = ' + category)
+    }, [category])
+
+    useEffect(() => {
+        console.log('articles = ' + articles)
+    }, [articles])
 
     function trimText(String) {
         let arr = String.split('')
@@ -34,15 +44,18 @@ export default function Category() {
 	return(
 		<div className="CategoryPage">
 			<center>
-			<h1>This is the {category} page</h1>
-            {articles.map(({ title, contributor, imageUrl, text }) => (
-                <div>
-                    <img src={imageUrl} max-width='200vmin'></img>
-                    <h2>{title}</h2>
-                    <h3>by: {contributor}</h3>
-                    <p>{trimText(text)}</p>
-                </div>
-            ))}
+			<h1  className="sectionHeader">{category}</h1>
+            <div className='list'>
+                {articles.map(({ title, contributor, contributor2, imageUrl, text, _id }) => (
+                    <div className='listItem'>
+                        <img src={imageUrl} max-width='15%'></img>
+                        <h2 className='articleTitle'>{title}</h2>
+                        <h3>by: {contributor2 ? `${contributor} and ${contributor2}` : `${contributor}`}</h3>
+                        <p>{trimText(text)}</p>
+                        <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${_id}`}>Continue Reading...</Link></button>
+                    </div>
+                ))}
+            </div>
 			</center>
 		</div>
 	) 

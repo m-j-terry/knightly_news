@@ -2,7 +2,9 @@ const Administrator = require('../../models/administrator')
 const Category = require('../../models/category')
 const Contributor = require('../../models/contributor')
 const Article = require('../../models/article')
-const Edition = require('../../models/edition')
+const Archive = require('../../models/archive')
+const Password = require('../../models/password')
+
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const cloudinary = require('../../config/cloudinary')
@@ -38,20 +40,26 @@ const articlesCtrl = {
                 console.log(res.locals.imageData)
                 req.body.imageUrl = res.locals.imageData
             }
+            console.log('req.body = ' + req.body)
             const contributor = await Contributor.findOne({ name: req.body.contributor })
             console.log(' contributor = ' + contributor)
-            const category = req.body.categories
+            const contributor2 = await Contributor.findOne({ name: req.body.contributor2 })
+            const category = req.body.category
             console.log('category = ' + category)
             const article = await Article.create({
                 title: req.body.title,
                 contributor: req.body.contributor,
+                contributor2: req.body.contributor2,
                 category: category,
+                featured: req.body.featured,
                 imageUrl: req.body.imageUrl,
                 text: req.body.text
             })
-            console.log('article ' + article)
+            console.log('article = ' + article)
             contributor.articles.addToSet(article)
             await contributor.save()
+            contributor2.articles.addToSet(article)
+            await contributor2.save()
             res.status(200).json(article)
         } catch (error) {
             res.status(401).json({ message: error.message })
@@ -72,11 +80,11 @@ const articlesCtrl = {
     }
 }
 
-const editionCtrl = {
+const archiveCtrl = {
     async create(req, res, next) {
         try {
-            const edition = await Edition.create(req.body)
-            res.status(200).json(edition)
+            const archive = await Archive.create(req.body)
+            res.status(200).json(archive)
             next()
         } catch (error) {
             res.status(400).json({ message: error.message})
@@ -183,6 +191,26 @@ const apiController = {
     }
 }
 
+const passwordCtrl = {
+    async create(req, res){
+        try {
+            const password = await Password.create(req.body)
+            res.status(200).json(password)
+        } catch (error) {
+            res.status(400).json({ message: error.message })
+    
+        }
+    },
+    async checkPassword(req, res){
+        try {
+            const password = await Password.find({ password: req.body.password })
+            res.status(200).json(password)
+        } catch (error) {
+            res.status(400).json({ message: 'The password you entered is incorrect.' })
+        }
+    }
+}
+
 module.exports = {
     checkToken,
     createJWT, 
@@ -191,5 +219,6 @@ module.exports = {
     contributorsCtrl,
     categoriesCtrl,
     apiController,
-    editionCtrl
+    archiveCtrl,
+    passwordCtrl
 }
