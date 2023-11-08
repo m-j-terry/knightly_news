@@ -25,7 +25,7 @@ function Press() {
             {archives.map((archive) => (
                 <div className="archive">
                     <h1>{archive.title}</h1>            
-                    <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="100%" height="1000px"></object>
+                    <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="50%" height="985px"></object>
                     <button className='continueReading'>Download PDF of <a href={archive.pdfUrl}>{archive.title}</a></button>
                 </div>
             ))}

@@ -16,7 +16,7 @@ function CategoryListsComponent() {
     }, [])
 
     return (
-        <div>
+        <div className="catArtList">
             {categories.map((category) => (
                 <div>
                     <ArticlesList category={category}/>

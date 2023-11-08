@@ -24,7 +24,7 @@ function HotOffThePress() {
             <p>Extra! Extra! Read all about it!</p>
             <p>Checkout our most recent print edition: </p>
             <h1>{archive.title}</h1>
-            <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="100%" height="1000px"></object>
+            <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="50%" height="985px"></object>
             {/* <iframe className='press' src={archive.pdfUrl} width="95%" >Unable to display PDF file. <a href={archive.pdfUrl}>Download</a> instead.</iframe> */}
             <button className='continueReading'><Link className="continueReadingLink" key='Press' to={`/Press`}>Browse All Previous Editions</Link></button>
         </div>

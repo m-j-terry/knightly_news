@@ -321,7 +321,9 @@ function CategoryListsComponent() {
     }
     fetchCategories();
   }, []);
-  return /*#__PURE__*/React.createElement("div", null, categories.map(category => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "catArtList"
+  }, categories.map(category => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__["default"], {
     category: category
   }))));
 }
@@ -415,6 +417,7 @@ function FeaturedArticle() {
   const [featuredArticle, setFeaturedArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [category, setCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [text, setText] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchFeaturedArticle() {
       return _fetchFeaturedArticle.apply(this, arguments);
@@ -456,6 +459,12 @@ function FeaturedArticle() {
       }
       fetchCategory(featuredArticle.category);
     }
+    if (featuredArticle.text === undefined) {
+      console.log(featuredArticle.text);
+    } else {
+      console.log(featuredArticle.text);
+      setText(trimText(featuredArticle.text));
+    }
   }, [featuredArticle]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(category).length > 0) {
@@ -468,25 +477,23 @@ function FeaturedArticle() {
     }
   }, [contributor]);
   function trimText(string) {
-    let arr = string.split('');
+    console.log(string);
+    let arr = string.split(' ');
     let arr2 = arr.slice(0, 65);
-    arr2.push('...');
-    let arr3 = arr2.join('');
+    arr2.splice(64, 1, "".concat(arr2[64], "..."));
+    let arr3 = arr2.join(' ');
     return arr3.toString();
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "FeaturedArticle"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
-    className: "heading"
-  }, "Featured Article"), featuredArticle === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("center", null, featuredArticle === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
     className: "FeaturedArticleDisplay"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "left"
+    className: "background"
   }, /*#__PURE__*/React.createElement("img", {
-    src: featuredArticle.imageUrl,
-    width: "400rem"
+    src: featuredArticle.imageUrl
   })), /*#__PURE__*/React.createElement("div", {
-    className: "right"
+    className: "display"
   }, /*#__PURE__*/React.createElement("h1", {
     className: "articleTitle"
   }, featuredArticle.title), /*#__PURE__*/React.createElement("h3", {
@@ -495,7 +502,7 @@ function FeaturedArticle() {
     className: "articleCategory"
   }, "in ", category), /*#__PURE__*/React.createElement("p", {
     className: "articleText"
-  }, featuredArticle.text), /*#__PURE__*/React.createElement("button", {
+  }, text), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     className: "continueReadingLink",
@@ -601,8 +608,8 @@ function HotOffThePress() {
     className: "pdf",
     data: archive.pdfUrl,
     type: "application/pdf",
-    width: "100%",
-    height: "1000px"
+    width: "50%",
+    height: "985px"
   }), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
@@ -1571,8 +1578,8 @@ function Press() {
     className: "pdf",
     data: archive.pdfUrl,
     type: "application/pdf",
-    width: "100%",
-    height: "1000px"
+    width: "50%",
+    height: "985px"
   }), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, "Download PDF of ", /*#__PURE__*/React.createElement("a", {
@@ -2562,4 +2569,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.b6a5fd33d11794553ca6bec785d8804d.js.map
+//# sourceMappingURL=App.2800d8cc55e06380db9ec6c0b1182ca6.js.map
