@@ -579,7 +579,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 // possibly, instead of sending a link to the Url, save it in a folder and send the pathname to the backend.
 
-function HotOffThePress() {
+function HotOffThePress(_ref) {
+  let {
+    color
+  } = _ref;
   const [archive, setArchive] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchMostRecentArchive() {
@@ -602,6 +605,8 @@ function HotOffThePress() {
   }, [archive]);
   return /*#__PURE__*/React.createElement("div", {
     className: "hotOffThePress"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: color
   }, /*#__PURE__*/React.createElement("h1", {
     className: "sectionHeader"
   }, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: "), /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("object", {
@@ -616,7 +621,7 @@ function HotOffThePress() {
     className: "continueReadingLink",
     key: "Press",
     to: "/Press"
-  }, "Browse All Previous Editions")));
+  }, "Browse All Previous Editions"))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HotOffThePress);
 
@@ -1523,9 +1528,28 @@ function Contributor() {
 
 function Home() {
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const homePage = document.querySelector('.HomePage');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY >= 4750) {
+      console.log('white');
+      setColor('white');
+    } else if (window.scrollY <= 2750) {
+      console.log('white');
+      setColor('white');
+    } else if (window.scrollY > 2750 && window.scrollY < 4750) {
+      console.log('blue');
+      setColor('blue');
+    }
+  });
+  // useEffect(() => {
+  // 	color === 'blue' ? console.log(color) : console.log(color)
+  // }, [color])
   return /*#__PURE__*/React.createElement("div", {
     className: "HomePage"
-  }, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  }, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    color: color
+  }), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
 }
 
 /***/ }),
@@ -2569,4 +2593,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.2800d8cc55e06380db9ec6c0b1182ca6.js.map
+//# sourceMappingURL=App.fc38088e209cc2ba46e7c933e2c46968.js.map

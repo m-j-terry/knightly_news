@@ -22,7 +22,7 @@ html{
 }
 
 .Nav{
-  background-image:linear-gradient(to right, rgb(0, 0, 50), rgb(0, 0, 128), rgb(0, 0, 200));
+  background-image:navy;
   color: white; 
   width:100%;
   padding-top: 5vmin;
@@ -148,7 +148,7 @@ p{
   text-align: center;
 }
 // .AdministratorPage{
-//   background-color: rgb(37, 37, 37);
+  // background-color: rgb(37, 37, 37);
 //   color: rgb(6, 200, 6);
 //   min-height:100%;
 // }
@@ -276,19 +276,22 @@ p{
   display:flex;
   flex-direction:row;
   flex-wrap:none;
-  // position:relative;
+  position:relative;
   .categoryHeader{
-    transform: rotate(-90deg);
+    // transform: rotate(-90deg);
     margin-bottom:7vmax;
-    margin-right:2rem;
-    padding-right:2rem;
-    margin-left:1rem;
-    // position: absolute;
+    margin-left: 5vmax;
+    padding-left:5vmax;
+    // margin-right:2rem;
+    // padding-right:2rem;
+    // margin-left:1rem;
+    position: absolute;
     font-family:"Oswald";
-    font-size:5vmax;
-    // font-stretch: ultra-expanded !important;
-    z-index: 999;
-    // opacity: 25%;
+    // font-size:5vmax;
+    font-size:12vmax;
+    letter-spacing:7vmax;
+    z-index: 998;
+    opacity: 25%;
     color:black;
   }
   .articleThumbnail{
@@ -302,6 +305,7 @@ p{
       margin:1vmax;
       max-width:15vmax;
       height:20vmax;
+      z-index: 999;
     .articleImage{
       max-width:10vmax;
       max-height:7vmax;
@@ -369,13 +373,24 @@ p{
   color: black;
   padding-bottom: 5rem;
 }
+.white{
+  background-color:white;
+  transition: background-color 1s ease-in-out;
+}
+.blue{
+  padding-top:1vmax;
+  padding-bottom:2vmax;
+  background-color:rgb(178, 195, 255);
+  transition: background-color 1s ease-in-out;
+}
 
 .hotOffThePress{
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  padding-top: 5rem;
-  padding-bottom:5rem;
-  background-color:rgb(222, 189, 189);
+  margin-top: 2vmax;
+  margin-bottom: 5vmax;
+  padding-top: 5vmax;
+  padding-bottom:5vmax;
+  // background-color:rgb(155, 176, 252);
+  transition: background-color 0.5s ease;
   justify-content:center;
   border-top-color:black;
   border-top-width:1rem;

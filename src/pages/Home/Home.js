@@ -8,12 +8,29 @@ import HotOffThePress from '../../components/HotOffThePress/HotOffThePress';
 
 export default function Home() {
 	const [contributor, setContributor] = useState('')	
+	const [color, setColor] = useState('')
+	const homePage = document.querySelector('.HomePage')
+	window.addEventListener('scroll', () => {
+		if (window.scrollY >= 4750){
+			console.log('white')
+			setColor('white')
+		} else if (window.scrollY <= 2750){
+			console.log('white')
+			setColor('white')
+		} else if (window.scrollY > 2750 && window.scrollY < 4750){
+			console.log('blue')
+			setColor('blue')
+		} 
+	})
+	// useEffect(() => {
+	// 	color === 'blue' ? console.log(color) : console.log(color)
+	// }, [color])
 	return(
 			<div className="HomePage">
 				<FeaturedArticle />
 				<center>
 				<CategoryListsComponent />
-				<HotOffThePress />
+				<HotOffThePress color={color}/>
 				<ContributorsList />
 
 				</center>
