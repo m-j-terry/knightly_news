@@ -64,7 +64,7 @@ function SubmitArticleForm() {
         {
             id: "submission-text",
             name: "text",
-            type: "text",
+            type: "textarea",
             placeholder: "Add submission text here",
             errorMessage: "Ask Mr. Terry",
             label: "Text: ",

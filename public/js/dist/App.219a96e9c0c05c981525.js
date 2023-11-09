@@ -262,7 +262,10 @@ function ArticlesList(_ref) {
       _id
     } = _ref2;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl
@@ -493,7 +496,10 @@ function FeaturedArticle() {
   }, /*#__PURE__*/React.createElement("img", {
     src: featuredArticle.imageUrl
   })), /*#__PURE__*/React.createElement("div", {
-    className: "display"
+    className: "display",
+    style: {
+      whiteSpace: 'pre-line'
+    }
   }, /*#__PURE__*/React.createElement("h1", {
     className: "articleTitle"
   }, featuredArticle.title), /*#__PURE__*/React.createElement("h3", {
@@ -545,16 +551,32 @@ function FormInput(props) {
   const handleInputBlur = e => {
     setIsBlur(true);
   };
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    htmlFor: id
-  }, label), /*#__PURE__*/React.createElement("input", _extends({
-    id: id
-  }, inputProps, {
-    onChange: handleInputChange,
-    onBlur: handleInputBlur,
-    blurred: isBlur.toString(),
-    onFocus: () => inputProps.name === 'confirm' && setIsBlur(true)
-  })));
+  if (id === "submission-text") {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+      htmlFor: id
+    }, label), /*#__PURE__*/React.createElement("textarea", _extends({
+      id: id,
+      cols: "40",
+      rows: "5",
+      wrap: "hard"
+    }, inputProps, {
+      onChange: handleInputChange,
+      onBlur: handleInputBlur,
+      blurred: isBlur.toString(),
+      onFocus: () => inputProps.name === 'confirm' && setIsBlur(true)
+    })));
+  } else {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+      htmlFor: id
+    }, label), /*#__PURE__*/React.createElement("input", _extends({
+      id: id
+    }, inputProps, {
+      onChange: handleInputChange,
+      onBlur: handleInputBlur,
+      blurred: isBlur.toString(),
+      onFocus: () => inputProps.name === 'confirm' && setIsBlur(true)
+    })));
+  }
 }
 
 /***/ }),
@@ -600,7 +622,7 @@ function HotOffThePress(_ref) {
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(archive).length > 0) {
-      console.log(archive);
+      console.log(archive.pdfUrl);
     }
   }, [archive]);
   return /*#__PURE__*/React.createElement("div", {
@@ -784,7 +806,7 @@ function SubmitArticleForm() {
   }, {
     id: "submission-text",
     name: "text",
-    type: "text",
+    type: "textarea",
     placeholder: "Add submission text here",
     errorMessage: "Ask Mr. Terry",
     label: "Text: "
@@ -1214,7 +1236,10 @@ function Article() {
   }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("div", {
     className: "rows"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "articleDisplay"
+    className: "articleDisplay",
+    style: {
+      whiteSpace: 'pre-line'
+    }
   }, /*#__PURE__*/React.createElement("img", {
     className: "articleImage",
     src: article.imageUrl
@@ -1231,7 +1256,10 @@ function Article() {
   }, /*#__PURE__*/React.createElement("h2", {
     className: "banner"
   }, "More from ", category), articles.map(article => /*#__PURE__*/React.createElement("div", {
-    className: "articleThumbnail"
+    className: "articleThumbnail",
+    style: {
+      whiteSpace: 'pre-line'
+    }
   }, /*#__PURE__*/React.createElement("img", {
     className: "articleImage",
     src: article.imageUrl,
@@ -1252,7 +1280,10 @@ function Article() {
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl
@@ -1277,7 +1308,10 @@ function Article() {
       _id
     } = _ref2;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl
@@ -1381,7 +1415,10 @@ function Category() {
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", {
-      className: "listItem"
+      className: "listItem",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
       "max-width": "15%"
@@ -1480,7 +1517,10 @@ function Contributor() {
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl,
@@ -2593,4 +2633,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.fc38088e209cc2ba46e7c933e2c46968.js.map
+//# sourceMappingURL=App.58ad56c10d0629887a5450d99ebbc145.js.map

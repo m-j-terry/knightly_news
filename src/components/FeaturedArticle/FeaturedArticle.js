@@ -60,14 +60,14 @@ function FeaturedArticle() {
     }
 
 	return(
-		<div className="FeaturedArticle">
+		<div className="FeaturedArticle" >
 			<center>
 				{featuredArticle === {} ? <h1>Article loading...</h1> : 
 					<div className="FeaturedArticleDisplay">
                         <div className='background'>
                             <img src={featuredArticle.imageUrl}></img>
                             </div>
-						<div className='display'>
+						<div className='display' style={{ whiteSpace: 'pre-line' }}>
                             <h1 className='articleTitle'>{featuredArticle.title}</h1>
                             <h3 className='articleContributor'>by {featuredArticle.contributor}</h3>
                             <h3 className='articleCategory'>in {category}</h3>

@@ -15,7 +15,7 @@ function HotOffThePress( {color} ) {
     }, [])
     useEffect(() => {
         if (Object.keys(archive).length > 0) {
-            console.log(archive)
+            console.log(archive.pdfUrl)
         }
     }, [archive])
     return(

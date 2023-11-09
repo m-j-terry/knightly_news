@@ -136,7 +136,7 @@ export default function Article() {
 		<div className="ArticlePage">
 			<center> 
 					<div className="rows">
-						<div className="articleDisplay">
+						<div className="articleDisplay" style={{ whiteSpace: 'pre-line' }}>
 							<img className="articleImage" src={article.imageUrl}></img>
 							<h1 className="articleTitle">{article.title}</h1>
 							<h2 className="articleContributor">by {article.contributor}</h2>
@@ -146,7 +146,7 @@ export default function Article() {
 						<div className="aside">
 							<h2 className="banner">More from {category}</h2>
 							{articles.map( (article) => (
-								<div className='articleThumbnail'>
+								<div className='articleThumbnail' style={{ whiteSpace: 'pre-line' }}>
 									<img className='articleImage' src={article.imageUrl} max-width='15%'></img>
 									<h2 className='articleTitle'>{article.title}</h2>
 									<h3 className='articleContributor'>by {article.contributor2 ? `${article.contributor} and ${article.contributor2}` : `${article.contributor}`}</h3>
@@ -158,7 +158,7 @@ export default function Article() {
 					<div className="articlesBy"> 
 								<h1>More by {article.contributor}...</h1>
 								{contributorArticles.map(({title, imageUrl, text, _id }) => (
-									<div className='articleThumbnail'>
+									<div className='articleThumbnail' style={{ whiteSpace: 'pre-line' }}>
 										<img className="articleImage" src={imageUrl}></img>
 										<h1 className="articleTitle">{title}</h1>
 										<p className="articleText">{trimText(text)}</p>
@@ -170,7 +170,7 @@ export default function Article() {
 						<div className="articlesBy2"> 
 							<h1>More by {article.contributor2}...</h1>
 							{contributor2Articles.map(({title, imageUrl, text, _id }) => (
-								<div className='articleThumbnail'>
+								<div className='articleThumbnail' style={{ whiteSpace: 'pre-line' }}>
 									<img className="articleImage" src={imageUrl}></img>
 									<h1 className="articleTitle">{title}</h1>
 									<p className="articleText">{trimText(text)}</p>

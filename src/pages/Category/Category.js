@@ -47,7 +47,7 @@ export default function Category() {
 			<h1  className="sectionHeader">{category}</h1>
             <div className='list'>
                 {articles.map(({ title, contributor, contributor2, imageUrl, text, _id }) => (
-                    <div className='listItem'>
+                    <div className='listItem' style={{ whiteSpace: 'pre-line' }}>
                         <img src={imageUrl} max-width='15%'></img>
                         <h2 className='articleTitle'>{title}</h2>
                         <h3>by: {contributor2 ? `${contributor} and ${contributor2}` : `${contributor}`}</h3>

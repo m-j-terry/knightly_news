@@ -20,7 +20,11 @@ body {
 html{
   height: 100%;
 }
+textarea{
+  background-color: rgb(37, 37, 37);
+  color:rgb(5, 226, 5);
 
+}
 .Nav{
   background-image:navy;
   color: white; 
@@ -36,6 +40,10 @@ html{
 .categories:hover, .Home:hover{
   text-decoration:none;
   color:rgb(221, 22, 22);
+  transition: color 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+.categories{
+  color: white;
   transition: color 0.5s ease-in-out, transform 0.3s ease-in-out;
 }
 
@@ -59,6 +67,7 @@ html{
 .Home{
   font-family: 'UnifrakturMaguntia';
   color:white;
+  transition: color 0.5s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .SubmissionForm, .ContributorForm{
@@ -209,14 +218,17 @@ p{
         padding-bottom:1vmax;
         margin-bottom:1rem;
       }
+      .articleThumbnail:hover{
+        transform: scale(1.2);
+        transition: transform 1s ease;
+      }
       .articleThumbnail{
+        transform: scale(1);
+        transition: transform 1s ease;
         justify-content: center;
         img{
           max-width:10rem;
           max-height:7rem;
-        }
-        img:hover{
-          zoom:130%;
         }
         .articleTitle{
           font-family: "Bitter";
@@ -243,20 +255,23 @@ p{
     h1{
       color:black;
     }
+    .articleThumbnail:hover{
+      transform: scale(1.2);
+      transition: transform 1s ease;
+    }
     .articleThumbnail{
       justify-content: center;
       padding:1vmax; 
       margin:1vmax;
+      transform: scale(1);
+      transition: transform 1s ease;
       .articleImage{
         max-width:10vmax;
         max-height:7vmax;
       }
-      .articleImage:hover{
-        zoom:130%;
-      }
       .articleTitle{
         font-weight:bold;  
-        font-family: "Bitter";
+        font-family:"Bitter";
         font-size:2vmax;   
       }
       .articleContributor{
@@ -280,7 +295,7 @@ p{
   .categoryHeader{
     // transform: rotate(-90deg);
     margin-bottom:7vmax;
-    margin-left: 5vmax;
+    margin-left: 6vmax;
     padding-left:5vmax;
     // margin-right:2rem;
     // padding-right:2rem;
@@ -293,26 +308,33 @@ p{
     z-index: 998;
     opacity: 25%;
     color:black;
+    // transform: color(black);
+    // transition: transform 1s ease;
+  }
+  // .categoryHeader:hover{
+  //   transform: color(maroon);
+  //   transition: transform 1s ease;
+  // }
+  .articleThumbnail:hover{
+    transform: scale(1.2);
+    transition: transform 1s ease;
   }
   .articleThumbnail{
     justify-content:center;
-      // background-color: rgb(215, 213, 213);
-      // border-radius:.5%;
-      // border-style:solid;
-      // border-width:.3rem;
-      // border-color:navy;
-      padding:1vmax; 
-      margin:1vmax;
-      max-width:15vmax;
-      height:20vmax;
-      z-index: 999;
+    padding:1vmax; 
+    margin:1vmax;
+    max-width:15vmax;
+    height:20vmax;
+    z-index: 999;
+    transform:scale(1);
+    transition: transform 1s ease;
     .articleImage{
       max-width:10vmax;
       max-height:7vmax;
     }
-    .articleImage:hover{
-      zoom:130%;
-    }
+    // .articleImage:hover{
+    //   zoom:130%;
+    // }
     .articleTitle{
       font-weight:bold;  
       font-family: "Bitter";
@@ -340,6 +362,10 @@ p{
     margin:2rem;
     display:flex;
     flex-wrap:wrap;
+    .listItem:hover{
+      transform: scale(1.2);
+      transition: transform 1s ease;
+    }
     .listItem{
       justify-content:space-around;
       // background-color: rgb(215, 213, 213);
@@ -350,6 +376,8 @@ p{
       padding:1rem; 
       margin:1rem;
       font-size:1.25vmax;
+      transform: scale(1);
+      transition: transform 1s ease;
       img{
         max-width:10vmax;
         max-height:7vmax;
@@ -375,13 +403,13 @@ p{
 }
 .white{
   background-color:white;
-  transition: background-color 1s ease-in-out;
+  transition: background-color 1s ease;
 }
 .blue{
   padding-top:1vmax;
   padding-bottom:2vmax;
   background-color:rgb(178, 195, 255);
-  transition: background-color 1s ease-in-out;
+  transition: background-color 1s ease;
 }
 
 .hotOffThePress{
@@ -477,7 +505,8 @@ object{
       margin-top: -4.1vmax;
       img{
         // max-height: 100vmax;
-        max-width: 100vw;
+        min-width: 100vw;
+        max-width:100vw;
       }
     }
     .display{
@@ -530,7 +559,7 @@ object{
     display: flex;
     flex-direction:column;
     .pdf{
-      justify-content: center;
+      justify-content: center;  
     }
   }
 }
