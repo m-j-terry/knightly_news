@@ -143,6 +143,14 @@ function Archive() {
     label: "Title: ",
     required: true
   }, {
+    id: "img-url",
+    name: "imgUrl",
+    type: "text",
+    placeholder: "Paste published img url here",
+    errorMessage: "Ask Mr. Terry",
+    label: "url: ",
+    required: true
+  }, {
     id: "pdf-url",
     name: "pdfUrl",
     type: "text",
@@ -262,7 +270,10 @@ function ArticlesList(_ref) {
       _id
     } = _ref2;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl
@@ -321,7 +332,9 @@ function CategoryListsComponent() {
     }
     fetchCategories();
   }, []);
-  return /*#__PURE__*/React.createElement("div", null, categories.map(category => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "catArtList"
+  }, categories.map(category => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_ArticlesList_ArticlesList__WEBPACK_IMPORTED_MODULE_1__["default"], {
     category: category
   }))));
 }
@@ -415,6 +428,7 @@ function FeaturedArticle() {
   const [featuredArticle, setFeaturedArticle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [category, setCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [text, setText] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchFeaturedArticle() {
       return _fetchFeaturedArticle.apply(this, arguments);
@@ -456,6 +470,11 @@ function FeaturedArticle() {
       }
       fetchCategory(featuredArticle.category);
     }
+    if (featuredArticle.text === undefined) {
+      console.log(featuredArticle.text);
+    } else {
+      setText(trimText(featuredArticle.text));
+    }
   }, [featuredArticle]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(category).length > 0) {
@@ -468,25 +487,26 @@ function FeaturedArticle() {
     }
   }, [contributor]);
   function trimText(string) {
-    let arr = string.split('');
+    console.log(string);
+    let arr = string.split(' ');
     let arr2 = arr.slice(0, 65);
-    arr2.push('...');
-    let arr3 = arr2.join('');
+    arr2.splice(64, 1, "".concat(arr2[64], "..."));
+    let arr3 = arr2.join(' ');
     return arr3.toString();
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "FeaturedArticle"
-  }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h1", {
-    className: "heading"
-  }, "Featured Article"), featuredArticle === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("center", null, featuredArticle === {} ? /*#__PURE__*/React.createElement("h1", null, "Article loading...") : /*#__PURE__*/React.createElement("div", {
     className: "FeaturedArticleDisplay"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "left"
+    className: "background"
   }, /*#__PURE__*/React.createElement("img", {
-    src: featuredArticle.imageUrl,
-    width: "400rem"
+    src: featuredArticle.imageUrl
   })), /*#__PURE__*/React.createElement("div", {
-    className: "right"
+    className: "display",
+    style: {
+      whiteSpace: 'pre-line'
+    }
   }, /*#__PURE__*/React.createElement("h1", {
     className: "articleTitle"
   }, featuredArticle.title), /*#__PURE__*/React.createElement("h3", {
@@ -495,7 +515,7 @@ function FeaturedArticle() {
     className: "articleCategory"
   }, "in ", category), /*#__PURE__*/React.createElement("p", {
     className: "articleText"
-  }, featuredArticle.text), /*#__PURE__*/React.createElement("button", {
+  }, text), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     className: "continueReadingLink",
@@ -538,16 +558,32 @@ function FormInput(props) {
   const handleInputBlur = e => {
     setIsBlur(true);
   };
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    htmlFor: id
-  }, label), /*#__PURE__*/React.createElement("input", _extends({
-    id: id
-  }, inputProps, {
-    onChange: handleInputChange,
-    onBlur: handleInputBlur,
-    blurred: isBlur.toString(),
-    onFocus: () => inputProps.name === 'confirm' && setIsBlur(true)
-  })));
+  if (id === "submission-text") {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+      htmlFor: id
+    }, label), /*#__PURE__*/React.createElement("textarea", _extends({
+      id: id,
+      cols: "40",
+      rows: "5",
+      wrap: "hard"
+    }, inputProps, {
+      onChange: handleInputChange,
+      onBlur: handleInputBlur,
+      blurred: isBlur.toString(),
+      onFocus: () => inputProps.name === 'confirm' && setIsBlur(true)
+    })));
+  } else {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+      htmlFor: id
+    }, label), /*#__PURE__*/React.createElement("input", _extends({
+      id: id
+    }, inputProps, {
+      onChange: handleInputChange,
+      onBlur: handleInputBlur,
+      blurred: isBlur.toString(),
+      onFocus: () => inputProps.name === 'confirm' && setIsBlur(true)
+    })));
+  }
 }
 
 /***/ }),
@@ -572,7 +608,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 // possibly, instead of sending a link to the Url, save it in a folder and send the pathname to the backend.
 
-function HotOffThePress() {
+function HotOffThePress(_ref) {
+  let {
+    color
+  } = _ref;
   const [archive, setArchive] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     function fetchMostRecentArchive() {
@@ -590,20 +629,19 @@ function HotOffThePress() {
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(archive).length > 0) {
-      console.log(archive);
+      console.log(archive.pdfUrl);
+      console.log(archive.imgUrl);
     }
   }, [archive]);
   return /*#__PURE__*/React.createElement("div", {
     className: "hotOffThePress"
   }, /*#__PURE__*/React.createElement("h1", {
     className: "sectionHeader"
-  }, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: "), /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("object", {
-    className: "pdf",
-    data: archive.pdfUrl,
-    type: "application/pdf",
-    width: "100%",
-    height: "1000px"
-  }), /*#__PURE__*/React.createElement("button", {
+  }, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: "), /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("a", {
+    href: archive.pdfUrl
+  }, /*#__PURE__*/React.createElement("img", {
+    src: archive.imgUrl
+  }))), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     className: "continueReadingLink",
@@ -772,7 +810,9 @@ function SubmitArticleForm() {
   }, {
     id: "submission-text",
     name: "text",
-    type: "text",
+    type: "textarea",
+    cols: "40",
+    rows: "10",
     placeholder: "Add submission text here",
     errorMessage: "Ask Mr. Terry",
     label: "Text: "
@@ -1202,7 +1242,10 @@ function Article() {
   }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("div", {
     className: "rows"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "articleDisplay"
+    className: "articleDisplay",
+    style: {
+      whiteSpace: 'pre-line'
+    }
   }, /*#__PURE__*/React.createElement("img", {
     className: "articleImage",
     src: article.imageUrl
@@ -1219,7 +1262,10 @@ function Article() {
   }, /*#__PURE__*/React.createElement("h2", {
     className: "banner"
   }, "More from ", category), articles.map(article => /*#__PURE__*/React.createElement("div", {
-    className: "articleThumbnail"
+    className: "articleThumbnail",
+    style: {
+      whiteSpace: 'pre-line'
+    }
   }, /*#__PURE__*/React.createElement("img", {
     className: "articleImage",
     src: article.imageUrl,
@@ -1240,7 +1286,10 @@ function Article() {
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl
@@ -1265,7 +1314,10 @@ function Article() {
       _id
     } = _ref2;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl
@@ -1369,7 +1421,10 @@ function Category() {
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", {
-      className: "listItem"
+      className: "listItem",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       src: imageUrl,
       "max-width": "15%"
@@ -1468,7 +1523,10 @@ function Contributor() {
       _id
     } = _ref;
     return /*#__PURE__*/React.createElement("div", {
-      className: "articleThumbnail"
+      className: "articleThumbnail",
+      style: {
+        whiteSpace: 'pre-line'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       className: "articleImage",
       src: imageUrl,
@@ -1516,9 +1574,29 @@ function Contributor() {
 
 function Home() {
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const homePage = document.querySelector('.HomePage');
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY >= scrollHeight * .95) {
+      console.log('white');
+      setColor('white');
+    } else if (window.scrollY <= scrollHeight * .75) {
+      console.log('white');
+      setColor('white');
+    } else if (window.scrollY > scrollHeight * .75 && window.scrollY < scrollHeight * .95) {
+      console.log('blue');
+      setColor('blue');
+    }
+  });
+  // useEffect(() => {
+  // 	color === 'blue' ? console.log(color) : console.log(color)
+  // }, [color])
   return /*#__PURE__*/React.createElement("div", {
     className: "HomePage"
-  }, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  }, /*#__PURE__*/React.createElement("div", {
+    className: color
+  }, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
 }
 
 /***/ }),
@@ -1567,13 +1645,11 @@ function Press() {
     className: "archives"
   }, archives.map(archive => /*#__PURE__*/React.createElement("div", {
     className: "archive"
-  }, /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("object", {
-    className: "pdf",
-    data: archive.pdfUrl,
-    type: "application/pdf",
-    width: "100%",
-    height: "1000px"
-  }), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("a", {
+    href: archive.pdfUrl
+  }, /*#__PURE__*/React.createElement("img", {
+    src: archive.imgUrl
+  }))), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, "Download PDF of ", /*#__PURE__*/React.createElement("a", {
     href: archive.pdfUrl
@@ -2562,4 +2638,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.b6a5fd33d11794553ca6bec785d8804d.js.map
+//# sourceMappingURL=App.e9bf33090dca0c93b196db831015ab2b.js.map

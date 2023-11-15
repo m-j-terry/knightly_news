@@ -5,6 +5,7 @@ function FeaturedArticle() {
     const [featuredArticle, setFeaturedArticle] = useState({})
     const [contributor, setContributor] = useState('')
     const [category, setCategory] = useState('')
+    const [text, setText] = useState('')
 
     useEffect(() => {
         async function fetchFeaturedArticle() {
@@ -29,6 +30,11 @@ function FeaturedArticle() {
             }
             fetchCategory(featuredArticle.category)
         }
+        if (featuredArticle.text === undefined){
+            console.log(featuredArticle.text)
+        } else {
+            setText(trimText(featuredArticle.text))
+        }
     }, [featuredArticle])
 
     useEffect(() => {
@@ -44,27 +50,27 @@ function FeaturedArticle() {
     }, [contributor])
 
     function trimText(string) {
-        let arr = string.split('')
+        console.log(string)
+        let arr = string.split(' ')
         let arr2 = arr.slice(0, 65)
-        arr2.push('...')
-        let arr3 = arr2.join('')
+        arr2.splice(64, 1, `${arr2[64]}...`)
+        let arr3 = arr2.join(' ')
         return arr3.toString()
     }
 
 	return(
-		<div className="FeaturedArticle">
+		<div className="FeaturedArticle" >
 			<center>
-            <h1 className='heading'>Featured Article</h1>
 				{featuredArticle === {} ? <h1>Article loading...</h1> : 
 					<div className="FeaturedArticleDisplay">
-                        <div className='left'>
-                            <img src={featuredArticle.imageUrl} width="400rem" ></img>
+                        <div className='background'>
+                            <img src={featuredArticle.imageUrl}></img>
                             </div>
-						<div className='right'>
+						<div className='display' style={{ whiteSpace: 'pre-line' }}>
                             <h1 className='articleTitle'>{featuredArticle.title}</h1>
                             <h3 className='articleContributor'>by {featuredArticle.contributor}</h3>
                             <h3 className='articleCategory'>in {category}</h3>
-                            <p className='articleText'>{featuredArticle.text}</p>
+                            <p className='articleText'>{text}</p>
                             <button className='continueReading'><Link className="continueReadingLink" key='Article' to={`/Article/${featuredArticle._id}`}>Continue Reading...</Link></button>
                         </div>
                         

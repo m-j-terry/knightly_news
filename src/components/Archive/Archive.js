@@ -28,6 +28,15 @@ function Archive() {
             required: true,
         },
         {
+            id: "img-url",
+            name: "imgUrl",
+            type: "text",
+            placeholder: "Paste published img url here",
+            errorMessage: "Ask Mr. Terry",
+            label: "url: ",
+            required: true,
+        },
+        {
             id: "pdf-url",
             name: "pdfUrl",
             type: "text",

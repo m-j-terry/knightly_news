@@ -20,9 +20,13 @@ body {
 html{
   height: 100%;
 }
+textarea{
+  background-color: rgb(37, 37, 37);
+  color:rgb(5, 226, 5);
 
+}
 .Nav{
-  background-image:linear-gradient(to right, rgb(0, 0, 50), rgb(0, 0, 128), rgb(0, 0, 200));
+  background-image:navy;
   color: white; 
   width:100%;
   padding-top: 5vmin;
@@ -33,13 +37,14 @@ html{
   position:fixed;
   z-index: 1000;
 }
-.categories:hover{
+.categories:hover, .Home:hover{
   text-decoration:none;
   color:rgb(221, 22, 22);
+  transition: color 0.5s ease-in-out, transform 0.3s ease-in-out;
 }
-.Home:hover{
-  text-decoration:none;
-  color:rgb(221, 22, 22);
+.categories{
+  color: white;
+  transition: color 0.5s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .admin, .SubmissionForm, .ContributorForm, .header, .title {
@@ -62,6 +67,7 @@ html{
 .Home{
   font-family: 'UnifrakturMaguntia';
   color:white;
+  transition: color 0.5s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .SubmissionForm, .ContributorForm{
@@ -84,11 +90,11 @@ html{
     flex-wrap: wrap;
     .articleThumbnail{
       justify-content: center;
-      background-color: rgb(215, 213, 213);
-      border-radius:.5%;
-      border-style:solid;
-      border-width:.3rem;
-      border-color:navy;
+      // background-color: rgb(215, 213, 213);
+      // border-radius:.5%;
+      // border-style:solid;
+      // border-width:.3rem;
+      // border-color:navy;
       padding:1rem; 
       margin:1rem;
       .articleImage{
@@ -151,75 +157,75 @@ p{
   text-align: center;
 }
 // .AdministratorPage{
-//   background-color: rgb(37, 37, 37);
+  // background-color: rgb(37, 37, 37);
 //   color: rgb(6, 200, 6);
 //   min-height:100%;
 // }
 
 .ArticlePage{
-  padding-bottom: 5rem;
+  padding-bottom: 5vmax;
   .rows{
     display:flex;
     flex-direction:row;
     flex-wrap:nowrap;
-    padding-bottom:10rem;
+    padding-bottom:10vmax;
     .articleDisplay{
       flex-grow:3;
-      margin-left: -7rem;
-      margin-right:10rem;
+      margin-left: -7vmax;
+      margin-right:10vmax;
       text-align: left;
+      padding-right:15vmax;
+      border-right-width:.3vmax;
+      border-color: black;
+      border-style: solid;
       .articleImage{
-        max-width:50rem;
-        max-height:35rem;
-        padding-bottom:1rem;
+        max-width:50vmax;
+        max-height:35vmax;
+        padding-bottom:1vmax;
       }
       .articleTitle{
         font-family: "Bitter";
         color: black;
         text-align:left;
-        font-size:2rem;
-        padding-bottom:1rem;
+        font-size:2.75vmax;
+        padding-bottom:1vmax;
       }
       .articleText{
-        font-size:1rem;
+        font-size:1.5vmax;
         font-family: "Times+New+Roman";
-        padding-bottom:1rem;
+        padding-bottom:1vmax;
         text-align: justify;
       }
       .articleContributor{
         font-family: "Bitter";
-        font-size:1.5rem;
-        padding-bottom:1rem;
+        font-size:2vmax;
+        padding-bottom:1vmax;
       }
       .articleCategory{
         font-family: "Bitter";
-        font-size:1.5rem;
-        padding-bottom:1rem;
+        font-size:2vmax;
+        padding-bottom:1vmax;
       }
     }
     .aside{
       flex-shrink:1; 
       display: flex;
       flex-direction:column;
-      background-color:rgb(222, 189, 189);
-      border-width:.3rem;
-      border-color: maroon;
-      border-style: solid;
+      margin-left: -8vmax;
       .banner{
         font-size:4rem;
         font-family: "Times+New+Roman";
-        padding-bottom:1rem;
+        padding-bottom:1vmax;
         margin-bottom:1rem;
       }
+      .articleThumbnail:hover{
+        transform: scale(1.2);
+        transition: transform 1s ease;
+      }
       .articleThumbnail{
+        transform: scale(1);
+        transition: transform 1s ease;
         justify-content: center;
-        background-color: rgb(215, 213, 213);
-        border-radius:.5%;
-        border-style:solid;
-        border-width:.3rem;
-        border-color:navy;
-        padding:1rem; 
-        margin:1rem;
         img{
           max-width:10rem;
           max-height:7rem;
@@ -243,37 +249,37 @@ p{
     display:flex;
     flex-direction:row;
     margin-left: -7rem;
-    background-color:rgb(200, 200, 253);
-    border-width:.3rem;
-    border-color: navy;
-    border-style: solid;
+    border-style:solid;
+    border-top-width:.3vmax;
+    border-color:black;
     h1{
       color:black;
     }
+    .articleThumbnail:hover{
+      transform: scale(1.2);
+      transition: transform 1s ease;
+    }
     .articleThumbnail{
       justify-content: center;
-      background-color: rgb(215, 213, 213);
-      border-radius:.5%;
-      border-style:solid;
-      border-width:.3rem;
-      border-color:maroon;
-      padding:1rem; 
-      margin:1rem;
+      padding:1vmax; 
+      margin:1vmax;
+      transform: scale(1);
+      transition: transform 1s ease;
       .articleImage{
-        max-width:10rem;
-        max-height:7rem;
+        max-width:10vmax;
+        max-height:7vmax;
       }
       .articleTitle{
         font-weight:bold;  
-        font-family: "Bitter";
-        font-size:2rem;   
+        font-family:"Bitter";
+        font-size:2vmax;   
       }
       .articleContributor{
-        font-size:1.5rem;
+        font-size:1.5vmax;
         font-family: "Bitter";
       }
       .articleText{
-        font-size:1rem;
+        font-size:1vmax;
         font-family: "Times+New+Roman";
       }
     }
@@ -281,42 +287,65 @@ p{
 }
 
 .category{
+  margin-top:3vmax;
   display:flex;
   flex-direction:row;
   flex-wrap:none;
+  position:relative;
   .categoryHeader{
-    transform: rotate(-90deg);
-    margin-bottom:7rem;
-    margin-right:2rem;
-    padding-right:2rem;
-    margin-top: 7rem;
-    z-index: 999;
+    // transform: rotate(-90deg);
+    margin-bottom:7vmax;
+    margin-left: 6vmax;
+    padding-left:5vmax;
+    // margin-right:2rem;
+    // padding-right:2rem;
+    // margin-left:1rem;
+    position: absolute;
+    font-family:"Oswald";
+    // font-size:5vmax;
+    font-size:12vmax;
+    letter-spacing:7vmax;
+    z-index: 998;
+    opacity: 25%;
+    color:black;
+    // transform: color(black);
+    // transition: transform 1s ease;
+  }
+  // .categoryHeader:hover{
+  //   transform: color(maroon);
+  //   transition: transform 1s ease;
+  // }
+  .articleThumbnail:hover{
+    transform: scale(1.2);
+    transition: transform 1s ease;
   }
   .articleThumbnail{
     justify-content:center;
-      background-color: rgb(215, 213, 213);
-      border-radius:.5%;
-      border-style:solid;
-      border-width:.3rem;
-      border-color:navy;
-      padding:1rem; 
-      margin:1rem;
-      max-width:15rem;
+    padding:1vmax; 
+    margin:1vmax;
+    max-width:15vmax;
+    height:20vmax;
+    z-index: 999;
+    transform:scale(1);
+    transition: transform 1s ease;
     .articleImage{
-      max-width:10rem;
-      max-height:7rem;
+      max-width:10vmax;
+      max-height:7vmax;
     }
+    // .articleImage:hover{
+    //   zoom:130%;
+    // }
     .articleTitle{
       font-weight:bold;  
       font-family: "Bitter";
-      font-size:2rem;   
+      font-size:2vmax;   
     }
     .articleContributor{
-      font-size:1.5rem;
+      font-size:1.5vmax;
       font-family: "Bitter";
     }
     .articleText{
-      font-size:1rem;
+      font-size:1vmax;
       font-family: "Times+New+Roman";
     }
   }
@@ -333,27 +362,32 @@ p{
     margin:2rem;
     display:flex;
     flex-wrap:wrap;
+    .listItem:hover{
+      transform: scale(1.2);
+      transition: transform 1s ease;
+    }
     .listItem{
       justify-content:space-around;
-      background-color: rgb(215, 213, 213);
-      border-radius:.5%;
-      border-style:solid;
-      border-width:.3rem;
-      border-color:maroon;
+      
       padding:1rem; 
-      margin:1rem;
+      margin:3vmax;
+      font-size:1.25vmax;
+      transform: scale(1);
+      transition: transform 1s ease;
       img{
-        max-width:10rem;
-        max-height:7rem;
+        max-width:10vmax;
+        max-height:7vmax;
       }
       .articleTitle{
         font-weight:bold;   
-        font-family: "Bitter";  
+        font-family: "Bitter"; 
+        font-size:2.75vmax;
       }
       .articleContributor{
         font-family: "Bitter";
+        font-size:2vmax;
       }
-      width: 12rem;
+      width: 12vmax;
     }
   }
 }
@@ -363,32 +397,38 @@ p{
   color: black;
   padding-bottom: 5rem;
 }
+.white{
+  background-color:white;
+  transition: background-color 1s ease;
+}
+.blue{
+  // padding-top:1vmax;
+  // padding-bottom:2vmax;
+  background-color:rgb(178, 195, 255);
+  transition: background-color 1s ease;
+}
 
 .hotOffThePress{
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  padding-top: 5rem;
-  padding-bottom:5rem;
-  background-color:rgb(222, 189, 189);
+  margin-top: 2vmax;
+  margin-bottom: 5vmax;
+  padding-top: 5vmax;
+  padding-bottom:5vmax;
+  transition: background-color 0.5s ease;
   justify-content:center;
   border-top-color:black;
   border-top-width:1rem;
   border-bottom-width:1rem;
   border-bottom-color:black;
-
   p{
     font-size:2rem;
   }
-  // .press{
-  //   justify-content: center;
-  //   background-color:transparent;
-  //   margin:1rem;
-  //   min-height:100%;
-  //   padding-top: 5rem;
-  //   padding-bottom: 5rem;
-  //   border-color:black;
-  //   border-width:1rem;
-  // }
+  .press{
+    justify-content: center;
+    margin:1rem;
+    min-height:100%;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
   .pdf{
     margin: auto;
   }
@@ -405,14 +445,9 @@ p{
   padding-top:1rem;
   
   .archive{
-    background-color: rgb(168, 167, 167);
-    padding: 1rem;
-    margin: 1rem;
-    border-radius:.5%;
-    justify-content: center;
     button{
-      font-size: 3rem;
-        padding-bottom:1rem;
+      font-size: 3vmax;
+      padding-bottom:1vmax;
       a{
         font-style:italic;
         color:navy;
@@ -423,10 +458,6 @@ p{
     }
   }
 
-}
-
-object{ 
-  margin: auto;
 }
 
 .continueReading{
@@ -444,100 +475,82 @@ object{
   font-size: 3vmin;
   font-family: "Times+New+Roman";
 }
-// .columns{
-//   display:flex;
-//   flex-wrap: unset;
-//   .articleDisplay{
-//     margin: 5vmin;
-//     text-align: left;
-//     flex-grow:3;
-//     .articleImage{
-//       max-height: 40vmin;
-//       max-width: 80%;
-//     }
-//     .articleTitle{
-//       text-align: left;
-//       font-family:"Bitter";
-//       font-weight:bold;     
-//       color: black;
-//     }
-//     .articleContributor{
-//       font-family: "Bitter";
-//       font-size: 2rem;
-//     }
-//     .articleCategory{
-//       font-family: "Bitter";
-//       font-size: 2rem;
-//     }
-//     .articleText{
-//       text-align: left;
-//       font-family: "Times+New+Roman";
-//       font-size:1rem;
-//     }
-//     .articlesBy{
-//       margin-top: 5vmin;
-//       padding-top:5vmin;
-//       h1{
-//         font-size: 4rem;
-//         color:black;
-//         text-align:left;
-//       }
-//     }
-//   }
-//   .aside{
-//     flex-shrink:1;
-//     margin:5vmin;
-//     font-size:4rem;
-//   }
-// }
-
-
 .FeaturedArticle{
-  margin:10rem;
+  margin-bottom:25vmax;
   .heading{
-    padding:3rem;
+    // padding:3rem;
     background-color:transparent; 
     text-align: left;
     color: black;
   }
-  background-image:linear-gradient(to bottom, rgb(165, 196, 253), rgb(202, 220, 253), rgb(222, 233, 252));
-  border-radius: .5rem;
-  border-style:solid;
-  border-width:.3rem;
-  border-color: maroon;
   .FeaturedArticleDisplay{
-    background-color:transparent;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    position:relative;
     padding-bottom:5rem;
-    .left{
-      margin-left:10%
+    .background{
+      position: absolute;
+      margin-left:-11vmax;
+      margin-top: -4.1vmax;
+      img{
+        // max-height: 100vmax;
+        min-width: 100vw;
+        max-width:100vw;
+      }
     }
-    .right{
+    .display{
+      position: relative;
+      margin: auto;
+      margin-top: 3vmin;
+      max-height:85vmax;
+      max-width: 75vmax;
+      background-color: white;
+      border-style: solid;
+      border-width: 2px;
+      border-color: #000080;
+      text-align: center;
+      opacity: 75%;
       align-items: center;
-      margin-right: 3rem;
       .articleTitle{
+        font-size:4vmax;
         color: black; 
         font-family: "Bitter";
         font-weight:bold;     
-        padding-bottom: 1rem; 
+        padding-bottom: 2vmax; 
       }
       .articleContributor{
-        font-size: 2rem;
+        font-size: 3vmax;
         font-family: "Bitter";
-
+        padding:2vmax;
       }
       .articleCategory{
-        font-size:2rem;
+        font-size:3vmax;
         font-family: "Bitter";
-        padding-bottom:1rem;
+        padding-bottom:2vmax;
       }
-      .articleText{
-        font-size: 1rem;
+      .articleText, button{
+        font-size: 2vmax;
         font-family: "Times+New+Roman";
-        padding-bottom:.5rem;
+        // padding-bottom:.5rem;
+        padding: 2.5vmax;
       }
     }
   }
+}
+
+.sectionHeader{
+  margin-top:10vmax;
+  color: black;
+  font-size: 5vmax;
+}
+.archives{
+  .archive{
+    display: flex;
+    flex-direction:column;
+    .pdf{
+      justify-content: center;  
+    }
+  }
+}
+
+.catArtList{
+  margin-top:30vmax;
 }

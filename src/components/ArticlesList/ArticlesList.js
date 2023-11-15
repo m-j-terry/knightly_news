@@ -38,7 +38,7 @@ function ArticlesList({ category }) {
         <div className='category' key={category}>
             <h1 className='categoryHeader'>{category.category}</h1>
             {categoryArticles.map(({ title, imageUrl, contributor, contributor2, text, _id }) => (
-                <div className='articleThumbnail'>
+                <div className='articleThumbnail' style={{ whiteSpace: 'pre-line' }}>
                     <img className='articleImage' src={imageUrl}></img>
                     <h2 className='articleTitle '>{title}</h2>
                     <h2 className='articleContributor'>by {contributor2 ? `${contributor} and ${contributor2}` : `${contributor}`}</h2>

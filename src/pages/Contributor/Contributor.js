@@ -47,7 +47,7 @@ export default function Contributor() {
             <div className='articles'>
                 {articles === null ? <h2>Articles Loading...</h2> 
                 : articles.map(({ title, imageUrl, text, _id }) => (
-                    <div className='articleThumbnail'>
+                    <div className='articleThumbnail' style={{ whiteSpace: 'pre-line' }}>
                         <img className='articleImage' src={imageUrl} height='200vmin'></img>
                         <h2 className='articleTitle'>{title}</h2>
                         <p className='articleText'>{trimArticleText(text)}</p>
