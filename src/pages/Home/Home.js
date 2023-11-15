@@ -10,14 +10,16 @@ export default function Home() {
 	const [contributor, setContributor] = useState('')	
 	const [color, setColor] = useState('')
 	const homePage = document.querySelector('.HomePage')
+	const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
 	window.addEventListener('scroll', () => {
-		if (window.scrollY >= 4750){
+
+		if (window.scrollY >= (scrollHeight * .95)){
 			console.log('white')
 			setColor('white')
-		} else if (window.scrollY <= 2750){
+		} else if (window.scrollY <= (scrollHeight * .75)){
 			console.log('white')
 			setColor('white')
-		} else if (window.scrollY > 2750 && window.scrollY < 4750){
+		} else if (window.scrollY > (scrollHeight * .75) && window.scrollY < (scrollHeight * .95)){
 			console.log('blue')
 			setColor('blue')
 		} 
@@ -27,13 +29,14 @@ export default function Home() {
 	// }, [color])
 	return(
 			<div className="HomePage">
-				<FeaturedArticle />
-				<center>
-				<CategoryListsComponent />
-				<HotOffThePress color={color}/>
-				<ContributorsList />
-
-				</center>
+				<div className={color}>
+					<FeaturedArticle />
+					<center>
+					<CategoryListsComponent />
+					<HotOffThePress/>
+					<ContributorsList />
+					</center>
+				</div>
 			</div>
 	) 
 }

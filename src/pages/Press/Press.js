@@ -24,8 +24,10 @@ function Press() {
             <div className="archives">
             {archives.map((archive) => (
                 <div className="archive">
-                    <h1>{archive.title}</h1>            
-                    <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="50%" height="985px"></object>
+                    <h1>{archive.title}</h1>  
+                    <p><a href={archive.pdfUrl}><img src={archive.imgUrl} ></img></a></p>
+                    {/* <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="50%" height="985px"></object> */}
+                    {/* <iframe src={archive.pdfUrl} sandbox="allow-presentation" width="816" height="1085" ></iframe> */}
                     <button className='continueReading'>Download PDF of <a href={archive.pdfUrl}>{archive.title}</a></button>
                 </div>
             ))}

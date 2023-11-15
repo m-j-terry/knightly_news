@@ -33,7 +33,6 @@ function FeaturedArticle() {
         if (featuredArticle.text === undefined){
             console.log(featuredArticle.text)
         } else {
-            console.log(featuredArticle.text)
             setText(trimText(featuredArticle.text))
         }
     }, [featuredArticle])

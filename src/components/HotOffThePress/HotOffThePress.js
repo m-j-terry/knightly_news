@@ -16,19 +16,19 @@ function HotOffThePress( {color} ) {
     useEffect(() => {
         if (Object.keys(archive).length > 0) {
             console.log(archive.pdfUrl)
+            console.log(archive.imgUrl)
         }
     }, [archive])
     return(
         <div className='hotOffThePress'>
-            <div className={color}>
                 <h1 className="sectionHeader">Hot Off the Press</h1>
                 <p>Extra! Extra! Read all about it!</p>
                 <p>Checkout our most recent print edition: </p>
                 <h1>{archive.title}</h1>
-                <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="50%" height="985px"></object>
-                {/* <iframe className='press' src={archive.pdfUrl} width="95%" >Unable to display PDF file. <a href={archive.pdfUrl}>Download</a> instead.</iframe> */}
+                <p><a href={archive.pdfUrl}><img src={archive.imgUrl} ></img></a></p>
+                {/* <object className='pdf' data={archive.pdfUrl} type="application/pdf" width="500" height="700"></object> */}
+                {/* <iframe className="pdf" src={archive.pdfUrl} type="application/pdf" width="816" height="1085" ></iframe> */}
                 <button className='continueReading'><Link className="continueReadingLink" key='Press' to={`/Press`}>Browse All Previous Editions</Link></button>
-            </div>
         </div>
     )
 } 

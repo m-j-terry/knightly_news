@@ -143,6 +143,14 @@ function Archive() {
     label: "Title: ",
     required: true
   }, {
+    id: "img-url",
+    name: "imgUrl",
+    type: "text",
+    placeholder: "Paste published img url here",
+    errorMessage: "Ask Mr. Terry",
+    label: "url: ",
+    required: true
+  }, {
     id: "pdf-url",
     name: "pdfUrl",
     type: "text",
@@ -465,7 +473,6 @@ function FeaturedArticle() {
     if (featuredArticle.text === undefined) {
       console.log(featuredArticle.text);
     } else {
-      console.log(featuredArticle.text);
       setText(trimText(featuredArticle.text));
     }
   }, [featuredArticle]);
@@ -623,27 +630,24 @@ function HotOffThePress(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Object.keys(archive).length > 0) {
       console.log(archive.pdfUrl);
+      console.log(archive.imgUrl);
     }
   }, [archive]);
   return /*#__PURE__*/React.createElement("div", {
     className: "hotOffThePress"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: color
   }, /*#__PURE__*/React.createElement("h1", {
     className: "sectionHeader"
-  }, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: "), /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("object", {
-    className: "pdf",
-    data: archive.pdfUrl,
-    type: "application/pdf",
-    width: "50%",
-    height: "985px"
-  }), /*#__PURE__*/React.createElement("button", {
+  }, "Hot Off the Press"), /*#__PURE__*/React.createElement("p", null, "Extra! Extra! Read all about it!"), /*#__PURE__*/React.createElement("p", null, "Checkout our most recent print edition: "), /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("a", {
+    href: archive.pdfUrl
+  }, /*#__PURE__*/React.createElement("img", {
+    src: archive.imgUrl
+  }))), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     className: "continueReadingLink",
     key: "Press",
     to: "/Press"
-  }, "Browse All Previous Editions"))));
+  }, "Browse All Previous Editions")));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HotOffThePress);
 
@@ -807,6 +811,8 @@ function SubmitArticleForm() {
     id: "submission-text",
     name: "text",
     type: "textarea",
+    cols: "40",
+    rows: "10",
     placeholder: "Add submission text here",
     errorMessage: "Ask Mr. Terry",
     label: "Text: "
@@ -1570,14 +1576,15 @@ function Home() {
   const [contributor, setContributor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const homePage = document.querySelector('.HomePage');
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
   window.addEventListener('scroll', () => {
-    if (window.scrollY >= 4750) {
+    if (window.scrollY >= scrollHeight * .95) {
       console.log('white');
       setColor('white');
-    } else if (window.scrollY <= 2750) {
+    } else if (window.scrollY <= scrollHeight * .75) {
       console.log('white');
       setColor('white');
-    } else if (window.scrollY > 2750 && window.scrollY < 4750) {
+    } else if (window.scrollY > scrollHeight * .75 && window.scrollY < scrollHeight * .95) {
       console.log('blue');
       setColor('blue');
     }
@@ -1587,9 +1594,9 @@ function Home() {
   // }, [color])
   return /*#__PURE__*/React.createElement("div", {
     className: "HomePage"
-  }, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    color: color
-  }), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  }, /*#__PURE__*/React.createElement("div", {
+    className: color
+  }, /*#__PURE__*/React.createElement(_components_FeaturedArticle_FeaturedArticle__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement(_components_CategoryArticleLists_CategoryArticleLists__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/React.createElement(_components_HotOffThePress_HotOffThePress__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/React.createElement(_components_ContributorsList_ContributorsList__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
 }
 
 /***/ }),
@@ -1638,13 +1645,11 @@ function Press() {
     className: "archives"
   }, archives.map(archive => /*#__PURE__*/React.createElement("div", {
     className: "archive"
-  }, /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("object", {
-    className: "pdf",
-    data: archive.pdfUrl,
-    type: "application/pdf",
-    width: "50%",
-    height: "985px"
-  }), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("h1", null, archive.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("a", {
+    href: archive.pdfUrl
+  }, /*#__PURE__*/React.createElement("img", {
+    src: archive.imgUrl
+  }))), /*#__PURE__*/React.createElement("button", {
     className: "continueReading"
   }, "Download PDF of ", /*#__PURE__*/React.createElement("a", {
     href: archive.pdfUrl
@@ -2633,4 +2638,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.58ad56c10d0629887a5450d99ebbc145.js.map
+//# sourceMappingURL=App.e9bf33090dca0c93b196db831015ab2b.js.map

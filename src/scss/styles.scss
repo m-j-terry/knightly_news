@@ -368,13 +368,9 @@ p{
     }
     .listItem{
       justify-content:space-around;
-      // background-color: rgb(215, 213, 213);
-      // border-radius:.5%;
-      // border-style:solid;
-      // border-width:.3rem;
-      // border-color:maroon;
+      
       padding:1rem; 
-      margin:1rem;
+      margin:3vmax;
       font-size:1.25vmax;
       transform: scale(1);
       transition: transform 1s ease;
@@ -406,8 +402,8 @@ p{
   transition: background-color 1s ease;
 }
 .blue{
-  padding-top:1vmax;
-  padding-bottom:2vmax;
+  // padding-top:1vmax;
+  // padding-bottom:2vmax;
   background-color:rgb(178, 195, 255);
   transition: background-color 1s ease;
 }
@@ -417,27 +413,22 @@ p{
   margin-bottom: 5vmax;
   padding-top: 5vmax;
   padding-bottom:5vmax;
-  // background-color:rgb(155, 176, 252);
   transition: background-color 0.5s ease;
   justify-content:center;
   border-top-color:black;
   border-top-width:1rem;
   border-bottom-width:1rem;
   border-bottom-color:black;
-
   p{
     font-size:2rem;
   }
-  // .press{
-  //   justify-content: center;
-  //   background-color:transparent;
-  //   margin:1rem;
-  //   min-height:100%;
-  //   padding-top: 5rem;
-  //   padding-bottom: 5rem;
-  //   border-color:black;
-  //   border-width:1rem;
-  // }
+  .press{
+    justify-content: center;
+    margin:1rem;
+    min-height:100%;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
   .pdf{
     margin: auto;
   }
@@ -467,10 +458,6 @@ p{
     }
   }
 
-}
-
-object{ 
-  margin: auto;
 }
 
 .continueReading{

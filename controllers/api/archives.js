@@ -22,7 +22,7 @@ async function getMostRecentArchive(req, res) {
     try {
         const archives = await Archive.find({}).sort({ createdAt: -1 })
         const archive = archives[0]
-        console.log(archive)
+        console.log(archive.pdfUrl)
         res.status(200).json(archive)
     } catch (error) {
         res.status(400).json({ message: error.message })
