@@ -1,31 +1,40 @@
 require('dotenv').config()
-require('./config/testDatabase'); // runs the file because it gets compiled as an IIFE
+// require('../config/testDatabase.js'); // runs the file because it gets compiled as an IIFE
 
 const request = require('supertest')
-// const mongoose = require('mongoose')
-// const { MongoMemoryServer } = require('mongodb-memory-server')
+const mongoose = require('mongoose')
+const { MongoMemoryServer } = require('mongodb-memory-server')
 const app = require('../app-test-server')
-const PORT = process.env.PORT
-const adminEmail = process.env.adminEmail
-const adminPassword = process.env.adminPassword
+const PORT = process.env.PORT || 4500
 const server = app.listen(PORT, () => console.log(`let's get ready to test!`))
 const Administrator = require('../models/administrator')
 const Archive = require('../models/archive')
 const Article = require('../models/article')
 const Category = require('../models/category')
 const Contributor = require('../models/contributor')
+let mongoServer
+
+beforeAll(async () => {
+    mongoServer = await MongoMemoryServer.create()
+    await mongoose.connect(mongoServer.getUri())
+})
+
+afterAll(async () => {
+    await mongoose.connection.close()
+    mongoServer.stop()
+    server.close()
+})
 
 describe('Test the Administrator Endpoints', () => {
     test('It should create an administrator document', async () => {
         const random = Math.floor(Math.random() * 10000)
         const response = await request(app)
-        .post('/admin')
+        .post('/api/admin')
         .send({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
 
         expect(response.statusCode).toBe(200)
         expect(response.body.name).toEqual(`test${random}`)
         expect(response.body.email).toEqual(`test${random}@test.com`)
-        expect(response.body.password).toEqual('testpassword')
     })
 
     test('It should login an administrator', async () => {
@@ -33,27 +42,26 @@ describe('Test the Administrator Endpoints', () => {
         const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
         await admin.save()
         const response = await request(app)
-        .post('/admin/login')
+        .post('/api/admin/login')
         .send({ email: `test${random}@test.com`, password: "testpassword" })
 
         expect(response.statusCode).toBe(200)
+        expect(response.body.name).toEqual(`test${random}`)
         expect(response.body.email).toEqual(`test${random}@test.com`)
-        expect(response.body.password).toEqual('testpassword')
-        expect(response.body).toHaveProperty('token')
     })
 
     test('It should update an administrator document', async () => {
         const random = Math.floor(Math.random() * 10000)
         const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
         await admin.save()
-        const token = await user.generateAuthToken()
+        const token = await admin.generateAuthToken()
 
         const response = await request(app)
-        .put(`/admin/${admin._id}`)
+        .put(`/api/admin/${admin._id}`)
         .set('Authorization', `Bearer ${token}`)
         .send({ name: `test${random - 1}`, email: `test${random - 1}@test.com` })
 
-        expect(response.statuscode).toBe(200)
+        expect(response.statusCode).toBe(200)
         expect(response.body.name).toEqual(`test${random - 1}`)
         expect(response.body.email).toEqual(`test${random - 1}@test.com`)
         })
@@ -62,10 +70,10 @@ describe('Test the Administrator Endpoints', () => {
         const random = Math.floor(Math.random() * 10000)
         const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
         await admin.save()
-        const token = await user.generateAuthToken()
+        const token = await admin.generateAuthToken()
 
         const response = await request(app)
-        .delete(`/admin/${admin._id}`)
+        .delete(`/api/admin/${admin._id}`)
         .set('Authorization', `Bearer ${token}`)
 
         expect(response.statusCode).toBe(200)

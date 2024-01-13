@@ -115,7 +115,7 @@ const adminCtrl = {
             if (!administrator) throw new Error()
             const match = await bcrypt.compare(req.body.password, administrator.password)
             if (!match) throw new Error()
-            res.locals.data.admin = administrator
+            res.locals.data.administrator = administrator
             res.locals.data.token = createJWT(administrator)
             next()
         } catch (error) {
@@ -187,6 +187,7 @@ const categoriesCtrl = {
 
 const apiController = {
     auth (req, res) {
+        res.json(res.locals.data.administrator)
         res.json(res.locals.data.token)
     }
 }
