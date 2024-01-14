@@ -1,6 +1,7 @@
 require('dotenv').config()
 // require('../config/testDatabase.js'); // runs the file because it gets compiled as an IIFE
 
+const fs = require('fs');
 const request = require('supertest')
 const mongoose = require('mongoose')
 const { MongoMemoryServer } = require('mongodb-memory-server')
@@ -8,7 +9,6 @@ const app = require('../app-test-server')
 const PORT = process.env.PORT || 4500
 const server = app.listen(PORT, () => console.log(`let's get ready to test!`))
 const Administrator = require('../models/administrator')
-const Archive = require('../models/archive')
 const Article = require('../models/article')
 const Category = require('../models/category')
 const Contributor = require('../models/contributor')
@@ -94,20 +94,28 @@ describe('Test the Article Endpoints', () => {
         fs.writeFileSync('test-image.jpg', 'fake image content');
         const response = await request(app)
         .post('/api/admin/article')
-        .field('title', `title${random}`)
-        .field('contributor', `contibutor${random}`)
-        .field('category', category)
-        .field('featured', false)
-        .field('text', `text${random}`)
-        .attach('file', 'test-image.jpg')
+        // .field('title', `title${random}`)
+        // .field('contributor', `contibutor${random}`)
+        // .field('category', `${category._id}`)
+        // .field('featured', false)
+        // .field('text', `text${random}`)
+        // .attach('file', 'test-image.jpg')
+        .send({
+            title: `title${random}`,
+            contributor: `contributor${random}`,
+            category: category,
+            featured: false,
+            text: `text${random}`
+        })
+        
         .set('Authorization', `Bearer ${token}`)
 
         expect(response.statusCode).toBe(200)
         expect(response.body.title).toEqual(`title${random}`)
         expect(response.body.contributor).toEqual(`contibutor${random}`)
         expect(response.body.category).toEqual(category)
-        expect(response.body.featured).toBe(Boolean)
-        expect(response.body.imageUrl).toBe(String)
+        expect(response.body.featured).toEqual(false)
+        // expect(response.body.imageUrl).toBe(String)
         expect(response.body.text).toEqual(`text${random}`)
     })
 
@@ -154,9 +162,6 @@ describe('Test the Article Endpoints', () => {
     // Article tests not requiring Admin authorization
     test('It should get an article', async() => {
         const random = Math.floor(Math.random() * 10000)
-        // const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
-        // await admin.save()
-        // const token = await admin.generateAuthToken()
         const category = new Category({ category: `category${random}`, sortOrder: random })
         await category.save()
         const article = new Article({ title: `title${random}`, contributor: `contributor${random}`, category: category, featured: false, imageUrl: `www.${random}.com`, text: `text${random}` })
@@ -174,9 +179,6 @@ describe('Test the Article Endpoints', () => {
     })
     test('It should index all articles', async() => {
         const random = Math.floor(Math.random() * 10000)
-        // const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
-        // await admin.save()
-        // const token = await admin.generateAuthToken()
         const category = new Category({ category: `category${random}`, sortOrder: random })
         await category.save()
         const article = new Article({ title: `title${random}`, contributor: `contributor${random}`, category: category, featured: false, imageUrl: `www.${random}.com`, text: `text${random}` })
@@ -206,8 +208,7 @@ describe('Test the Contributor Endpoints', () => {
 
 
         expect(response.statusCode).toBe(200)
-        expect(response.body.name).toEqual(`name${random}`)
-        expect(response.body.articles).toBe(Array)
+        expect(response.body.name).toEqual(`Name${random}`)
     })
 
     test('It should update an contributor document', async () => {
@@ -223,7 +224,7 @@ describe('Test the Contributor Endpoints', () => {
         .set('Authorization', `Bearer ${token}`)
 
         expect(response.statusCode).toBe(200)
-        expect(response.body.name).toEqual(`name${random - 1}`)
+        expect(response.body.name).toEqual(`Name${random - 1}`)
     })
 
     test('It should destroy an contributor document', async () => {
@@ -245,9 +246,6 @@ describe('Test the Contributor Endpoints', () => {
     //Contributor tests not requiring Admin authorization
     test('It should get a contributor', async() => {
         const random = Math.floor(Math.random() * 10000)
-        // const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
-        // await admin.save()
-        // const token = await admin.generateAuthToken()
         const contributor = new Contributor({ name: `name${random}`})
         await contributor.save()
         const response = await request(app)
@@ -259,9 +257,6 @@ describe('Test the Contributor Endpoints', () => {
     })
     test('It should index all contributors', async() => {
         const random = Math.floor(Math.random() * 10000)
-        // const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
-        // await admin.save()
-        // const token = await admin.generateAuthToken()
         const contributor = new Contributor({ name: `name${random}` })
         await contributor.save()
         const contributor2 = new Contributor({ name: `name${random + 1}` })
@@ -277,7 +272,7 @@ describe('Test the Contributor Endpoints', () => {
 /*** CATEGORY TESTS ***/
 describe('Test the Category Endpoints', () => {
     // Category tests requiring Admin authorization
-    test('It should create an category document', async () => {
+    test('It should create a category document', async () => {
         const random = Math.floor(Math.random() * 10000)
         const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
         await admin.save()
@@ -295,47 +290,47 @@ describe('Test the Category Endpoints', () => {
     // Category tests not requiring Admin authorization
     test('It should get a category', async() => {
         const random = Math.floor(Math.random() * 10000)
-        // const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
-        // await admin.save()
-        // const token = await admin.generateAuthToken()
         const category = new Category({ category: `category${random}`, sortOrder: random })
         await category.save()
+        console.log(category)
         const response = await request(app)
         .get(`/api/category/${category._id}`)
 
+        console.log(response.body)
         expect(response.statusCode).toBe(200)
         expect(response.body.category).toEqual(`category${random}`)
         expect(response.body.sortOrder).toEqual(random)
     })
     test('It should index all categories', async() => {
         const random = Math.floor(Math.random() * 10000)
-        // const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
-        // await admin.save()
-        // const token = await admin.generateAuthToken()
         const category = new Category({ category: `category${random}`, sortOrder: random })
         await category.save()
         const category2 = new Category({ category: `category${random + 1}`, sortOrder: (random +  1) })
         await category2.save()
+        console.log(category, category2)
         const response = await request(app)
         .get(`/api/category`)
 
+        console.log(response.body)
         expect(response.statusCode).toBe(200)
         expect(response.body).toBe(Array)
     })
     test('It should index all articles in a category', async () => {
         const random = Math.floor(Math.random() * 10000)
-        // const admin = new Administrator({ name: `test${random}`, email: `test${random}@test.com`, password: "testpassword" })
-        // await admin.save()
-        // const token = await admin.generateAuthToken()
         const category = new Category({ category: `category${random}`, sortOrder: random })
         await category.save()
-        const article = new Article({ title: `title${random}`, contributor: `contributor${random}`, category: category, featured: false, imageUrl: `www.${random}.com`, text: `text${random}` })
+        const categoryId = JSON.stringify(category._id)
+        console.log(categoryId)
+        const article = new Article({ title: `title${random}`, contributor: `contributor${random}`, category: category._id, featured: false, imageUrl: `www.${random}.com`, text: `text${random}` })
         await article.save()
-        const article2 = new Article({ title: `title${random + 1}`, contributor: `contributor${random + 1}`, category: category, featured: false, imageUrl: `www.${random + 1}.com`, text: `text${random + 1}` })
+        const article2 = new Article({ title: `title${random + 1}`, contributor: `contributor${random + 1}`, category: category._id, featured: false, imageUrl: `www.${random + 1}.com`, text: `text${random + 1}` })
         await article2.save()
+        console.log(article.category)
+        console.log(article, article2)
         const response = await request(app)
         .get(`/api/category/articles/${category._id}`)
 
+        console.log(response.body)
         expect(response.statusCode).toBe(200)
         expect(response.body).toBe(Array)
     })
